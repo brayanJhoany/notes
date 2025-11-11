@@ -1,46 +1,49 @@
-
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
-    container_name: ecommerce-mysql
-    restart: always
+    container_name: notes-mysql
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: java
-      MYSQL_DATABASE: java
-      MYSQL_USER: java
-      MYSQL_PASSWORD: java
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
     networks:
-      - ecommerce-network
+      - notes-network
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: ecommerce-phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mysql
-      PMA_USER: java
-      PMA_PASSWORD: java
-      MYSQL_ROOT_PASSWORD: java
-    ports:
-      - "8081:80"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: notes-app
+    restart: unless-stopped
     depends_on:
       - mysql
+    ports:
+      - "80:80"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ACCESS_EXPIRATION: ${JWT_ACCESS_EXPIRATION}
+      JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION}
+      SERVER_PORT: 80
+      DDL_AUTO: update
+      SHOW_SQL: ${SHOW_SQL:-true}
+      FORMAT_SQL: ${FORMAT_SQL:-true}
+
     networks:
-      - ecommerce-network
+      - notes-network
+
+networks:
+  notes-network:
+    driver: bridge
 
 volumes:
   mysql_data:
-
-networks:
-  ecommerce-network:
-    driver: bridge
+    driver: local
