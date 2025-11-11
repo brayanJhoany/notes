@@ -32,4 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
-ecommerce-fases.md
+### Environment Variables ###
+application-local.properties
+.env
+.env.local
+*.env
+!.env.docker.example
