@@ -1,20 +1,31 @@
 package com.bescobar.notes.user.infrastructure.web;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
-import com.bescobar.notes.user.application.port.in.UserUseCase;
+import com.bescobar.notes.user.application.port.in.DeleteUserUseCase;
+import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
+import com.bescobar.notes.user.application.port.in.ListUsersUseCase;
+import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
+
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * AdminUserController - Administrative User Management
@@ -28,7 +39,10 @@ import java.util.stream.Collectors;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminUserController {
 
-    private final UserUseCase userUseCase;
+    private final ListUsersUseCase listUsersUseCase;
+    private final GetProfileUseCase getProfileUseCase;
+    private final UpdateProfileUseCase updateProfileUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
     /**
      * Get all users in the system
@@ -37,7 +51,7 @@ public class AdminUserController {
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         try {
-            List<User> users = userUseCase.getAllUsers();
+            List<User> users = listUsersUseCase.getAllUsers();
             List<UserResponse> responses = users.stream()
                     .map(UserDtoMapper::toResponse)
                     .collect(Collectors.toList());
@@ -54,7 +68,7 @@ public class AdminUserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
         try {
-            User user = userUseCase.getProfile(id);
+            User user = getProfileUseCase.getProfileById(id);
             UserResponse response = UserDtoMapper.toResponse(user);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
@@ -72,7 +86,7 @@ public class AdminUserController {
             @Valid @RequestBody UpdateUserRequest request) {
         try {
             UpdateProfileCommand updateCommand = UserDtoMapper.toUpdateProfileCommand(request);
-            User updatedUser = userUseCase.updateProfile(id, updateCommand);
+            User updatedUser = updateProfileUseCase.updateProfile(id, updateCommand);
             UserResponse response = UserDtoMapper.toResponse(updatedUser);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
@@ -87,7 +101,7 @@ public class AdminUserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         try {
-            userUseCase.deleteUser(id);
+            deleteUserUseCase.deleteUser(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

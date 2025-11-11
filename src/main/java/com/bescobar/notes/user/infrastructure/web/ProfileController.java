@@ -1,18 +1,25 @@
 package com.bescobar.notes.user.infrastructure.web;
 
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
-import com.bescobar.notes.user.application.port.in.UserUseCase;
-import com.bescobar.notes.user.domain.model.User;
-import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
-import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
-import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
+import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
+import com.bescobar.notes.user.domain.model.User;
+import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
+import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
+import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
+
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 /**
  * ProfileController - Self-Service Profile Management
@@ -26,7 +33,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/profile")
 public class ProfileController {
 
-    private final UserUseCase userUseCase;
+    private final GetProfileUseCase getProfileUseCase;
+    private final UpdateProfileUseCase updateProfileUseCase;
 
     /**
      * Get current user's profile
@@ -36,7 +44,7 @@ public class ProfileController {
     public ResponseEntity<UserResponse> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
         try {
             String email = userDetails.getUsername(); // In our system, username is email
-            User user = userUseCase.getProfileByEmail(email);
+            User user = getProfileUseCase.getProfileByEmail(email);
             UserResponse response = UserDtoMapper.toResponse(user);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
@@ -54,10 +62,10 @@ public class ProfileController {
             @Valid @RequestBody UpdateUserRequest request) {
         try {
             String email = userDetails.getUsername();
-            User currentUser = userUseCase.getProfileByEmail(email);
+            User currentUser = getProfileUseCase.getProfileByEmail(email);
 
             UpdateProfileCommand updateCommand = UserDtoMapper.toUpdateProfileCommand(request);
-            User updatedUser = userUseCase.updateProfile(currentUser.getId(), updateCommand);
+            User updatedUser = updateProfileUseCase.updateProfile(currentUser.getId(), updateCommand);
 
             UserResponse response = UserDtoMapper.toResponse(updatedUser);
             return ResponseEntity.ok(response);

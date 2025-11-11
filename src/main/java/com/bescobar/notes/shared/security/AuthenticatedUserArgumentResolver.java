@@ -1,8 +1,5 @@
 package com.bescobar.notes.shared.security;
 
-import com.bescobar.notes.user.application.port.in.UserUseCase;
-import com.bescobar.notes.user.domain.model.User;
-import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +9,11 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
+import com.bescobar.notes.user.domain.model.User;
+
+import lombok.AllArgsConstructor;
 
 /**
  * Resolves @AuthenticatedUser annotation by extracting the User from the JWT token.
@@ -27,7 +29,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @AllArgsConstructor
 public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final UserUseCase userUseCase;
+    private final GetProfileUseCase getProfileUseCase;
 
     /**
      * Determines if this resolver supports the given method parameter.
@@ -63,7 +65,7 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
         UserDetails userDetails = (UserDetails) principal;
         String email = AuthenticationHelper.extractEmail(userDetails);
 
-        User user = userUseCase.getProfileByEmail(email);
+        User user = getProfileUseCase.getProfileByEmail(email);
 
         if (user == null) {
             throw new IllegalStateException("User not found for email: " + email);
