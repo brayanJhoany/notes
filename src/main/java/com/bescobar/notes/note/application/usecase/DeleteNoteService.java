@@ -1,9 +1,11 @@
 package com.bescobar.notes.note.application.usecase;
 
+import org.springframework.stereotype.Service;
+
 import com.bescobar.notes.note.application.port.in.DeleteNoteUseCase;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor

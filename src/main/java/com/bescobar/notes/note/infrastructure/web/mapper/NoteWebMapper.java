@@ -1,11 +1,12 @@
 package com.bescobar.notes.note.infrastructure.web.mapper;
 
-import com.bescobar.notes.note.application.port.in.query.NoteDTO;
-import com.bescobar.notes.note.infrastructure.web.dto.NoteWebResponse;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
+import com.bescobar.notes.note.application.port.in.query.NoteDTO;
+import com.bescobar.notes.note.infrastructure.web.dto.NoteWebResponse;
 
 /**
  * Mapper for converting between Application DTOs and Web DTOs.
@@ -19,9 +20,7 @@ public class NoteWebMapper {
      * Converts a single NoteDTO to NoteWebResponse
      */
     public NoteWebResponse toWebResponse(NoteDTO dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
 
         return NoteWebResponse.builder()
                 .id(dto.getId())
@@ -35,12 +34,10 @@ public class NoteWebMapper {
     /**
      * Converts a list of NoteDTOs to a list of NoteWebResponses
      */
-    public List<NoteWebResponse> toWebResponseList(List<NoteDTO> dtos) {
-        if (dtos == null) {
-            return List.of();
-        }
+    public List<NoteWebResponse> toWebResponseList(List<NoteDTO> listNoteDto) {
+        if (listNoteDto == null) return List.of();
 
-        return dtos.stream()
+        return listNoteDto.stream()
                 .map(this::toWebResponse)
                 .collect(Collectors.toList());
     }

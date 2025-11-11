@@ -1,5 +1,7 @@
 package com.bescobar.notes.note.application.usecase;
 
+import org.springframework.stereotype.Service;
+
 import com.bescobar.notes.note.application.port.in.CreateNoteUseCase;
 import com.bescobar.notes.note.application.port.in.command.CreateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
@@ -7,8 +9,8 @@ import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
 import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.model.User;
+
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 /**
  * Service implementing the CreateNoteUseCase.

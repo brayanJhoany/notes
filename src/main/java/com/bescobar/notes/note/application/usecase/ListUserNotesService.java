@@ -1,15 +1,17 @@
 package com.bescobar.notes.note.application.usecase;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.bescobar.notes.note.application.port.in.ListUserNotesUseCase;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
 import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.domain.model.User;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 /**
  * Service implementing the ListUserNotesUseCase.
