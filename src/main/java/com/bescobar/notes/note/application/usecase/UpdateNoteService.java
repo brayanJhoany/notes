@@ -5,8 +5,6 @@ import com.bescobar.notes.note.application.port.in.command.UpdateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
 import com.bescobar.notes.note.domain.model.Note;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
-import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class UpdateNoteService implements UpdateNoteUseCase {
 
     private final NoteRepositoryPort noteRepositoryPort;
-    private final UserRepositoryPort userRepositoryPort;
 
     @Override
     public NoteDTO updateNote(UpdateNoteCommand command, Long id) {

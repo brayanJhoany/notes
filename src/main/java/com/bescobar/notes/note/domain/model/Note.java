@@ -2,7 +2,6 @@ package com.bescobar.notes.note.domain.model;
 
 import com.bescobar.notes.user.domain.model.User;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Note {
