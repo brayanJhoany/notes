@@ -1,11 +1,11 @@
 package com.bescobar.notes.user.infrastructure.persistence.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.entity.RoleEntity;
 import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
-
-import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {

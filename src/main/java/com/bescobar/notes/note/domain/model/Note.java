@@ -1,8 +1,8 @@
 package com.bescobar.notes.note.domain.model;
 
-import com.bescobar.notes.user.domain.model.User;
-
 import java.time.LocalDateTime;
+
+import com.bescobar.notes.user.domain.model.User;
 
 public class Note {
 

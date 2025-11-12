@@ -1,7 +1,8 @@
 package com.bescobar.notes.user.infrastructure.config;
 
-import com.bescobar.notes.shared.security.SecurityEndpointsProvider;
 import org.springframework.stereotype.Component;
+
+import com.bescobar.notes.shared.security.SecurityEndpointsProvider;
 
 @Component
 public class UserSecurityConfig implements SecurityEndpointsProvider {

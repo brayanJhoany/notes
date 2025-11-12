@@ -1,8 +1,9 @@
 package com.bescobar.notes.user.infrastructure.persistence.repository;
 
-import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 
 @Repository
 public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
