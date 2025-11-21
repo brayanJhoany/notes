@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.inOrder;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("RefreshTokenService Unit Tests")
@@ -73,7 +72,7 @@ class RefreshTokenServiceTest {
         verify(jwtService).extractEmail(validRefreshToken);
         verify(jwtService).isTokenExpired(validRefreshToken);
         verify(refreshTokenRepository).refreshTokenExists(validRefreshToken);
-        verify(refreshTokenRepository).deleteRefreshToken(validRefreshToken);
+        verify(refreshTokenRepository).deleteAllRefreshTokensByUserId(testUser.getId());
         verify(refreshTokenRepository).createRefreshToken(testUser);
     }
 
@@ -147,7 +146,7 @@ class RefreshTokenServiceTest {
 
         // Then
         var inOrder = inOrder(refreshTokenRepository);
-        inOrder.verify(refreshTokenRepository).deleteRefreshToken(validRefreshToken);
+        inOrder.verify(refreshTokenRepository).deleteAllRefreshTokensByUserId(testUser.getId());
         inOrder.verify(refreshTokenRepository).createRefreshToken(testUser);
     }
 

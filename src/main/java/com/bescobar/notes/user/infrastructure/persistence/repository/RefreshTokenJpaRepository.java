@@ -10,9 +10,13 @@ import com.bescobar.notes.user.infrastructure.persistence.entity.RefreshTokenEnt
 @Repository
 public interface RefreshTokenJpaRepository extends JpaRepository<RefreshTokenEntity, Long> {
 
-    @Modifying
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Transactional
     void deleteByToken(String token);
+
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Transactional
+    void deleteByUserId(Long userId);
 
     boolean existsByToken(String token);
 }

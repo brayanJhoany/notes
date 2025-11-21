@@ -8,6 +8,7 @@ import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,15 +31,15 @@ public class LoginUserService implements LoginUserUseCase {
     public AuthResponseDto login(LoginCommand loginCommand) {
         User user = userRepositoryPort.findByEmail(loginCommand.getEmail());
         if (user == null) {
-            throw new RuntimeException("Invalid email or password");
+            throw new BadCredentialsException("Invalid email or password");
         }
 
         if (!user.getActive()) {
-            throw new RuntimeException("Account is inactive");
+            throw new BadCredentialsException("Account is inactive");
         }
 
         if (!passwordEncoder.matches(loginCommand.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new BadCredentialsException("Invalid email or password");
         }
 
         String accessToken = jwtServicePort.generateAccessToken(user.getEmail());

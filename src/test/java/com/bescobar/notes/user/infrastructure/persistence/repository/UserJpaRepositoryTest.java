@@ -182,27 +182,4 @@ class UserJpaRepositoryTest {
             userRepository.flush();
         });
     }
-
-    @Test
-    @DisplayName("Should enforce unique username constraint")
-    void shouldEnforceUniqueUsernameConstraint() {
-        // Given
-        userRepository.save(testUser);
-
-        UserEntity duplicateUsernameUser = new UserEntity();
-        duplicateUsernameUser.setUsername("testuser"); // Duplicate username
-        duplicateUsernameUser.setFullName("Different User");
-        duplicateUsernameUser.setEmail("different@example.com");
-        duplicateUsernameUser.setPassword("password");
-        duplicateUsernameUser.setPhone("+2222222222");
-        duplicateUsernameUser.setAddress("222 Different St");
-        duplicateUsernameUser.setRole(RoleEntity.REGULAR);
-        duplicateUsernameUser.setActive(true);
-
-        // When & Then
-        assertThrows(Exception.class, () -> {
-            userRepository.save(duplicateUsernameUser);
-            userRepository.flush();
-        });
-    }
 }

@@ -31,11 +31,11 @@ public class RegisterUserService implements RegisterUserUseCase {
     @Transactional
     public AuthResponseDto registerUser(User user) {
         if (userRepositoryPort.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new IllegalArgumentException("Email already exists");
         }
 
         if (userRepositoryPort.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new IllegalArgumentException("Username already exists");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

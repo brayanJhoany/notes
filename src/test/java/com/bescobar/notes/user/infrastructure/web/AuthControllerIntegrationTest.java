@@ -3,7 +3,6 @@ package com.bescobar.notes.user.infrastructure.web;
 import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
 import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
-import com.bescobar.notes.user.infrastructure.web.dto.AuthRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.RefreshTokenRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,9 +19,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -66,8 +66,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
@@ -102,8 +102,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -130,8 +130,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -147,8 +147,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -170,8 +170,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(loginJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
@@ -197,8 +197,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(loginJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginJson))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -210,8 +210,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(loginJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginJson))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -233,8 +233,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(loginJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginJson))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -251,8 +251,8 @@ class AuthControllerIntegrationTest {
         registerRequest.setAddress("123 Test St");
 
         MvcResult registerResult = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(registerRequest)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -264,9 +264,10 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/refresh-token")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(refreshRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(refreshRequest)))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andExpect(jsonPath("$.user.email").value("test@example.com"));
@@ -281,8 +282,8 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/refresh-token")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(refreshRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(refreshRequest)))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -299,8 +300,8 @@ class AuthControllerIntegrationTest {
         registerRequest.setAddress("123 Test St");
 
         MvcResult registerResult = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(registerRequest)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -312,14 +313,14 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/logout")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(logoutRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(logoutRequest)))
                 .andExpect(status().isOk());
 
         // Verify token is deleted - trying to refresh should fail
         mockMvc.perform(post("/api/auth/refresh-token")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(logoutRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(logoutRequest)))
                 .andExpect(status().isUnauthorized());
     }
 }

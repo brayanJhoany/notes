@@ -4,6 +4,8 @@ import com.bescobar.notes.shared.exception.dto.ErrorResponse;
 import com.bescobar.notes.shared.exception.dto.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -78,6 +80,24 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return ResponseEntity.status(status).body(error);
+    }
+
+    /**
+     * Maneja excepciones de autorización de Spring Security.
+     * Se lanza cuando un usuario autenticado no tiene los permisos necesarios
+     * para acceder a un recurso protegido.
+     *
+     * @param ex Excepción de autorización lanzada
+     * @return Respuesta HTTP 403 (Forbidden) con mensaje de error
+     */
+    @ExceptionHandler({AuthorizationDeniedException.class, AccessDeniedException.class})
+    public ResponseEntity<ErrorResponse> handleAuthorizationException(RuntimeException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "Access denied: You don't have permission to access this resource",
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
     /**

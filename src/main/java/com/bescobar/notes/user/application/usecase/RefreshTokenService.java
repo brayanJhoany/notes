@@ -6,6 +6,7 @@ import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,31 +27,34 @@ public class RefreshTokenService implements RefreshTokenUseCase {
         String email;
         try {
             if (!jwtServicePort.isRefreshToken(refreshToken)) {
-                throw new RuntimeException("Invalid token type");
+                throw new BadCredentialsException("Invalid token type");
             }
 
             email = jwtServicePort.extractEmail(refreshToken);
 
             if (jwtServicePort.isTokenExpired(refreshToken)) {
-                throw new RuntimeException("Refresh token has expired");
+                throw new BadCredentialsException("Refresh token has expired");
             }
+        } catch (BadCredentialsException e) {
+            throw e;
         } catch (Exception e) {
-            throw new RuntimeException("Invalid or expired refresh token");
+            throw new BadCredentialsException("Invalid or expired refresh token");
         }
 
         User user = refreshTokenRepositoryPort.findUserByEmail(email);
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new BadCredentialsException("User not found");
         }
 
         if (!refreshTokenRepositoryPort.refreshTokenExists(refreshToken)) {
-            throw new RuntimeException("Token has been revoked");
+            throw new BadCredentialsException("Token has been revoked");
         }
+
+        // Delete all refresh tokens for this user to avoid unique constraint violations
+        refreshTokenRepositoryPort.deleteAllRefreshTokensByUserId(user.getId());
 
         String accessToken = jwtServicePort.generateAccessToken(user.getEmail());
         String newRefreshToken = refreshTokenRepositoryPort.createRefreshToken(user);
-
-        refreshTokenRepositoryPort.deleteRefreshToken(refreshToken);
 
         return AuthResponseDto.builder()
                 .token(accessToken)

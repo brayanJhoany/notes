@@ -25,19 +25,19 @@ public class UpdateUserProfileService implements UpdateProfileUseCase {
     public User updateProfile(Long id, UpdateProfileCommand updateCommand) {
         User existingUser = userRepositoryPort.findById(id);
         if (existingUser == null) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new IllegalArgumentException("User not found with id: " + id);
         }
 
         // Check if email is being changed and if it's already taken
         if (!existingUser.getEmail().equals(updateCommand.getEmail()) &&
                 userRepositoryPort.existsByEmail(updateCommand.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new IllegalArgumentException("Email already exists");
         }
 
         // Check if username is being changed and if it's already taken
         if (!existingUser.getUsername().equals(updateCommand.getUsername()) &&
                 userRepositoryPort.existsByUsername(updateCommand.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new IllegalArgumentException("Username already exists");
         }
 
         // Fields NOT updated: password, role, active, createdAt

@@ -57,6 +57,8 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public void deleteById(Long id) {
-        userJpaRepository.deleteById(id);
+        // Load the entity first to ensure cascade operations work correctly
+        // This allows JPA to delete associated entities (e.g., refresh tokens)
+        userJpaRepository.findById(id).ifPresent(userJpaRepository::delete);
     }
 }
