@@ -2,14 +2,13 @@ package com.bescobar.notes.note.application.usecase;
 
 import org.springframework.stereotype.Service;
 
-import com.bescobar.notes.note.application.port.in.DeleteNoteUseCase;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class DeleteNoteService implements DeleteNoteUseCase {
+public class DeleteNoteUseCase implements com.bescobar.notes.note.application.port.in.DeleteNoteUseCase {
 
     private final NoteRepositoryPort noteRepositoryPort;
 

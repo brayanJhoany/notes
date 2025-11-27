@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.bescobar.notes.note.application.port.in.UpdateNoteUseCase;
 import com.bescobar.notes.note.application.port.in.command.CreateNoteCommand;
 import com.bescobar.notes.note.application.port.in.command.UpdateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
+import com.bescobar.notes.note.application.usecase.DeleteNoteUseCase;
 import com.bescobar.notes.note.infrastructure.web.dto.NoteWebRequest;
 import com.bescobar.notes.note.infrastructure.web.dto.NoteWebResponse;
 import com.bescobar.notes.note.infrastructure.web.mapper.NoteWebMapper;
@@ -38,6 +40,7 @@ public class NoteController {
     private final FindNoteUseCase findNoteUseCase;
     private final UpdateNoteUseCase updateNoteUseCase;
     private final NoteWebMapper noteWebMapper;
+    private final DeleteNoteUseCase deleteNoteService;
 
     @PostMapping
     public ResponseEntity<NoteWebResponse> store(
@@ -115,4 +118,12 @@ public class NoteController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNote(
+        @AuthenticatedUser User currentUser,
+        @PathVariable Long id
+    ){
+        deleteNoteService.deleteNoteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -12,6 +12,7 @@ public class Note {
     private final LocalDateTime createdAt;
     private final User owner;
 
+    
     public Note(Long id, String title, String content, User owner) {
         this.id         = id;
         this.title      = title;
