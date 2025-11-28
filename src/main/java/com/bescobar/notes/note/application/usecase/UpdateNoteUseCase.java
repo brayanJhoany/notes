@@ -2,6 +2,7 @@ package com.bescobar.notes.note.application.usecase;
 
 import org.springframework.stereotype.Service;
 
+import com.bescobar.notes.note.application.port.in.UpdateNoteInputPort;
 import com.bescobar.notes.note.application.port.in.command.UpdateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
@@ -16,7 +17,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class UpdateNoteUseCase implements com.bescobar.notes.note.application.port.in.UpdateNoteUseCase {
+public class UpdateNoteUseCase implements UpdateNoteInputPort {
 
     private final NoteRepositoryPort noteRepositoryPort;
 

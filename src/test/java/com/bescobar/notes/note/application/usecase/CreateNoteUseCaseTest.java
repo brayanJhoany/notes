@@ -28,7 +28,7 @@ import com.bescobar.notes.user.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Create note service Unit Test")
-public class CreateNoteServiceTest {
+public class CreateNoteUseCaseTest {
 
     @Mock
     private NoteRepositoryPort noteRepositoryPort;

@@ -1,5 +1,5 @@
 package com.bescobar.notes.note.application.port.in;
 
-public interface DeleteNoteUseCase {
+public interface DeleteNoteInputPort {
     void deleteNoteById(Long id);
 }

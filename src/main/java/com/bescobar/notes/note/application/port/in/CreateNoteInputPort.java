@@ -8,6 +8,6 @@ import com.bescobar.notes.note.application.port.in.query.NoteDTO;
  * Follows the Command pattern - receives a command and returns a DTO.
  * This is the application layer's input contract.
  */
-public interface CreateNoteUseCase {
+public interface CreateNoteInputPort {
     NoteDTO create(CreateNoteCommand command);
 }

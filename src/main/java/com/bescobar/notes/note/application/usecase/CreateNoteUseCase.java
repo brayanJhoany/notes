@@ -1,5 +1,6 @@
 package com.bescobar.notes.note.application.usecase;
 
+import com.bescobar.notes.note.application.port.in.CreateNoteInputPort;
 import com.bescobar.notes.note.application.port.in.command.CreateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class CreateNoteUseCase implements com.bescobar.notes.note.application.port.in.CreateNoteUseCase {
+public class CreateNoteUseCase implements CreateNoteInputPort {
 
     private final NoteRepositoryPort noteRepositoryPort;
     private final UserRepositoryPort userRepositoryPort;

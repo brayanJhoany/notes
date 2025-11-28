@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.bescobar.notes.note.application.port.in.ListUserNotesInputPort;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
 import com.bescobar.notes.note.domain.model.Note;
@@ -18,7 +19,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class ListUserNotesUseCase implements com.bescobar.notes.note.application.port.in.ListUserNotesUseCase {
+public class ListUserNotesUseCase implements ListUserNotesInputPort {
 
     private final NoteRepositoryPort noteRepositoryPort;
 

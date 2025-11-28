@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bescobar.notes.note.application.port.in.CreateNoteUseCase;
-import com.bescobar.notes.note.application.port.in.FindNoteUseCase;
-import com.bescobar.notes.note.application.port.in.ListUserNotesUseCase;
-import com.bescobar.notes.note.application.port.in.UpdateNoteUseCase;
+import com.bescobar.notes.note.application.port.in.CreateNoteInputPort;
+import com.bescobar.notes.note.application.port.in.DeleteNoteInputPort;
+import com.bescobar.notes.note.application.port.in.FindNoteInputPort;
+import com.bescobar.notes.note.application.port.in.ListUserNotesInputPort;
+import com.bescobar.notes.note.application.port.in.UpdateNoteInputPort;
 import com.bescobar.notes.note.application.port.in.command.CreateNoteCommand;
 import com.bescobar.notes.note.application.port.in.command.UpdateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
-import com.bescobar.notes.note.application.usecase.DeleteNoteUseCase;
 import com.bescobar.notes.note.infrastructure.web.dto.NoteWebRequest;
 import com.bescobar.notes.note.infrastructure.web.dto.NoteWebResponse;
 import com.bescobar.notes.note.infrastructure.web.mapper.NoteWebMapper;
@@ -35,12 +35,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NoteController {
 
-    private final CreateNoteUseCase createNoteUseCase;
-    private final ListUserNotesUseCase listUserNotesUseCase;
-    private final FindNoteUseCase findNoteUseCase;
-    private final UpdateNoteUseCase updateNoteUseCase;
+    private final CreateNoteInputPort createNoteUseCase;
+    private final ListUserNotesInputPort listUserNotesUseCase;
+    private final FindNoteInputPort findNoteUseCase;
+    private final UpdateNoteInputPort updateNoteUseCase;
     private final NoteWebMapper noteWebMapper;
-    private final DeleteNoteUseCase deleteNoteService;
+    private final DeleteNoteInputPort deleteNoteService;
 
     @PostMapping
     public ResponseEntity<NoteWebResponse> store(

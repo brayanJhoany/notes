@@ -9,6 +9,6 @@ import java.util.List;
  * Use case port for listing user notes.
  * Returns DTOs instead of domain models to avoid exposing domain to outer layers.
  */
-public interface ListUserNotesUseCase {
+public interface ListUserNotesInputPort {
     List<NoteDTO> findByUser(User owner);
 }
