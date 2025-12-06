@@ -1,8 +1,8 @@
 package com.bescobar.notes.note.domain.model;
 
-import java.time.LocalDateTime;
-
 import com.bescobar.notes.user.domain.model.User;
+
+import java.time.LocalDateTime;
 
 public class Note {
 
@@ -12,13 +12,13 @@ public class Note {
     private final LocalDateTime createdAt;
     private final User owner;
 
-    
+
     public Note(Long id, String title, String content, User owner) {
-        this.id         = id;
-        this.title      = title;
-        this.content    = content;
-        this.owner      = owner;
-        this.createdAt  = LocalDateTime.now();
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.owner = owner;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {

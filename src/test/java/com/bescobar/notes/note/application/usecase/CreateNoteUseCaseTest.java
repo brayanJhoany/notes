@@ -1,23 +1,5 @@
 package com.bescobar.notes.note.application.usecase;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import com.bescobar.notes.note.application.port.in.command.CreateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
@@ -25,6 +7,19 @@ import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Create note service Unit Test")
@@ -91,14 +86,17 @@ public class CreateNoteUseCaseTest {
         assertEquals(testUser, captured.getOwner());
 
     }
+
     @Test
     @DisplayName("It should return an error when trying to create a note with invalid parameters.")
-    void shouldReturnAnErrorWhenTryingToCreateANoteWithInvalidParams (){
+    void shouldReturnAnErrorWhenTryingToCreateANoteWithInvalidParams() {
+
         CreateNoteCommand createNoteCommand = CreateNoteCommand.builder()
                 .title("")
                 .content("new content")
                 .userId(testUser.getId())
                 .build();
+
         assertThrows(IllegalArgumentException.class, ()
                 -> createNoteService.create(createNoteCommand));
 
@@ -108,7 +106,7 @@ public class CreateNoteUseCaseTest {
 
     @Test
     @DisplayName("should throw IllegalArgumentException when user does not exist")
-    void shouldThrowExceptionWhenUserDoesNotExist() {
+    void shouldThrowIllegalArgumentExceptionWhenNoteMissing() {
         when(userRepositoryPort.findById(1L)).thenReturn(null);
 
         assertThrows(IllegalArgumentException.class, ()

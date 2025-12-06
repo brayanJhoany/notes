@@ -24,6 +24,7 @@ public class FindNoteUseCase implements FindNoteInputPort {
     public NoteDTO findById(User owner, Long id) {
         Note note = noteRepositoryPort.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Note not found with id: " + id));
+        
         if (!note.getOwner().getId().equals(owner.getId())) {
             throw new IllegalArgumentException("Note not associated with the user");
         }
