@@ -24,4 +24,23 @@ public class UserResponse {
     private Boolean active = true;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public static UserResponse copyOf(UserResponse source) {
+        if (source == null) {
+            return null;
+        }
+
+        return UserResponse.builder()
+                .id(source.getId())
+                .username(source.getUsername())
+                .fullName(source.getFullName())
+                .email(source.getEmail())
+                .phone(source.getPhone())
+                .address(source.getAddress())
+                .role(source.getRole())
+                .active(source.getActive())
+                .createdAt(source.getCreatedAt())
+                .updatedAt(source.getUpdatedAt())
+                .build();
+    }
 }

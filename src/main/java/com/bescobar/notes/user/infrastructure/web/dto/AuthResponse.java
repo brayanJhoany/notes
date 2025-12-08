@@ -2,14 +2,23 @@ package com.bescobar.notes.user.infrastructure.web.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Builder
 public class AuthResponse {
 
-    private String accessToken;
-    private String refreshToken;
-    private UserResponse user;
+    private final String accessToken;
+    private final String refreshToken;
+    private final UserResponse user;
+
+    public UserResponse getUser() {
+        return UserResponse.copyOf(user);
+    }
+
+    public static class AuthResponseBuilder {
+        public AuthResponseBuilder user(UserResponse user) {
+            this.user = UserResponse.copyOf(user);
+            return this;
+        }
+    }
 }
