@@ -1,3 +1,38 @@
+# ============================================================================
+# CI Pipeline - Continuous Integration Workflow
+# ============================================================================
+#
+# Este workflow se ejecuta en cada push o pull request a las ramas main y develop.
+#
+# CARACTERÍSTICAS:
+# - Compilación del proyecto con Maven
+# - Análisis de calidad de código (Checkstyle, PMD, SpotBugs)
+# - Ejecución de tests unitarios e integración
+# - Generación y empaquetado de artefactos JAR
+# - Upload de reportes y artefactos
+#
+# THRESHOLDS DE CALIDAD:
+# - Checkstyle: máximo 80 violaciones (actuales: 75)
+# - PMD: máximo 150 violaciones (actuales: 53)
+# - SpotBugs: máximo 50 bugs (actuales: 46)
+#
+# CONCURRENCIA:
+# - Cancela workflows en progreso cuando hay un nuevo push a la misma rama
+# - Optimiza tiempo de ejecución y recursos de GitHub Actions
+#
+# PATHS IGNORADOS:
+# - Archivos de documentación (*.md)
+# - Configuraciones de análisis (checkstyle.xml, pmd-ruleset.xml)
+# - Archivos de licencia y gitignore
+# - Ejemplos de variables de entorno
+#
+# ARTEFACTOS GENERADOS:
+# - notes-app: JAR compilado (retención: 7 días)
+# - test-reports: Reportes de tests (retención: 7 días)
+# - code-analysis-reports: Reportes de análisis de código (retención: 7 días)
+#
+# ============================================================================
+
 name: CI Pipeline
 
 on:
@@ -22,7 +57,6 @@ on:
       - 'checkstyle.xml'
       - 'pmd-ruleset.xml'
 
-# Gestión de concurrencia: cancela workflows en progreso cuando hay uno nuevo
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -36,17 +70,14 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Variables de entorno para tests (desde GitHub Secrets)
       JWT_SECRET_TEST: ${{ secrets.JWT_SECRET_TEST }}
       JWT_ACCESS_EXPIRATION_TEST: ${{ secrets.JWT_ACCESS_EXPIRATION_TEST }}
       JWT_REFRESH_EXPIRATION_TEST: ${{ secrets.JWT_REFRESH_EXPIRATION_TEST }}
 
     steps:
-      # Checkout del código fuente
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Configuración de JDK 17 con caché de Maven integrado
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -54,38 +85,27 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      # Dar permisos de ejecución al Maven wrapper
       - name: Make Maven wrapper executable
         run: chmod +x ./mvnw
 
-      # Validar que el proyecto compile correctamente
       - name: Compile project
         run: ./mvnw clean compile --batch-mode --update-snapshots
 
-      # Análisis estático de código con Checkstyle
       - name: Run Checkstyle
-        run: ./mvnw checkstyle:check --batch-mode -Dcheckstyle.failsOnError=true
-        continue-on-error: true
+        run: ./mvnw checkstyle:check --batch-mode
 
-      # Análisis de code smells con PMD
       - name: Run PMD
-        run: ./mvnw pmd:check --batch-mode -Dpmd.failOnViolation=true
-        continue-on-error: true
+        run: ./mvnw pmd:check --batch-mode
 
-      # Detección de bugs con SpotBugs
       - name: Run SpotBugs
-        run: ./mvnw spotbugs:check --batch-mode -Dspotbugs.failOnError=true
-        continue-on-error: true
+        run: ./mvnw spotbugs:check --batch-mode
 
-      # Ejecutar todas las pruebas unitarias e integración
       - name: Run tests
         run: ./mvnw test --batch-mode -Dspring.profiles.active=test
 
-      # Generar el artefacto empaquetado (JAR)
       - name: Package application
         run: ./mvnw package -DskipTests --batch-mode
 
-      # Subir el JAR generado como artefacto del workflow
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         if: success()
@@ -94,7 +114,6 @@ jobs:
           path: target/*.jar
           retention-days: 7
 
-      # Subir reportes de tests como artefactos
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         if: always()
@@ -103,7 +122,6 @@ jobs:
           path: target/surefire-reports/
           retention-days: 7
 
-      # Subir reportes de análisis de código
       - name: Upload code analysis reports
         uses: actions/upload-artifact@v4
         if: always()
