@@ -3,8 +3,25 @@ name: CI Pipeline
 on:
   push:
     branches: [ main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - 'LICENSE'
+      - '.env.*.example'
   pull_request:
     branches: [ main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - 'LICENSE'
+      - '.env.*.example'
+
+# Gestión de concurrencia: cancela workflows en progreso cuando hay uno nuevo
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
