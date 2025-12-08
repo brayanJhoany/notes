@@ -28,6 +28,10 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<checkstyle.version>10.12.5</checkstyle.version>
+		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+		<maven-pmd-plugin.version>3.21.2</maven-pmd-plugin.version>
+		<spotbugs-maven-plugin.version>4.8.2.0</spotbugs-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -126,6 +130,57 @@
 					<layers>
 						<enabled>true</enabled>
 					</layers>
+				</configuration>
+			</plugin>
+
+			<!-- Checkstyle Plugin - Verifica estilo de código -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${maven-checkstyle-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>false</failsOnError>
+					<violationSeverity>warning</violationSeverity>
+					<maxAllowedViolations>100</maxAllowedViolations>
+				</configuration>
+			</plugin>
+
+			<!-- PMD Plugin - Detecta code smells y malas prácticas -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${maven-pmd-plugin.version}</version>
+				<configuration>
+					<rulesets>
+						<ruleset>pmd-ruleset.xml</ruleset>
+					</rulesets>
+					<printFailingErrors>true</printFailingErrors>
+					<failOnViolation>false</failOnViolation>
+					<verbose>false</verbose>
+					<maxAllowedViolations>100</maxAllowedViolations>
+				</configuration>
+			</plugin>
+
+			<!-- SpotBugs Plugin - Detecta bugs potenciales -->
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugs-maven-plugin.version}</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Medium</threshold>
+					<failOnError>false</failOnError>
+					<xmlOutput>true</xmlOutput>
+					<maxAllowedViolations>50</maxAllowedViolations>
 				</configuration>
 			</plugin>
 		</plugins>

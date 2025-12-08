@@ -9,6 +9,8 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - '.env.*.example'
+      - 'checkstyle.xml'
+      - 'pmd-ruleset.xml'
   pull_request:
     branches: [ main, develop ]
     paths-ignore:
@@ -17,6 +19,8 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - '.env.*.example'
+      - 'checkstyle.xml'
+      - 'pmd-ruleset.xml'
 
 # Gestión de concurrencia: cancela workflows en progreso cuando hay uno nuevo
 concurrency:
@@ -58,6 +62,21 @@ jobs:
       - name: Compile project
         run: ./mvnw clean compile --batch-mode --update-snapshots
 
+      # Análisis estático de código con Checkstyle
+      - name: Run Checkstyle
+        run: ./mvnw checkstyle:check --batch-mode -Dcheckstyle.failsOnError=true
+        continue-on-error: true
+
+      # Análisis de code smells con PMD
+      - name: Run PMD
+        run: ./mvnw pmd:check --batch-mode -Dpmd.failOnViolation=true
+        continue-on-error: true
+
+      # Detección de bugs con SpotBugs
+      - name: Run SpotBugs
+        run: ./mvnw spotbugs:check --batch-mode -Dspotbugs.failOnError=true
+        continue-on-error: true
+
       # Ejecutar todas las pruebas unitarias e integración
       - name: Run tests
         run: ./mvnw test --batch-mode -Dspring.profiles.active=test
@@ -82,4 +101,16 @@ jobs:
         with:
           name: test-reports
           path: target/surefire-reports/
+          retention-days: 7
+
+      # Subir reportes de análisis de código
+      - name: Upload code analysis reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: code-analysis-reports
+          path: |
+            target/checkstyle-result.xml
+            target/pmd.xml
+            target/spotbugsXml.xml
           retention-days: 7

@@ -38,3 +38,10 @@ application-local.properties
 .env.local
 *.env
 !.env.docker.example
+
+### Code Analysis Reports ###
+**/checkstyle-result.xml
+**/pmd.xml
+**/spotbugsXml.xml
+**/.pmd
+**/pmd-cache
