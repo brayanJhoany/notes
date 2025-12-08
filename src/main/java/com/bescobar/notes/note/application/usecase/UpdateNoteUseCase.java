@@ -23,6 +23,8 @@ public class UpdateNoteUseCase implements UpdateNoteInputPort {
 
     @Override
     public NoteDTO updateNote(UpdateNoteCommand command, Long id) {
+        command.validate();
+
         Note existingNote = noteRepositoryPort.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Note not found with id: " + id));
 
