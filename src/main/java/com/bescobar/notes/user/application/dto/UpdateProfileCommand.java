@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UpdateProfileCommand {
-    private String username;
     private String fullName;
     private String email;
     private String phone;

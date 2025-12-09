@@ -36,14 +36,7 @@ public class UpdateUserProfileService implements UpdateProfileUseCase {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        // Check if username is being changed and if it's already taken
-        if (!existingUser.getUsername().equals(updateCommand.getUsername()) &&
-                userRepositoryPort.existsByUsername(updateCommand.getUsername())) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-
         // Fields NOT updated: password, role, active, createdAt
-        existingUser.setUsername(updateCommand.getUsername());
         existingUser.setFullName(updateCommand.getFullName());
         existingUser.setEmail(updateCommand.getEmail());
         existingUser.setPhone(updateCommand.getPhone());

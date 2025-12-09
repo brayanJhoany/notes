@@ -49,7 +49,6 @@ class ProfileControllerIntegrationTest {
 
         // Register a user and get access token
         UserRequest registerRequest = new UserRequest();
-        registerRequest.setUsername("testuser");
         registerRequest.setFullName("Test User");
         registerRequest.setEmail("test@example.com");
         registerRequest.setPassword("password123");
@@ -76,7 +75,6 @@ class ProfileControllerIntegrationTest {
                 .header("Authorization", "Bearer " + accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("test@example.com"))
-                .andExpect(jsonPath("$.username").value("testuser"))
                 .andExpect(jsonPath("$.fullName").value("Test User"))
                 .andExpect(jsonPath("$.phone").value("+1234567890"))
                 .andExpect(jsonPath("$.address").value("123 Test St"))
@@ -107,7 +105,6 @@ class ProfileControllerIntegrationTest {
     void shouldUpdateProfile() throws Exception {
         // Given
         UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("updateduser");
         updateRequest.setFullName("Updated User");
         updateRequest.setEmail("updated@example.com");
         updateRequest.setPhone("+9876543210");
@@ -120,7 +117,6 @@ class ProfileControllerIntegrationTest {
                 .content(objectMapper.writeValueAsString(updateRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("updated@example.com"))
-                .andExpect(jsonPath("$.username").value("updateduser"))
                 .andExpect(jsonPath("$.fullName").value("Updated User"))
                 .andExpect(jsonPath("$.phone").value("+9876543210"))
                 .andExpect(jsonPath("$.address").value("456 Updated St"))
@@ -129,7 +125,6 @@ class ProfileControllerIntegrationTest {
         // Verify in database
         UserEntity updatedUser = userRepository.findByEmail("updated@example.com");
         assert updatedUser != null;
-        assert updatedUser.getUsername().equals("updateduser");
     }
 
     @Test
@@ -137,7 +132,6 @@ class ProfileControllerIntegrationTest {
     void shouldFailWithDuplicateEmail() throws Exception {
         // Given - Create another user
         UserEntity anotherUser = new UserEntity();
-        anotherUser.setUsername("anotheruser");
         anotherUser.setFullName("Another User");
         anotherUser.setEmail("another@example.com");
         anotherUser.setPassword(passwordEncoder.encode("password123"));
@@ -147,7 +141,6 @@ class ProfileControllerIntegrationTest {
         userRepository.save(anotherUser);
 
         UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("testuser");
         updateRequest.setFullName("Test User");
         updateRequest.setEmail("another@example.com"); // Duplicate email
         updateRequest.setPhone("+1234567890");
@@ -162,40 +155,10 @@ class ProfileControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT /api/profile - Should fail with duplicate username")
-    void shouldFailWithDuplicateUsername() throws Exception {
-        // Given - Create another user
-        UserEntity anotherUser = new UserEntity();
-        anotherUser.setUsername("anotheruser");
-        anotherUser.setFullName("Another User");
-        anotherUser.setEmail("another@example.com");
-        anotherUser.setPassword(passwordEncoder.encode("password123"));
-        anotherUser.setPhone("+9999999999");
-        anotherUser.setAddress("999 Another St");
-        anotherUser.setActive(true);
-        userRepository.save(anotherUser);
-
+    @DisplayName("PUT /api/profile - Should allow keeping the same email")
+    void shouldAllowKeepingSameEmail() throws Exception {
+        // Given - Update with same email
         UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("anotheruser"); // Duplicate username
-        updateRequest.setFullName("Test User");
-        updateRequest.setEmail("test@example.com");
-        updateRequest.setPhone("+1234567890");
-        updateRequest.setAddress("123 Test St");
-
-        // When & Then
-        mockMvc.perform(put("/api/profile")
-                .header("Authorization", "Bearer " + accessToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateRequest)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("PUT /api/profile - Should allow keeping the same email and username")
-    void shouldAllowKeepingSameEmailAndUsername() throws Exception {
-        // Given - Update with same email and username
-        UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("testuser"); // Same username
         updateRequest.setFullName("Updated Name");
         updateRequest.setEmail("test@example.com"); // Same email
         updateRequest.setPhone("+9999999999");
@@ -217,7 +180,6 @@ class ProfileControllerIntegrationTest {
     void shouldFailUpdateWithoutAuthentication() throws Exception {
         // Given
         UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("updateduser");
         updateRequest.setFullName("Updated User");
         updateRequest.setEmail("updated@example.com");
 
@@ -233,7 +195,6 @@ class ProfileControllerIntegrationTest {
     void shouldFailWithInvalidData() throws Exception {
         // Given - Invalid email format
         UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("updateduser");
         updateRequest.setFullName("Updated User");
         updateRequest.setEmail("invalid-email"); // Invalid email
         updateRequest.setPhone("+1234567890");

@@ -45,7 +45,6 @@ class RegisterUserServiceTest {
     @BeforeEach
     void setUp() {
         testUser = new User();
-        testUser.setUsername("testuser");
         testUser.setFullName("Test User");
         testUser.setEmail("test@example.com");
         testUser.setPassword("password123");
@@ -58,13 +57,11 @@ class RegisterUserServiceTest {
     void shouldRegisterNewUser() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 
         User savedUser = new User();
         savedUser.setId(1L);
         savedUser.setEmail(testUser.getEmail());
-        savedUser.setUsername(testUser.getUsername());
         savedUser.setFullName(testUser.getFullName());
         savedUser.setPassword("encodedPassword");
         savedUser.setRole(Role.REGULAR);
@@ -86,7 +83,6 @@ class RegisterUserServiceTest {
 
         // Verify interactions
         verify(userRepository).existsByEmail(testUser.getEmail());
-        verify(userRepository).existsByUsername(testUser.getUsername());
         verify(passwordEncoder).encode("password123");
         verify(userRepository).save(any(User.class));
         verify(jwtService).generateAccessToken(testUser.getEmail());
@@ -98,7 +94,6 @@ class RegisterUserServiceTest {
     void shouldEncodePassword() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
@@ -119,7 +114,6 @@ class RegisterUserServiceTest {
     void shouldSetDefaultRole() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
@@ -140,7 +134,6 @@ class RegisterUserServiceTest {
     void shouldSetActiveStatus() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
@@ -161,7 +154,6 @@ class RegisterUserServiceTest {
     void shouldSetTimestamps() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
@@ -194,27 +186,10 @@ class RegisterUserServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw exception when username already exists")
-    void shouldThrowExceptionWhenUsernameExists() {
-        // Given
-        when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(testUser.getUsername())).thenReturn(true);
-
-        // When & Then
-        assertThrows(IllegalArgumentException.class, () -> {
-            registerUserService.registerUser(testUser);
-        });
-
-        verify(userRepository).existsByUsername(testUser.getUsername());
-        verify(userRepository, never()).save(any(User.class));
-    }
-
-    @Test
     @DisplayName("Should generate JWT tokens after successful registration")
     void shouldGenerateTokens() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");

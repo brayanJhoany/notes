@@ -13,10 +13,6 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UpdateUserRequest {
 
-    @NotBlank(message = "The username is required.")
-    @Size(min = 3, max = 255)
-    private String username;
-
     @NotBlank(message = "The full name is required")
     @Size(min = 3, max = 255)
     private String fullName;

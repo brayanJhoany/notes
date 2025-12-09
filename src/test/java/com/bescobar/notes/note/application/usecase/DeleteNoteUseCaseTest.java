@@ -35,7 +35,6 @@ public class DeleteNoteUseCaseTest {
         testUser = new User();
         testUser.setId(1L);
         testUser.setEmail("test@example.com");
-        testUser.setUsername("testuser");
         testUser.setPassword("encodedPassword");
         testUser.setRole(Role.REGULAR);
         testUser.setActive(true);

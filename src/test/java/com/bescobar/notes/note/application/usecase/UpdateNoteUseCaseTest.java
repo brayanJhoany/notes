@@ -39,7 +39,6 @@ public class UpdateNoteUseCaseTest {
         owner = new User();
         owner.setId(1L);
         owner.setEmail("test@example.com");
-        owner.setUsername("testuser");
         owner.setPassword("encodedPassword");
         owner.setRole(Role.REGULAR);
         owner.setActive(true);

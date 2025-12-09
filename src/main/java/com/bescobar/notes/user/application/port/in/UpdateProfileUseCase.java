@@ -13,7 +13,7 @@ public interface UpdateProfileUseCase {
      * @param id the user ID
      * @param updateCommand the update data
      * @return the updated user
-     * @throws RuntimeException if user is not found or email/username is already taken
+     * @throws RuntimeException if user is not found or email is already taken
      */
     User updateProfile(Long id, UpdateProfileCommand updateCommand);
 }

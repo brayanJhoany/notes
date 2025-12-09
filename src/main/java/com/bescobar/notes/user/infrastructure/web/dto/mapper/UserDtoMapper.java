@@ -18,7 +18,6 @@ public class UserDtoMapper {
         }
 
         User user = new User();
-        user.setUsername(request.getUsername());
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
@@ -36,7 +35,6 @@ public class UserDtoMapper {
 
         return UserResponse.builder()
                 .id(user.getId())
-                .username(user.getUsername())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .phone(user.getPhone())
@@ -53,7 +51,6 @@ public class UserDtoMapper {
             return null;
         }
         UpdateProfileCommand response = UpdateProfileCommand.builder().build();
-        response.setUsername(request.getUsername());
         response.setFullName(request.getFullName());
         response.setEmail(request.getEmail());
         response.setPhone(request.getPhone());

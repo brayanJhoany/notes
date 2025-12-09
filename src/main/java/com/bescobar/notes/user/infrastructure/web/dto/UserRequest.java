@@ -16,10 +16,6 @@ import lombok.ToString;
 @ToString(exclude = "password")
 public class UserRequest {
 
-    @NotBlank(message = "The username is required.")
-    @Size(min = 3, max = 255)
-    private String username;
-
     @NotBlank(message = "The full name is required")
     @Size(min = 3, max = 255)
     private String fullName;

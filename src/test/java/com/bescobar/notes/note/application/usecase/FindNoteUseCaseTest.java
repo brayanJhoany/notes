@@ -37,7 +37,6 @@ public class FindNoteUseCaseTest {
         testUser = new User();
         testUser.setId(1L);
         testUser.setEmail("test@example.com");
-        testUser.setUsername("testuser");
         testUser.setPassword("encodedPassword");
         testUser.setRole(Role.REGULAR);
         testUser.setActive(true);
@@ -77,7 +76,6 @@ public class FindNoteUseCaseTest {
         User newUser = new User();
         newUser.setId(1L);
         newUser.setEmail("test2@example.com");
-        newUser.setUsername("newUser");
         newUser.setPassword("encodedPassword");
         newUser.setRole(Role.REGULAR);
         newUser.setActive(true);

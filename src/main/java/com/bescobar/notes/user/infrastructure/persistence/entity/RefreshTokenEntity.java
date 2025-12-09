@@ -69,7 +69,6 @@ public class RefreshTokenEntity {
 
         UserEntity copy = new UserEntity();
         copy.setId(source.getId());
-        copy.setUsername(source.getUsername());
         copy.setFullName(source.getFullName());
         copy.setEmail(source.getEmail());
         copy.setPassword(source.getPassword());

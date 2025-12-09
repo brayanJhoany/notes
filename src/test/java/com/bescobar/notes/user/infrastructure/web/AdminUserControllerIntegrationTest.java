@@ -57,7 +57,6 @@ class AdminUserControllerIntegrationTest {
 
         // Create and authenticate admin user
         UserRequest adminRegisterRequest = new UserRequest();
-        adminRegisterRequest.setUsername("adminuser");
         adminRegisterRequest.setFullName("Admin User");
         adminRegisterRequest.setEmail("admin@example.com");
         adminRegisterRequest.setPassword("password123");
@@ -81,7 +80,6 @@ class AdminUserControllerIntegrationTest {
 
         // Create regular user
         UserRequest regularRegisterRequest = new UserRequest();
-        regularRegisterRequest.setUsername("regularuser");
         regularRegisterRequest.setFullName("Regular User");
         regularRegisterRequest.setEmail("regular@example.com");
         regularRegisterRequest.setPassword("password123");
@@ -137,7 +135,6 @@ class AdminUserControllerIntegrationTest {
                         .header("Authorization", "Bearer " + adminAccessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("regular@example.com"))
-                .andExpect(jsonPath("$.username").value("regularuser"))
                 .andExpect(jsonPath("$.fullName").value("Regular User"))
                 .andExpect(jsonPath("$.password").doesNotExist());
     }
@@ -156,7 +153,6 @@ class AdminUserControllerIntegrationTest {
     void adminShouldUpdateUser() throws Exception {
         // Given
         UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("updateduser");
         updateRequest.setFullName("Updated User");
         updateRequest.setEmail("updated@example.com");
         updateRequest.setPhone("+9999999999");
@@ -169,7 +165,6 @@ class AdminUserControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(updateRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("updated@example.com"))
-                .andExpect(jsonPath("$.username").value("updateduser"))
                 .andExpect(jsonPath("$.fullName").value("Updated User"))
                 .andExpect(jsonPath("$.phone").value("+9999999999"))
                 .andExpect(jsonPath("$.address").value("Updated Address"));
@@ -180,7 +175,6 @@ class AdminUserControllerIntegrationTest {
     void regularUserShouldBeForbiddenToUpdate() throws Exception {
         // Given
         UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setUsername("updateduser");
         updateRequest.setFullName("Updated User");
         updateRequest.setEmail("updated@example.com");
         updateRequest.setPhone("+9999999999");

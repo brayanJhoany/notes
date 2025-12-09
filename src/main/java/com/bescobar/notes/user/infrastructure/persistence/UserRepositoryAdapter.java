@@ -37,11 +37,6 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public boolean existsByUsername(String username) {
-        return userJpaRepository.existsByUsername(username);
-    }
-
-    @Override
     public User findById(Long id) {
         UserEntity userEntity = userJpaRepository.findById(id).orElse(null);
         return userMapper.toDomain(userEntity);

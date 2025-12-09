@@ -34,7 +34,6 @@ class UserTest {
 
         User user = new User();
         user.setId(1L);
-        user.setUsername("testuser");
         user.setFullName("Test User");
         user.setEmail("test@example.com");
         user.setPassword("encodedPassword");
@@ -48,7 +47,6 @@ class UserTest {
         // Then
         assertAll("User fields should be set correctly",
             () -> assertEquals(1L, user.getId()),
-            () -> assertEquals("testuser", user.getUsername()),
             () -> assertEquals("Test User", user.getFullName()),
             () -> assertEquals("test@example.com", user.getEmail()),
             () -> assertEquals("encodedPassword", user.getPassword()),

@@ -17,7 +17,6 @@ public class UserMapper {
 
         UserEntity entity = new UserEntity();
         entity.setId(user.getId());
-        entity.setUsername(user.getUsername());
         entity.setFullName(user.getFullName());
         entity.setEmail(user.getEmail());
         entity.setPassword(user.getPassword());
@@ -38,7 +37,6 @@ public class UserMapper {
 
         return new User(
             entity.getId(),
-            entity.getUsername(),
             entity.getFullName(),
             entity.getEmail(),
             entity.getPassword(),

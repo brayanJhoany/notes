@@ -57,7 +57,6 @@ class AuthControllerIntegrationTest {
     void shouldRegisterNewUser() throws Exception {
         // Given
         UserRequest request = new UserRequest();
-        request.setUsername("testuser");
         request.setFullName("Test User");
         request.setEmail("test@example.com");
         request.setPassword("password123");
@@ -72,7 +71,6 @@ class AuthControllerIntegrationTest {
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andExpect(jsonPath("$.user.email").value("test@example.com"))
-                .andExpect(jsonPath("$.user.username").value("testuser"))
                 .andExpect(jsonPath("$.user.fullName").value("Test User"))
                 .andExpect(jsonPath("$.user.role").value("REGULAR"))
                 .andExpect(jsonPath("$.user.active").value(true))
@@ -84,7 +82,6 @@ class AuthControllerIntegrationTest {
     void shouldFailWithDuplicateEmail() throws Exception {
         // Given - Create existing user
         UserEntity existingUser = new UserEntity();
-        existingUser.setUsername("existinguser");
         existingUser.setFullName("Existing User");
         existingUser.setEmail("existing@example.com");
         existingUser.setPassword(passwordEncoder.encode("password123"));
@@ -93,37 +90,8 @@ class AuthControllerIntegrationTest {
         userRepository.saveAndFlush(existingUser);
 
         UserRequest request = new UserRequest();
-        request.setUsername("newuser");
         request.setFullName("New User");
         request.setEmail("existing@example.com"); // Duplicate email
-        request.setPassword("password123");
-        request.setPhone("+2222222222");
-        request.setAddress("222 New St");
-
-        // When & Then
-        mockMvc.perform(post("/api/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("POST /api/auth/register - Should fail with duplicate username")
-    void shouldFailWithDuplicateUsername() throws Exception {
-        // Given - Create existing user
-        UserEntity existingUser = new UserEntity();
-        existingUser.setUsername("existinguser");
-        existingUser.setFullName("Existing User");
-        existingUser.setEmail("existing@example.com");
-        existingUser.setPassword(passwordEncoder.encode("password123"));
-        existingUser.setPhone("+1111111111");
-        existingUser.setAddress("111 Existing St");
-        userRepository.saveAndFlush(existingUser);
-
-        UserRequest request = new UserRequest();
-        request.setUsername("existinguser"); // Duplicate username
-        request.setFullName("New User");
-        request.setEmail("new@example.com");
         request.setPassword("password123");
         request.setPhone("+2222222222");
         request.setAddress("222 New St");
@@ -140,7 +108,6 @@ class AuthControllerIntegrationTest {
     void shouldFailWithInvalidEmail() throws Exception {
         // Given
         UserRequest request = new UserRequest();
-        request.setUsername("testuser");
         request.setFullName("Test User");
         request.setEmail("invalid-email"); // Invalid email format
         request.setPassword("password123");
@@ -157,7 +124,6 @@ class AuthControllerIntegrationTest {
     void shouldLoginSuccessfully() throws Exception {
         // Given - Create user
         UserEntity user = new UserEntity();
-        user.setUsername("testuser");
         user.setFullName("Test User");
         user.setEmail("test@example.com");
         user.setPassword(passwordEncoder.encode("password123"));
@@ -175,8 +141,7 @@ class AuthControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
-                .andExpect(jsonPath("$.user.email").value("test@example.com"))
-                .andExpect(jsonPath("$.user.username").value("testuser"));
+                .andExpect(jsonPath("$.user.email").value("test@example.com"));
     }
 
     @Test
@@ -184,7 +149,6 @@ class AuthControllerIntegrationTest {
     void shouldFailWithWrongPassword() throws Exception {
         // Given - Create user
         UserEntity user = new UserEntity();
-        user.setUsername("testuser");
         user.setFullName("Test User");
         user.setEmail("test@example.com");
         user.setPassword(passwordEncoder.encode("password123"));
@@ -220,7 +184,6 @@ class AuthControllerIntegrationTest {
     void shouldFailWhenUserInactive() throws Exception {
         // Given - Create inactive user
         UserEntity user = new UserEntity();
-        user.setUsername("testuser");
         user.setFullName("Test User");
         user.setEmail("test@example.com");
         user.setPassword(passwordEncoder.encode("password123"));
@@ -243,7 +206,6 @@ class AuthControllerIntegrationTest {
     void shouldRefreshTokens() throws Exception {
         // Given - Register user to get tokens
         UserRequest registerRequest = new UserRequest();
-        registerRequest.setUsername("testuser");
         registerRequest.setFullName("Test User");
         registerRequest.setEmail("test@example.com");
         registerRequest.setPassword("password123");
@@ -292,7 +254,6 @@ class AuthControllerIntegrationTest {
     void shouldLogoutSuccessfully() throws Exception {
         // Given - Register user to get tokens
         UserRequest registerRequest = new UserRequest();
-        registerRequest.setUsername("testuser");
         registerRequest.setFullName("Test User");
         registerRequest.setEmail("test@example.com");
         registerRequest.setPassword("password123");

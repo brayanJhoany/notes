@@ -34,10 +34,6 @@ public class RegisterUserService implements RegisterUserUseCase {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        if (userRepositoryPort.existsByUsername(user.getUsername())) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(user.getRole() != null ? user.getRole() : Role.REGULAR);
         user.setActive(true);

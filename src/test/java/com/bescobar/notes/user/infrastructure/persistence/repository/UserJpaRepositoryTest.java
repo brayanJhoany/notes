@@ -26,7 +26,6 @@ class UserJpaRepositoryTest {
         userRepository.deleteAll();
 
         testUser = new UserEntity();
-        testUser.setUsername("testuser");
         testUser.setFullName("Test User");
         testUser.setEmail("test@example.com");
         testUser.setPassword("encodedPassword");
@@ -45,7 +44,6 @@ class UserJpaRepositoryTest {
         // Then
         assertNotNull(savedUser.getId());
         assertEquals("test@example.com", savedUser.getEmail());
-        assertEquals("testuser", savedUser.getUsername());
     }
 
     @Test
@@ -60,7 +58,6 @@ class UserJpaRepositoryTest {
         // Then
         assertNotNull(foundUser);
         assertEquals("test@example.com", foundUser.getEmail());
-        assertEquals("testuser", foundUser.getUsername());
     }
 
     @Test
@@ -82,17 +79,6 @@ class UserJpaRepositoryTest {
         // When & Then
         assertTrue(userRepository.existsByEmail("test@example.com"));
         assertFalse(userRepository.existsByEmail("nonexistent@example.com"));
-    }
-
-    @Test
-    @DisplayName("Should check if username exists")
-    void shouldCheckIfUsernameExists() {
-        // Given
-        userRepository.save(testUser);
-
-        // When & Then
-        assertTrue(userRepository.existsByUsername("testuser"));
-        assertFalse(userRepository.existsByUsername("nonexistentuser"));
     }
 
     @Test
@@ -143,7 +129,6 @@ class UserJpaRepositoryTest {
     void shouldSaveMultipleUsers() {
         // Given
         UserEntity user2 = new UserEntity();
-        user2.setUsername("user2");
         user2.setFullName("User 2");
         user2.setEmail("user2@example.com");
         user2.setPassword("password2");
@@ -167,7 +152,6 @@ class UserJpaRepositoryTest {
         userRepository.save(testUser);
 
         UserEntity duplicateEmailUser = new UserEntity();
-        duplicateEmailUser.setUsername("differentuser");
         duplicateEmailUser.setFullName("Different User");
         duplicateEmailUser.setEmail("test@example.com"); // Duplicate email
         duplicateEmailUser.setPassword("password");

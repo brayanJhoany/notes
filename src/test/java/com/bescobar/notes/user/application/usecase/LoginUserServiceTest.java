@@ -53,7 +53,6 @@ class LoginUserServiceTest {
         testUser = new User();
         testUser.setId(1L);
         testUser.setEmail("test@example.com");
-        testUser.setUsername("testuser");
         testUser.setPassword("encodedPassword");
         testUser.setRole(Role.REGULAR);
         testUser.setActive(true);
@@ -167,6 +166,5 @@ class LoginUserServiceTest {
         assertNotNull(response.getUser());
         assertEquals(testUser.getId(), response.getUser().getId());
         assertEquals(testUser.getEmail(), response.getUser().getEmail());
-        assertEquals(testUser.getUsername(), response.getUser().getUsername());
     }
 }

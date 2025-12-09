@@ -35,7 +35,6 @@ class UpdateUserProfileServiceTest {
     void setUp() {
         existingUser = new User();
         existingUser.setId(1L);
-        existingUser.setUsername("oldusername");
         existingUser.setFullName("Old Name");
         existingUser.setEmail("old@example.com");
         existingUser.setPhone("+1111111111");
@@ -43,13 +42,12 @@ class UpdateUserProfileServiceTest {
         existingUser.setRole(Role.REGULAR);
         existingUser.setActive(true);
 
-        updateCommand = new UpdateProfileCommand(
-            "newusername",
-            "New Name",
-            "new@example.com",
-            "+2222222222",
-            "New Address"
-        );
+        updateCommand = UpdateProfileCommand.builder()
+            .fullName("New Name")
+            .email("new@example.com")
+            .phone("+2222222222")
+            .address("New Address")
+            .build();
     }
 
     @Test
@@ -58,7 +56,6 @@ class UpdateUserProfileServiceTest {
         // Given
         when(userRepository.findById(1L)).thenReturn(existingUser);
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(existingUser);
 
         // When
@@ -71,12 +68,11 @@ class UpdateUserProfileServiceTest {
     }
 
     @Test
-    @DisplayName("Should update username, fullName, email, phone, and address")
+    @DisplayName("Should update fullName, email, phone, and address")
     void shouldUpdateAllFields() {
         // Given
         when(userRepository.findById(1L)).thenReturn(existingUser);
         when(userRepository.existsByEmail(updateCommand.getEmail())).thenReturn(false);
-        when(userRepository.existsByUsername(updateCommand.getUsername())).thenReturn(false);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         when(userRepository.save(userCaptor.capture())).thenReturn(existingUser);
@@ -86,7 +82,6 @@ class UpdateUserProfileServiceTest {
 
         // Then
         User savedUser = userCaptor.getValue();
-        assertEquals("newusername", savedUser.getUsername());
         assertEquals("New Name", savedUser.getFullName());
         assertEquals("new@example.com", savedUser.getEmail());
         assertEquals("+2222222222", savedUser.getPhone());
@@ -102,7 +97,6 @@ class UpdateUserProfileServiceTest {
 
         when(userRepository.findById(1L)).thenReturn(existingUser);
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         when(userRepository.save(userCaptor.capture())).thenReturn(existingUser);
@@ -123,7 +117,6 @@ class UpdateUserProfileServiceTest {
         // Given
         when(userRepository.findById(1L)).thenReturn(existingUser);
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         when(userRepository.save(userCaptor.capture())).thenReturn(existingUser);
@@ -167,36 +160,17 @@ class UpdateUserProfileServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw exception when new username already exists")
-    void shouldThrowExceptionWhenUsernameExists() {
-        // Given
-        when(userRepository.findById(1L)).thenReturn(existingUser);
-        when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(updateCommand.getUsername())).thenReturn(true);
-
-        // When & Then
-        assertThrows(IllegalArgumentException.class, () -> {
-            updateUserProfileService.updateProfile(1L, updateCommand);
-        });
-
-        verify(userRepository).existsByUsername(updateCommand.getUsername());
-        verify(userRepository, never()).save(any(User.class));
-    }
-
-    @Test
     @DisplayName("Should allow keeping the same email")
     void shouldAllowKeepingSameEmail() {
         // Given
-        UpdateProfileCommand sameEmailCommand = new UpdateProfileCommand(
-            "newusername",
-            "New Name",
-            existingUser.getEmail(), // Same email
-            "+2222222222",
-            "New Address"
-        );
+        UpdateProfileCommand sameEmailCommand = UpdateProfileCommand.builder()
+            .fullName("New Name")
+            .email(existingUser.getEmail())
+            .phone("+2222222222")
+            .address("New Address")
+            .build();
 
         when(userRepository.findById(1L)).thenReturn(existingUser);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(existingUser);
 
         // When
@@ -207,27 +181,4 @@ class UpdateUserProfileServiceTest {
         verify(userRepository).save(any(User.class));
     }
 
-    @Test
-    @DisplayName("Should allow keeping the same username")
-    void shouldAllowKeepingSameUsername() {
-        // Given
-        UpdateProfileCommand sameUsernameCommand = new UpdateProfileCommand(
-            existingUser.getUsername(), // Same username
-            "New Name",
-            "new@example.com",
-            "+2222222222",
-            "New Address"
-        );
-
-        when(userRepository.findById(1L)).thenReturn(existingUser);
-        when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.save(any(User.class))).thenReturn(existingUser);
-
-        // When
-        updateUserProfileService.updateProfile(1L, sameUsernameCommand);
-
-        // Then
-        verify(userRepository, never()).existsByUsername(anyString());
-        verify(userRepository).save(any(User.class));
-    }
 }
