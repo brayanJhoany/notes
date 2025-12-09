@@ -29,6 +29,7 @@ public class UserRequest {
     private String email;
 
     @NotBlank(message = "The password is required")
+    @Size(min=8, max=64, message="The password must be between 8 and 64 characters")
     private String password;
 
     @NotBlank(message = "The phone is required")
