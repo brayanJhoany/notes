@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -63,6 +65,21 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RefreshTokenEntity> refreshTokens;
+
+    public List<RefreshTokenEntity> getRefreshTokens() {
+        if (refreshTokens == null) {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(new ArrayList<>(refreshTokens));
+    }
+
+    public void setRefreshTokens(List<RefreshTokenEntity> refreshTokens) {
+        if (refreshTokens == null) {
+            this.refreshTokens = null;
+        } else {
+            this.refreshTokens = new ArrayList<>(refreshTokens);
+        }
+    }
 
     @PrePersist
     public void prePersist() {

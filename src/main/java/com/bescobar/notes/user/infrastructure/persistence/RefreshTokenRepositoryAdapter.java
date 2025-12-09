@@ -8,12 +8,14 @@ import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import com.bescobar.notes.user.infrastructure.persistence.mapper.UserMapper;
 import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
 import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @AllArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
 public class RefreshTokenRepositoryAdapter implements RefreshTokenRepositoryPort {
 
     private final RefreshTokenJpaRepository refreshTokenRepository;

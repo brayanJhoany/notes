@@ -1,6 +1,7 @@
 package com.bescobar.notes.user.infrastructure.web;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,6 @@ import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * AdminUserController - Administrative User Management
@@ -34,7 +34,6 @@ import lombok.AllArgsConstructor;
  * Allows administrators to manage all users in the system.
  */
 @RestController
-@AllArgsConstructor
 @RequestMapping("/api/admin/users")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminUserController {
@@ -43,6 +42,18 @@ public class AdminUserController {
     private final GetProfileUseCase getProfileUseCase;
     private final UpdateProfileUseCase updateProfileUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
+
+    public AdminUserController(
+            ListUsersUseCase listUsersUseCase,
+            GetProfileUseCase getProfileUseCase,
+            UpdateProfileUseCase updateProfileUseCase,
+            DeleteUserUseCase deleteUserUseCase) {
+        this.listUsersUseCase = Objects.requireNonNull(listUsersUseCase, "listUsersUseCase is required");
+        this.getProfileUseCase = Objects.requireNonNull(getProfileUseCase, "getProfileUseCase is required");
+        this.updateProfileUseCase = Objects.requireNonNull(updateProfileUseCase, "updateProfileUseCase is required");
+        DeleteUserUseCase safeDeleteUserUseCase = Objects.requireNonNull(deleteUserUseCase, "deleteUserUseCase is required");
+        this.deleteUserUseCase = id -> safeDeleteUserUseCase.deleteUser(id);
+    }
 
     /**
      * Get all users in the system
