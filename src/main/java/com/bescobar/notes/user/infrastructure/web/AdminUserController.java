@@ -1,9 +1,9 @@
 package com.bescobar.notes.user.infrastructure.web;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
@@ -21,6 +22,7 @@ import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
 import com.bescobar.notes.user.application.port.in.ListUsersUseCase;
 import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
 import com.bescobar.notes.user.domain.model.User;
+import com.bescobar.notes.user.infrastructure.web.dto.PageResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
@@ -48,6 +50,7 @@ public class AdminUserController {
             GetProfileUseCase getProfileUseCase,
             UpdateProfileUseCase updateProfileUseCase,
             DeleteUserUseCase deleteUserUseCase) {
+
         this.listUsersUseCase = Objects.requireNonNull(listUsersUseCase, "listUsersUseCase is required");
         this.getProfileUseCase = Objects.requireNonNull(getProfileUseCase, "getProfileUseCase is required");
         this.updateProfileUseCase = Objects.requireNonNull(updateProfileUseCase, "updateProfileUseCase is required");
@@ -60,13 +63,16 @@ public class AdminUserController {
      * Admin only - GET /api/admin/users
      */
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
+    public ResponseEntity<PageResponse<UserResponse>> getAllUsers(
+        @PageableDefault(size = 10) Pageable pageable,
+        @RequestParam(required = false) String email,
+        @RequestParam(required = false) String fullname
+    ) {
         try {
-            List<User> users = listUsersUseCase.getAllUsers();
-            List<UserResponse> responses = users.stream()
-                    .map(UserDtoMapper::toResponse)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(responses);
+            PageResponse<UserResponse> response = PageResponse.from(
+                    listUsersUseCase.getAllUsers(pageable, email, fullname)
+                            .map(UserDtoMapper::toResponse));
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

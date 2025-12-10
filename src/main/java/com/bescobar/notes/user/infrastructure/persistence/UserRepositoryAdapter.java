@@ -1,15 +1,19 @@
 package com.bescobar.notes.user.infrastructure.persistence;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Repository;
+
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import com.bescobar.notes.user.infrastructure.persistence.mapper.UserMapper;
 import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import static com.bescobar.notes.user.infrastructure.persistence.repository.specification.UserSpecifications.emailContains;
+import static com.bescobar.notes.user.infrastructure.persistence.repository.specification.UserSpecifications.fullnameContains;
 
 @Repository
 @AllArgsConstructor
@@ -43,11 +47,13 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public List<User> findAll() {
-        List<UserEntity> entities = userJpaRepository.findAll();
-        return entities.stream()
-                .map(userMapper::toDomain)
-                .collect(Collectors.toList());
+    public Page<User> findAll(Pageable pageable, String email, String fullname) {
+        Specification<UserEntity> spec = Specification.where(emailContains(email))
+                .and(fullnameContains(fullname));
+
+        Page<UserEntity> userPage = userJpaRepository.findAll(spec, pageable);
+
+        return userPage.map(userMapper::toDomain);
     }
 
     @Override

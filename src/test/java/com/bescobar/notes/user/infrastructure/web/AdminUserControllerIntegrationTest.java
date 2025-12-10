@@ -1,12 +1,5 @@
 package com.bescobar.notes.user.infrastructure.web;
 
-import com.bescobar.notes.user.infrastructure.persistence.entity.RoleEntity;
-import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
-import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
-import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
-import com.bescobar.notes.user.infrastructure.web.dto.UserRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,12 +11,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.bescobar.notes.user.infrastructure.persistence.entity.RoleEntity;
+import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
+import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
+import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
+import com.bescobar.notes.user.infrastructure.web.dto.UserRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.persistence.EntityManager;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -104,9 +108,13 @@ class AdminUserControllerIntegrationTest {
         mockMvc.perform(get("/api/admin/users")
                         .header("Authorization", "Bearer " + adminAccessToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].email").exists())
-                .andExpect(jsonPath("$[1].email").exists());
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.numberOfElements").value(2))
+                .andExpect(jsonPath("$.hasNext").value(false))
+                .andExpect(jsonPath("$.hasPrevious").value(false))
+                .andExpect(jsonPath("$.content[0].email").exists())
+                .andExpect(jsonPath("$.content[1].email").exists());
     }
 
     @Test
@@ -196,8 +204,6 @@ class AdminUserControllerIntegrationTest {
                         .header("Authorization", "Bearer " + adminAccessToken))
                 .andExpect(status().isNoContent());
 
-//         Flush and clear EntityManager to ensure the DELETE is committed
-//         and the persistence context is cleared for subsequent operations
         entityManager.flush();
         entityManager.clear();
 
@@ -206,8 +212,14 @@ class AdminUserControllerIntegrationTest {
                         .header("Authorization", "Bearer " + adminAccessToken))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1))  // Only admin user should remain
-                .andExpect(jsonPath("$[0].email").value("admin@example.com"));
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.numberOfElements").value(1))
+                .andExpect(jsonPath("$.hasNext").value(false))
+                .andExpect(jsonPath("$.hasPrevious").value(false))
+                .andExpect(jsonPath("$.content[0].email").exists())
+                .andExpect(jsonPath("$.content[0].email").value("admin@example.com"));
+
     }
 
     @Test

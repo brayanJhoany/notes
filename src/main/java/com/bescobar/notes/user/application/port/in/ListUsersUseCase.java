@@ -1,7 +1,9 @@
 package com.bescobar.notes.user.application.port.in;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.bescobar.notes.user.domain.model.User;
-import java.util.List;
 
 /**
  * Use case for listing all users in the system.
@@ -9,9 +11,9 @@ import java.util.List;
  */
 public interface ListUsersUseCase {
     /**
-     * Retrieves all users in the system.
+     * Retrieves all users in the system with pagination and filters.
      *
-     * @return list of all users
+     * @return page of users
      */
-    List<User> getAllUsers();
+    Page<User> getAllUsers(Pageable pageable, String email, String fullname);
 }

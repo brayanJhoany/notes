@@ -4,9 +4,9 @@ import com.bescobar.notes.user.application.port.in.ListUsersUseCase;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Service implementing the ListUsersUseCase.
@@ -15,11 +15,10 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ListUsersService implements ListUsersUseCase {
-
     private final UserRepositoryPort userRepositoryPort;
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepositoryPort.findAll();
+    public Page<User> getAllUsers(Pageable pageable, String email, String fullname) {
+        return userRepositoryPort.findAll(pageable, email, fullname);
     }
 }
