@@ -101,6 +101,14 @@
             <version>0.12.3</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- SpotBugs Annotations -->
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>4.8.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
