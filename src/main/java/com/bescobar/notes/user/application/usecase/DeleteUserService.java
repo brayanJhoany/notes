@@ -2,6 +2,7 @@ package com.bescobar.notes.user.application.usecase;
 
 import com.bescobar.notes.user.application.port.in.DeleteUserUseCase;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class DeleteUserService implements DeleteUserUseCase {
     public void deleteUser(Long id) {
         User user = userRepositoryPort.findById(id);
         if (user == null) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new UserNotFoundException(id);
         }
         refreshTokenRepository.deleteByUserId(id);
         userRepositoryPort.deleteById(id);

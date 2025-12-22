@@ -1,15 +1,19 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
-import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
-import com.bescobar.notes.user.domain.model.User;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
+import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;
+import com.bescobar.notes.user.domain.exception.UserNotFoundException;
+import com.bescobar.notes.user.domain.model.User;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import lombok.AllArgsConstructor;
 
 /**
  * Service implementing the UpdateProfileUseCase.
@@ -25,24 +29,22 @@ public class UpdateUserProfileService implements UpdateProfileUseCase {
     @Override
     @Transactional
     public User updateProfile(Long id, UpdateProfileCommand updateCommand) {
-        User existingUser = userRepositoryPort.findById(id);
-        if (existingUser == null) {
-            throw new IllegalArgumentException("User not found with id: " + id);
+        User userExists = userRepositoryPort.findById(id);
+        if (userExists == null) {
+            throw new UserNotFoundException(id);
         }
 
-        // Check if email is being changed and if it's already taken
-        if (!existingUser.getEmail().equals(updateCommand.getEmail()) &&
+        if (!userExists.getEmail().equals(updateCommand.getEmail()) &&
                 userRepositoryPort.existsByEmail(updateCommand.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new UserAlreadyExistsException(updateCommand.getEmail());
         }
 
-        // Fields NOT updated: password, role, active, createdAt
-        existingUser.setFullName(updateCommand.getFullName());
-        existingUser.setEmail(updateCommand.getEmail());
-        existingUser.setPhone(updateCommand.getPhone());
-        existingUser.setAddress(updateCommand.getAddress());
-        existingUser.setUpdatedAt(LocalDateTime.now());
+        userExists.setFullName(updateCommand.getFullName());
+        userExists.setEmail(updateCommand.getEmail());
+        userExists.setPhone(updateCommand.getPhone());
+        userExists.setAddress(updateCommand.getAddress());
+        userExists.setUpdatedAt(LocalDateTime.now());
 
-        return userRepositoryPort.save(existingUser);
+        return userRepositoryPort.save(userExists);
     }
 }

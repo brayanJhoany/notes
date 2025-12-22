@@ -2,6 +2,7 @@ package com.bescobar.notes.user.application.usecase;
 
 import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class GetUserProfileService implements GetProfileUseCase {
     public User getProfileById(Long id) {
         User existingUser = userRepositoryPort.findById(id);
         if (existingUser == null) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new UserNotFoundException(id);
         }
         return existingUser;
     }
@@ -29,7 +30,7 @@ public class GetUserProfileService implements GetProfileUseCase {
     public User getProfileByEmail(String email) {
         User existingUser = userRepositoryPort.findByEmail(email);
         if (existingUser == null) {
-            throw new RuntimeException("User not found with email: " + email);
+            throw new UserNotFoundException(email);
         }
         return existingUser;
     }

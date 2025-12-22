@@ -1,18 +1,21 @@
 package com.bescobar.notes.user.application.usecase;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bescobar.notes.user.application.dto.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.RefreshTokenUseCase;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
+import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
+
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service implementing the RefreshTokenUseCase.
- * Handles token refresh logic to generate new access and refresh tokens.
+ * Service implementing the RefreshTokenUseCase. Handles token refresh logic to
+ * generate new access and refresh tokens.
  */
 @Service
 @AllArgsConstructor
@@ -27,32 +30,27 @@ public class RefreshTokenService implements RefreshTokenUseCase {
         String email;
         try {
             if (!jwtServicePort.isRefreshToken(refreshToken)) {
-                throw new BadCredentialsException("Invalid token type");
+                throw new UserAuthenticationException("Invalid token type");
             }
-
-            email = jwtServicePort.extractEmail(refreshToken);
-
             if (jwtServicePort.isTokenExpired(refreshToken)) {
-                throw new BadCredentialsException("Refresh token has expired");
+                throw new UserAuthenticationException("Refresh token has expired");
             }
-        } catch (BadCredentialsException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new BadCredentialsException("Invalid or expired refresh token");
+            email = jwtServicePort.extractEmail(refreshToken);
+        } catch (UserAuthenticationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new UserAuthenticationException("Invalid or expired refresh token");
         }
 
         User user = refreshTokenRepositoryPort.findUserByEmail(email);
         if (user == null) {
-            throw new BadCredentialsException("User not found");
+            throw new UserAuthenticationException("Invalid or expired refresh token");
         }
 
         if (!refreshTokenRepositoryPort.refreshTokenExists(refreshToken)) {
-            throw new BadCredentialsException("Token has been revoked");
+            throw new UserAuthenticationException("Token has been revoked");
         }
-
-        // Delete all refresh tokens for this user to avoid unique constraint violations
         refreshTokenRepositoryPort.deleteAllRefreshTokensByUserId(user.getId());
-
         String accessToken = jwtServicePort.generateAccessToken(user.getEmail());
         String newRefreshToken = refreshTokenRepositoryPort.createRefreshToken(user);
 

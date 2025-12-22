@@ -1,10 +1,7 @@
 package com.bescobar.notes.user.infrastructure.web;
 
-import java.util.Objects;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,16 +25,18 @@ import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 /**
  * AdminUserController - Administrative User Management
  *
- * Restricted to users with ADMIN role only.
- * Allows administrators to manage all users in the system.
+ * Restricted to users with ADMIN role only. Allows administrators to manage all
+ * users in the system.
  */
 @RestController
 @RequestMapping("/api/admin/users")
 @PreAuthorize("hasRole('ADMIN')")
+@AllArgsConstructor
 public class AdminUserController {
 
     private final ListUsersUseCase listUsersUseCase;
@@ -45,83 +44,51 @@ public class AdminUserController {
     private final UpdateProfileUseCase updateProfileUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
 
-    public AdminUserController(
-            ListUsersUseCase listUsersUseCase,
-            GetProfileUseCase getProfileUseCase,
-            UpdateProfileUseCase updateProfileUseCase,
-            DeleteUserUseCase deleteUserUseCase) {
-
-        this.listUsersUseCase = Objects.requireNonNull(listUsersUseCase, "listUsersUseCase is required");
-        this.getProfileUseCase = Objects.requireNonNull(getProfileUseCase, "getProfileUseCase is required");
-        this.updateProfileUseCase = Objects.requireNonNull(updateProfileUseCase, "updateProfileUseCase is required");
-        DeleteUserUseCase safeDeleteUserUseCase = Objects.requireNonNull(deleteUserUseCase, "deleteUserUseCase is required");
-        this.deleteUserUseCase = id -> safeDeleteUserUseCase.deleteUser(id);
-    }
-
     /**
-     * Get all users in the system
-     * Admin only - GET /api/admin/users
+     * Get all users in the system Admin only - GET /api/admin/users
      */
     @GetMapping
     public ResponseEntity<PageResponse<UserResponse>> getAllUsers(
-        @PageableDefault(size = 10) Pageable pageable,
-        @RequestParam(required = false) String email,
-        @RequestParam(required = false) String fullname
+            @PageableDefault(size = 10) Pageable pageable,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String fullname
     ) {
-        try {
-            PageResponse<UserResponse> response = PageResponse.from(
-                    listUsersUseCase.getAllUsers(pageable, email, fullname)
-                            .map(UserDtoMapper::toResponse));
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        PageResponse<UserResponse> response = PageResponse.from(
+                listUsersUseCase.getAllUsers(pageable, email, fullname)
+                        .map(UserDtoMapper::toResponse)
+        );
+        return ResponseEntity.ok(response);
     }
 
     /**
-     * Get a specific user by ID
-     * Admin only - GET /api/admin/users/{id}
+     * Get a specific user by ID Admin only - GET /api/admin/users/{id}
      */
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
-        try {
-            User user = getProfileUseCase.getProfileById(id);
-            UserResponse response = UserDtoMapper.toResponse(user);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        User user = getProfileUseCase.getProfileById(id);
+        UserResponse response = UserDtoMapper.toResponse(user);
+        return ResponseEntity.ok(response);
     }
 
     /**
-     * Update a specific user by ID
-     * Admin only - PUT /api/admin/users/{id}
+     * Update a specific user by ID Admin only - PUT /api/admin/users/{id}
      */
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserRequest request) {
-        try {
-            UpdateProfileCommand updateCommand = UserDtoMapper.toUpdateProfileCommand(request);
-            User updatedUser = updateProfileUseCase.updateProfile(id, updateCommand);
-            UserResponse response = UserDtoMapper.toResponse(updatedUser);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        UpdateProfileCommand updateCommand = UserDtoMapper.toUpdateProfileCommand(request);
+        User updatedUser = updateProfileUseCase.updateProfile(id, updateCommand);
+        UserResponse response = UserDtoMapper.toResponse(updatedUser);
+        return ResponseEntity.ok(response);
     }
 
     /**
-     * Delete a user by ID
-     * Admin only - DELETE /api/admin/users/{id}
+     * Delete a user by ID Admin only - DELETE /api/admin/users/{id}
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        try {
-            deleteUserUseCase.deleteUser(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        deleteUserUseCase.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
