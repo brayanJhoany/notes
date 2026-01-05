@@ -1,23 +1,28 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.dto.AuthResponseDto;
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
-import com.bescobar.notes.user.domain.model.Role;
-import com.bescobar.notes.user.domain.model.User;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.BadCredentialsException;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.bescobar.notes.user.application.dto.AuthResponseDto;
+import com.bescobar.notes.user.application.port.out.JwtServicePort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
+import com.bescobar.notes.user.domain.model.Role;
+import com.bescobar.notes.user.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("RefreshTokenService Unit Tests")
@@ -82,7 +87,7 @@ class RefreshTokenServiceTest {
         when(jwtService.isRefreshToken(anyString())).thenReturn(false);
 
         // When & Then
-        assertThrows(BadCredentialsException.class, () -> {
+        assertThrows(UserAuthenticationException.class, () -> {
             refreshTokenService.refreshToken("access.token");
         });
 
@@ -96,11 +101,10 @@ class RefreshTokenServiceTest {
     void shouldThrowExceptionWhenTokenExpired() {
         // Given
         when(jwtService.isRefreshToken(validRefreshToken)).thenReturn(true);
-        when(jwtService.extractEmail(validRefreshToken)).thenReturn(testUser.getEmail());
         when(jwtService.isTokenExpired(validRefreshToken)).thenReturn(true);
 
         // When & Then
-        assertThrows(BadCredentialsException.class, () -> {
+        assertThrows(UserAuthenticationException.class, () -> {
             refreshTokenService.refreshToken(validRefreshToken);
         });
 
@@ -119,7 +123,7 @@ class RefreshTokenServiceTest {
         when(refreshTokenRepository.refreshTokenExists(validRefreshToken)).thenReturn(false);
 
         // When & Then
-        assertThrows(BadCredentialsException.class, () -> {
+        assertThrows(UserAuthenticationException.class, () -> {
             refreshTokenService.refreshToken(validRefreshToken);
         });
 

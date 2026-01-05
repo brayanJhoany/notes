@@ -1,11 +1,5 @@
 package com.bescobar.notes.user.infrastructure.web;
 
-import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
-import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
-import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
-import com.bescobar.notes.user.infrastructure.web.dto.RefreshTokenRequest;
-import com.bescobar.notes.user.infrastructure.web.dto.UserRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,12 +11,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
+import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
+import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
+import com.bescobar.notes.user.infrastructure.web.dto.RefreshTokenRequest;
+import com.bescobar.notes.user.infrastructure.web.dto.UserRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -100,7 +100,7 @@ class AuthControllerIntegrationTest {
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -176,7 +176,7 @@ class AuthControllerIntegrationTest {
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginJson))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -198,7 +198,7 @@ class AuthControllerIntegrationTest {
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginJson))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test

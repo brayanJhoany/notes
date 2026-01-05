@@ -1,25 +1,31 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.dto.AuthResponseDto;
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
-import com.bescobar.notes.user.domain.model.Role;
-import com.bescobar.notes.user.domain.model.User;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import com.bescobar.notes.user.application.dto.AuthResponseDto;
+import com.bescobar.notes.user.application.port.out.JwtServicePort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;
+import com.bescobar.notes.user.domain.model.Role;
+import com.bescobar.notes.user.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("RegisterUserService Unit Tests")
@@ -177,7 +183,7 @@ class RegisterUserServiceTest {
         when(userRepository.existsByEmail(testUser.getEmail())).thenReturn(true);
 
         // When & Then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(UserAlreadyExistsException.class, () -> {
             registerUserService.registerUser(testUser);
         });
 

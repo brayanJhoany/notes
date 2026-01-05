@@ -1,22 +1,29 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
-import com.bescobar.notes.user.domain.model.Role;
-import com.bescobar.notes.user.domain.model.User;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;
+import com.bescobar.notes.user.domain.exception.UserNotFoundException;
+import com.bescobar.notes.user.domain.model.Role;
+import com.bescobar.notes.user.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UpdateUserProfileService Unit Tests")
@@ -135,7 +142,7 @@ class UpdateUserProfileServiceTest {
         when(userRepository.findById(1L)).thenReturn(null);
 
         // When & Then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(UserNotFoundException.class, () -> {
             updateUserProfileService.updateProfile(1L, updateCommand);
         });
 
@@ -151,7 +158,7 @@ class UpdateUserProfileServiceTest {
         when(userRepository.existsByEmail(updateCommand.getEmail())).thenReturn(true);
 
         // When & Then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(UserAlreadyExistsException.class, () -> {
             updateUserProfileService.updateProfile(1L, updateCommand);
         });
 

@@ -15,7 +15,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bescobar.notes.user.application.dto.AuthResponseDto;
@@ -23,6 +22,9 @@ import com.bescobar.notes.user.application.dto.LoginCommand;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.domain.exception.UserAccountDisabledException;
+import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
+import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
 
@@ -91,7 +93,7 @@ class LoginUserServiceTest {
         when(userRepository.findByEmail(anyString())).thenReturn(null);
 
         // When & Then
-        assertThrows(BadCredentialsException.class, () -> {
+        assertThrows(UserNotFoundException.class, () -> {
             loginUserService.login(loginCommand);
         });
 
@@ -108,7 +110,7 @@ class LoginUserServiceTest {
         when(userRepository.findByEmail(loginCommand.getEmail())).thenReturn(testUser);
 
         // When & Then
-        assertThrows(BadCredentialsException.class, () -> {
+        assertThrows(UserAccountDisabledException.class, () -> {
             loginUserService.login(loginCommand);
         });
 
@@ -124,7 +126,7 @@ class LoginUserServiceTest {
         when(passwordEncoder.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(false);
 
         // When & Then
-        assertThrows(BadCredentialsException.class, () -> {
+        assertThrows(UserAuthenticationException.class, () -> {
             loginUserService.login(loginCommand);
         });
 
