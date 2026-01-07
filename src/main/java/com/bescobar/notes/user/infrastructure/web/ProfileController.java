@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
-import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
-import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
+import com.bescobar.notes.user.application.port.in.GetProfileInputPort;
+import com.bescobar.notes.user.application.port.in.UpdateProfileInputPort;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
@@ -33,8 +33,8 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/profile")
 public class ProfileController {
 
-    private final GetProfileUseCase getProfileUseCase;
-    private final UpdateProfileUseCase updateProfileUseCase;
+    private final GetProfileInputPort getProfileUseCase;
+    private final UpdateProfileInputPort updateProfileUseCase;
 
     /**
      * Get current user's profile

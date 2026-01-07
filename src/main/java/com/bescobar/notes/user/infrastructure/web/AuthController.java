@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bescobar.notes.user.application.dto.LoginCommand;
-import com.bescobar.notes.user.application.port.in.LoginUserUseCase;
-import com.bescobar.notes.user.application.port.in.LogoutUserUseCase;
-import com.bescobar.notes.user.application.port.in.RefreshTokenUseCase;
-import com.bescobar.notes.user.application.port.in.RegisterUserUseCase;
+import com.bescobar.notes.user.application.port.in.LoginUserInputPort;
+import com.bescobar.notes.user.application.port.in.LogoutUserInputPort;
+import com.bescobar.notes.user.application.port.in.RefreshTokenInputPort;
+import com.bescobar.notes.user.application.port.in.RegisterUserInputPort;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.web.dto.AuthRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.AuthResponse;
@@ -28,10 +28,10 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final RegisterUserUseCase registerUserUseCase;
-    private final LoginUserUseCase loginUserUseCase;
-    private final RefreshTokenUseCase refreshTokenUseCase;
-    private final LogoutUserUseCase logoutUserUseCase;
+    private final RegisterUserInputPort registerUserUseCase;
+    private final LoginUserInputPort loginUserUseCase;
+    private final RefreshTokenInputPort refreshTokenUseCase;
+    private final LogoutUserInputPort logoutUserUseCase;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserRequest request) {

@@ -1,6 +1,6 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.port.in.DeleteUserUseCase;
+import com.bescobar.notes.user.application.port.in.DeleteUserInputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @AllArgsConstructor
-public class DeleteUserService implements DeleteUserUseCase {
+public class DeleteUserService implements DeleteUserInputPort {
 
     private final UserRepositoryPort userRepositoryPort;
     private final RefreshTokenJpaRepository refreshTokenRepository;

@@ -4,7 +4,7 @@ package com.bescobar.notes.user.application.port.in;
  * Use case for deleting a user from the system.
  * Typically restricted to administrators.
  */
-public interface DeleteUserUseCase {
+public interface DeleteUserInputPort {
     /**
      * Deletes a user by ID.
      *

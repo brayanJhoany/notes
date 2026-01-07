@@ -10,7 +10,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
+import com.bescobar.notes.user.application.port.in.GetProfileInputPort;
 import com.bescobar.notes.user.domain.model.User;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final GetProfileUseCase getProfileUseCase;
+    private final GetProfileInputPort getProfileUseCase;
 
     /**
      * Determines if this resolver supports the given method parameter.

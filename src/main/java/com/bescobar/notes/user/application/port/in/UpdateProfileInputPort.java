@@ -6,7 +6,7 @@ import com.bescobar.notes.user.domain.model.User;
 /**
  * Use case for updating user profile information.
  */
-public interface UpdateProfileUseCase {
+public interface UpdateProfileInputPort {
     /**
      * Updates a user's profile information.
      *

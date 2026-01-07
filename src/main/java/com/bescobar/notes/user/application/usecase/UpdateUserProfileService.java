@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
-import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
+import com.bescobar.notes.user.application.port.in.UpdateProfileInputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
-public class UpdateUserProfileService implements UpdateProfileUseCase {
+public class UpdateUserProfileService implements UpdateProfileInputPort {
 
     private final UserRepositoryPort userRepositoryPort;
 

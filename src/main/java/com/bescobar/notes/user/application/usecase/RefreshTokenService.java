@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.dto.AuthResponseDto;
-import com.bescobar.notes.user.application.port.in.RefreshTokenUseCase;
+import com.bescobar.notes.user.application.port.in.RefreshTokenInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class RefreshTokenService implements RefreshTokenUseCase {
+public class RefreshTokenService implements RefreshTokenInputPort {
 
     private final JwtServicePort jwtServicePort;
     private final RefreshTokenRepositoryPort refreshTokenRepositoryPort;

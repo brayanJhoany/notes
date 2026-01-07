@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
-import com.bescobar.notes.user.application.port.in.DeleteUserUseCase;
-import com.bescobar.notes.user.application.port.in.GetProfileUseCase;
-import com.bescobar.notes.user.application.port.in.ListUsersUseCase;
-import com.bescobar.notes.user.application.port.in.UpdateProfileUseCase;
+import com.bescobar.notes.user.application.port.in.DeleteUserInputPort;
+import com.bescobar.notes.user.application.port.in.GetProfileInputPort;
+import com.bescobar.notes.user.application.port.in.ListUsersInputPort;
+import com.bescobar.notes.user.application.port.in.UpdateProfileInputPort;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.web.dto.PageResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
@@ -39,10 +39,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AdminUserController {
 
-    private final ListUsersUseCase listUsersUseCase;
-    private final GetProfileUseCase getProfileUseCase;
-    private final UpdateProfileUseCase updateProfileUseCase;
-    private final DeleteUserUseCase deleteUserUseCase;
+    private final ListUsersInputPort listUsersUseCase;
+    private final GetProfileInputPort getProfileUseCase;
+    private final UpdateProfileInputPort updateProfileUseCase;
+    private final DeleteUserInputPort deleteUserUseCase;
 
     /**
      * Get all users in the system Admin only - GET /api/admin/users

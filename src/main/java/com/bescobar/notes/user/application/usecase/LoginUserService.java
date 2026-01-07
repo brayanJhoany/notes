@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.dto.AuthResponseDto;
 import com.bescobar.notes.user.application.dto.LoginCommand;
-import com.bescobar.notes.user.application.port.in.LoginUserUseCase;
+import com.bescobar.notes.user.application.port.in.LoginUserInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class LoginUserService implements LoginUserUseCase {
+public class LoginUserService implements LoginUserInputPort {
 
     private final UserRepositoryPort userRepositoryPort;
     private final PasswordEncoder passwordEncoder;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.dto.AuthResponseDto;
-import com.bescobar.notes.user.application.port.in.RegisterUserUseCase;
+import com.bescobar.notes.user.application.port.in.RegisterUserInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class RegisterUserService implements RegisterUserUseCase {
+public class RegisterUserService implements RegisterUserInputPort {
 
     private final UserRepositoryPort userRepositoryPort;
     private final PasswordEncoder passwordEncoder;

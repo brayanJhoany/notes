@@ -5,7 +5,7 @@ import com.bescobar.notes.user.domain.model.User;
 /**
  * Use case for retrieving user profile information.
  */
-public interface GetProfileUseCase {
+public interface GetProfileInputPort {
     /**
      * Retrieves a user profile by ID.
      *

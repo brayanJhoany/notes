@@ -9,7 +9,7 @@ import com.bescobar.notes.user.domain.model.User;
  * Use case for listing all users in the system.
  * Typically restricted to administrators.
  */
-public interface ListUsersUseCase {
+public interface ListUsersInputPort {
     /**
      * Retrieves all users in the system with pagination and filters.
      *

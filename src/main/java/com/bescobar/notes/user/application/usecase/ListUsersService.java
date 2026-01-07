@@ -1,6 +1,6 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.port.in.ListUsersUseCase;
+import com.bescobar.notes.user.application.port.in.ListUsersInputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class ListUsersService implements ListUsersUseCase {
+public class ListUsersService implements ListUsersInputPort {
     private final UserRepositoryPort userRepositoryPort;
 
     @Override

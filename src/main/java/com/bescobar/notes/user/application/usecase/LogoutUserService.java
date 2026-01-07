@@ -1,6 +1,6 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.port.in.LogoutUserUseCase;
+import com.bescobar.notes.user.application.port.in.LogoutUserInputPort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @AllArgsConstructor
-public class LogoutUserService implements LogoutUserUseCase {
+public class LogoutUserService implements LogoutUserInputPort {
 
     private final RefreshTokenRepositoryPort refreshTokenRepositoryPort;
 
