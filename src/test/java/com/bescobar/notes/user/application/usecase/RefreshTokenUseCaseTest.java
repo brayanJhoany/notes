@@ -25,8 +25,8 @@ import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("RefreshTokenService Unit Tests")
-class RefreshTokenServiceTest {
+@DisplayName("RefreshTokenUseCase Unit Tests")
+class RefreshTokenUseCaseTest {
 
     @Mock
     private JwtServicePort jwtService;

@@ -17,8 +17,12 @@ import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
 
+import java.util.Optional;
+
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Unit test for DeleteNoteUseCase”")
+@DisplayName("Unit test for DeleteNoteUseCase")
 public class DeleteNoteUseCaseTest {
 
     @Mock
@@ -47,7 +51,9 @@ public class DeleteNoteUseCaseTest {
     void shouldDeleteNoteWhenNoteExists() {
         Long noteId = note.getId();
 
-        deleteNoteService.deleteNoteById(noteId);
+        when(noteRepositoryPort.findById(noteId)).thenReturn(Optional.of(note));
+
+        deleteNoteService.deleteNoteById(noteId, testUser.getId());
 
         verify(noteRepositoryPort).deleteById(noteId);
     }
@@ -58,10 +64,11 @@ public class DeleteNoteUseCaseTest {
         Long noteId = note.getId();
         RuntimeException repositoryError = new RuntimeException("DB failure");
 
+        when(noteRepositoryPort.findById(noteId)).thenReturn(Optional.of(note));
         doThrow(repositoryError).when(noteRepositoryPort).deleteById(noteId);
 
         RuntimeException thrown =
-                assertThrows(RuntimeException.class, () -> deleteNoteService.deleteNoteById(noteId));
+                assertThrows(RuntimeException.class, () -> deleteNoteService.deleteNoteById(noteId, testUser.getId()));
 
         assertSame(repositoryError, thrown);
     }

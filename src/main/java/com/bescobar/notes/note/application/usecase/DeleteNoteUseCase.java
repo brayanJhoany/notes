@@ -14,7 +14,12 @@ public class DeleteNoteUseCase implements DeleteNoteInputPort {
     private final NoteRepositoryPort noteRepositoryPort;
 
     @Override
-    public void deleteNoteById(Long id) {
-        this.noteRepositoryPort.deleteById(id);
+    public void deleteNoteById(Long id, Long ownerId) {
+        var note = noteRepositoryPort.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Note not found with id: " + id));
+        if (!note.getOwner().getId().equals(ownerId)) {
+            throw new IllegalArgumentException("User is not the owner of this note");
+        }
+        noteRepositoryPort.deleteById(id);
     }
 }

@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Unit test for ListNoteUseCase")
-public class ListNoteUseCaseTest {
+@DisplayName("Unit test for ListUserNotesUseCase")
+public class ListUserNotesUseCaseTest {
 
     @Mock
     private NoteRepositoryPort noteRepositoryPort;
@@ -75,8 +75,8 @@ public class ListNoteUseCaseTest {
 
     @Test
     @DisplayName("should return an empty list when the user has no associated notes")
-    void shouldReturnAnEmpyListWhenTheUserHasNoAssociatedNotes() {
-        when(noteRepositoryPort.findByUser(owner)).thenReturn(Collections.EMPTY_LIST);
+    void shouldReturnAnEmptyListWhenTheUserHasNoAssociatedNotes() {
+        when(noteRepositoryPort.findByUser(owner)).thenReturn(Collections.emptyList());
         
         List<NoteDTO> response = listUserNotesUseCase.findByUser(owner);
 

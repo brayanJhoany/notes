@@ -123,7 +123,7 @@ public class NoteController {
         @AuthenticatedUser User currentUser,
         @PathVariable Long id
     ){
-        deleteNoteService.deleteNoteById(id);
+        deleteNoteService.deleteNoteById(id, currentUser.getId());
         return ResponseEntity.noContent().build();
     }
 }

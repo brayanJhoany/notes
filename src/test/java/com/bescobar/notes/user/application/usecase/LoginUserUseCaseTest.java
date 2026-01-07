@@ -29,8 +29,8 @@ import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("LoginUserService Unit Tests")
-class LoginUserServiceTest {
+@DisplayName("LoginUserUseCase Unit Tests")
+class LoginUserUseCaseTest {
 
     @Mock
     private UserRepositoryPort userRepository;
