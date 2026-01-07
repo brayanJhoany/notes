@@ -1,12 +1,14 @@
 package com.bescobar.notes.user.application.usecase;
 
-import com.bescobar.notes.user.application.port.in.ListUsersInputPort;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
-import com.bescobar.notes.user.domain.model.User;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.bescobar.notes.user.application.port.in.ListUsersInputPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.domain.model.User;
+
+import lombok.AllArgsConstructor;
 
 /**
  * Service implementing the ListUsersUseCase.
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class ListUsersService implements ListUsersInputPort {
+public class ListUsersUseCase implements ListUsersInputPort {
     private final UserRepositoryPort userRepositoryPort;
 
     @Override

@@ -44,7 +44,7 @@ class RegisterUserServiceTest {
     private RefreshTokenRepositoryPort refreshTokenRepository;
 
     @InjectMocks
-    private RegisterUserService registerUserService;
+    private RegisterUserUseCase registerUserService;
 
     private User testUser;
 

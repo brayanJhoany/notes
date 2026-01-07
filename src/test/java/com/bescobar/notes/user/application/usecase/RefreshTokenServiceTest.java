@@ -35,7 +35,7 @@ class RefreshTokenServiceTest {
     private RefreshTokenRepositoryPort refreshTokenRepository;
 
     @InjectMocks
-    private RefreshTokenService refreshTokenService;
+    private RefreshTokenUseCase refreshTokenService;
 
     private User testUser;
     private String validRefreshToken;

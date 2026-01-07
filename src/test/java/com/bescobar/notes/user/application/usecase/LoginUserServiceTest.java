@@ -45,7 +45,7 @@ class LoginUserServiceTest {
     private RefreshTokenRepositoryPort refreshTokenRepository;
 
     @InjectMocks
-    private LoginUserService loginUserService;
+    private LoginUserUseCase loginUserService;
 
     private User testUser;
     private LoginCommand loginCommand;

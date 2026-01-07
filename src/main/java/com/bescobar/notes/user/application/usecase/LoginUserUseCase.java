@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class LoginUserService implements LoginUserInputPort {
+public class LoginUserUseCase implements LoginUserInputPort {
 
     private final UserRepositoryPort userRepositoryPort;
     private final PasswordEncoder passwordEncoder;

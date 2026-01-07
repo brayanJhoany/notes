@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
-public class UpdateUserProfileService implements UpdateProfileInputPort {
+public class UpdateUserProfileUseCase implements UpdateProfileInputPort {
 
     private final UserRepositoryPort userRepositoryPort;
 

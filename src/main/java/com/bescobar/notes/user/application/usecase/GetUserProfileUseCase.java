@@ -1,11 +1,13 @@
 package com.bescobar.notes.user.application.usecase;
 
+import org.springframework.stereotype.Service;
+
 import com.bescobar.notes.user.application.port.in.GetProfileInputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
+
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 /**
  * Service implementing the GetProfileUseCase.
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class GetUserProfileService implements GetProfileInputPort {
+public class GetUserProfileUseCase implements GetProfileInputPort {
 
     private final UserRepositoryPort userRepositoryPort;
 

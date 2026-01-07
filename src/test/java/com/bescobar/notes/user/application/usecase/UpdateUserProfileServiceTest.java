@@ -33,7 +33,7 @@ class UpdateUserProfileServiceTest {
     private UserRepositoryPort userRepository;
 
     @InjectMocks
-    private UpdateUserProfileService updateUserProfileService;
+    private UpdateUserProfileUseCase updateUserProfileService;
 
     private User existingUser;
     private UpdateProfileCommand updateCommand;

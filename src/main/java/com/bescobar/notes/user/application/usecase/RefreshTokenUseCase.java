@@ -8,7 +8,6 @@ import com.bescobar.notes.user.application.port.in.RefreshTokenInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
-import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class RefreshTokenService implements RefreshTokenInputPort {
+public class RefreshTokenUseCase implements RefreshTokenInputPort {
 
     private final JwtServicePort jwtServicePort;
     private final RefreshTokenRepositoryPort refreshTokenRepositoryPort;
