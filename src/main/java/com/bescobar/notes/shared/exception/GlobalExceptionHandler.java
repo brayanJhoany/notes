@@ -1,7 +1,12 @@
 package com.bescobar.notes.shared.exception;
 
-import com.bescobar.notes.shared.exception.dto.ErrorResponse;
-import com.bescobar.notes.shared.exception.dto.ValidationErrorResponse;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -11,9 +16,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import com.bescobar.notes.shared.exception.dto.ErrorResponse;
+import com.bescobar.notes.shared.exception.dto.ValidationErrorResponse;
 
 /**
  * Manejador global de excepciones para toda la aplicación.
@@ -24,6 +28,8 @@ import java.util.Map;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * Maneja todas las excepciones de dominio de la aplicación.
@@ -101,6 +107,25 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Maneja excepciones de acceso a datos (errores de base de datos).
+     * Este manejador intercepta errores SQL y de persistencia para evitar
+     * exponer detalles internos de la base de datos al cliente.
+     *
+     * @param ex Excepción de acceso a datos lanzada
+     * @return Respuesta HTTP 500 (Internal Server Error) con mensaje genérico
+     */
+    @ExceptionHandler(DataAccessException.class)
+    public ResponseEntity<ErrorResponse> handleDataAccessException(DataAccessException ex) {
+        logger.error("Database error occurred", ex);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "A database error occurred. Please try again later or contact support.",
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    /**
      * Maneja excepciones genéricas de tiempo de ejecución no capturadas.
      * Este método actúa como un fallback para excepciones inesperadas
      * que no tienen un manejador específico.
@@ -110,9 +135,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
+        logger.error("Unexpected runtime error occurred", ex);
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "An unexpected error occurred: " + ex.getMessage(),
+                "An unexpected error occurred. Please try again later.",
                 LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
