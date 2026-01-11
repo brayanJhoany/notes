@@ -52,9 +52,12 @@ public class RefreshTokenUseCase implements RefreshTokenInputPort {
         refreshTokenRepositoryPort.deleteAllRefreshTokensByUserId(user.getId());
         String accessToken = jwtServicePort.generateAccessToken(user.getEmail());
         String newRefreshToken = refreshTokenRepositoryPort.createRefreshToken(user);
+        Long expiresIn = jwtServicePort.getAccessTokenExpiration() / 1000; // Convert ms to seconds
 
         return AuthResponseDto.builder()
-                .token(accessToken)
+                .accessToken(accessToken)
+                .tokenType("Bearer")
+                .expiresIn(expiresIn)
                 .refreshToken(newRefreshToken)
                 .user(user)
                 .build();

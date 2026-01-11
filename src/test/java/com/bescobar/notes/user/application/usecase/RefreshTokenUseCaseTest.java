@@ -68,7 +68,7 @@ class RefreshTokenUseCaseTest {
 
         // Then
         assertNotNull(response);
-        assertEquals("new-access-token", response.getToken());
+        assertEquals("new-access-token", response.getAccessToken());
         assertEquals("new-refresh-token", response.getRefreshToken());
         assertEquals(testUser, response.getUser());
 
@@ -169,7 +169,7 @@ class RefreshTokenUseCaseTest {
         AuthResponseDto response = refreshTokenService.refreshToken(validRefreshToken);
 
         // Then
-        assertNotNull(response.getToken());
+        assertNotNull(response.getAccessToken());
         assertNotNull(response.getRefreshToken());
         verify(jwtService).generateAccessToken(testUser.getEmail());
         verify(refreshTokenRepository).createRefreshToken(testUser);

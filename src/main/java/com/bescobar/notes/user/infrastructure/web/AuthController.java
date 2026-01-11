@@ -40,7 +40,9 @@ public class AuthController {
         UserResponse response = UserDtoMapper.toResponse(registerUser.getUser());
 
         AuthResponse authResponse = AuthResponse.builder()
-                .accessToken(registerUser.getToken())
+                .accessToken(registerUser.getAccessToken())
+                .tokenType(registerUser.getTokenType())
+                .expiresIn(registerUser.getExpiresIn())
                 .refreshToken(registerUser.getRefreshToken())
                 .user(response)
                 .build();
@@ -56,7 +58,9 @@ public class AuthController {
         UserResponse userResponse = UserDtoMapper.toResponse(authResult.getUser());
 
         AuthResponse authResponse = AuthResponse.builder()
-                .accessToken(authResult.getToken())
+                .accessToken(authResult.getAccessToken())
+                .tokenType(authResult.getTokenType())
+                .expiresIn(authResult.getExpiresIn())
                 .refreshToken(authResult.getRefreshToken())
                 .user(userResponse)
                 .build();
@@ -70,7 +74,9 @@ public class AuthController {
         UserResponse userResponse = UserDtoMapper.toResponse(authResult.getUser());
 
         AuthResponse authResponse = AuthResponse.builder()
-                .accessToken(authResult.getToken())
+                .accessToken(authResult.getAccessToken())
+                .tokenType(authResult.getTokenType())
+                .expiresIn(authResult.getExpiresIn())
                 .refreshToken(authResult.getRefreshToken())
                 .user(userResponse)
                 .build();

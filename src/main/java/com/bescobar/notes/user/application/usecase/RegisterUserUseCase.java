@@ -46,9 +46,12 @@ public class RegisterUserUseCase implements RegisterUserInputPort {
         User savedUser = userRepositoryPort.save(user);
         String accessToken = jwtServicePort.generateAccessToken(savedUser.getEmail());
         String refreshToken = refreshTokenRepositoryPort.createRefreshToken(savedUser);
+        Long expiresIn = jwtServicePort.getAccessTokenExpiration() / 1000; // Convert ms to seconds
 
         return AuthResponseDto.builder()
-                .token(accessToken)
+                .accessToken(accessToken)
+                .tokenType("Bearer")
+                .expiresIn(expiresIn)
                 .refreshToken(refreshToken)
                 .user(savedUser)
                 .build();

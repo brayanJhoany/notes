@@ -48,9 +48,12 @@ public class LoginUserUseCase implements LoginUserInputPort {
 
         String accessToken = jwtServicePort.generateAccessToken(user.getEmail());
         String refreshToken = refreshTokenRepositoryPort.createRefreshToken(user);
+        Long expiresIn = jwtServicePort.getAccessTokenExpiration() / 1000; // Convert ms to seconds
 
         return AuthResponseDto.builder()
-                .token(accessToken)
+                .accessToken(accessToken)
+                .tokenType("Bearer")
+                .expiresIn(expiresIn)
                 .refreshToken(refreshToken)
                 .user(user)
                 .build();

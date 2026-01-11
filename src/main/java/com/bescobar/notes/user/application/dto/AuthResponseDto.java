@@ -9,7 +9,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuthResponseDto {
-    private String token;
+    private String accessToken;
+    private String tokenType;
+    private Long expiresIn;
     private String refreshToken;
     private User user;
 }

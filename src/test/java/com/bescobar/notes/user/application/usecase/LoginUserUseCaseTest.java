@@ -76,7 +76,7 @@ class LoginUserUseCaseTest {
 
         // Then
         assertNotNull(response);
-        assertEquals("access-token", response.getToken());
+        assertEquals("access-token", response.getAccessToken());
         assertEquals("refresh-token", response.getRefreshToken());
         assertEquals(testUser, response.getUser());
 
@@ -148,7 +148,7 @@ class LoginUserUseCaseTest {
         AuthResponseDto response = loginUserService.login(loginCommand);
 
         // Then
-        assertEquals("new-access-token", response.getToken());
+        assertEquals("new-access-token", response.getAccessToken());
         assertEquals("new-refresh-token", response.getRefreshToken());
     }
 

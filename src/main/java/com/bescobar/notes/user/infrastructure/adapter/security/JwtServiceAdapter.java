@@ -51,6 +51,10 @@ public class JwtServiceAdapter implements JwtServicePort {
         return buildToken(extraClaims, email, refreshTokenExpiration);
     }
 
+    public Long getAccessTokenExpiration() {
+        return accessTokenExpiration;
+    }
+
     public Long getRefreshTokenExpiration() {
         return refreshTokenExpiration;
     }

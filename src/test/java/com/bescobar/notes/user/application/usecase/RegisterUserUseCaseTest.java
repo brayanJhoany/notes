@@ -82,7 +82,7 @@ class RegisterUserUseCaseTest {
 
         // Then
         assertNotNull(response);
-        assertEquals("access-token", response.getToken());
+        assertEquals("access-token", response.getAccessToken());
         assertEquals("refresh-token", response.getRefreshToken());
         assertNotNull(response.getUser());
         assertEquals(testUser.getEmail(), response.getUser().getEmail());
@@ -205,7 +205,7 @@ class RegisterUserUseCaseTest {
         AuthResponseDto response = registerUserService.registerUser(testUser);
 
         // Then
-        assertNotNull(response.getToken());
+        assertNotNull(response.getAccessToken());
         assertNotNull(response.getRefreshToken());
         verify(jwtService).generateAccessToken(testUser.getEmail());
         verify(refreshTokenRepository).createRefreshToken(any(User.class));
