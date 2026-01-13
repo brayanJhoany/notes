@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class RejectFriendRequestCommand {
+public class FriendDecisionCommand {
 
     private final Long friendshipId;
     private final Long addresseeId;

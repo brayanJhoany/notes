@@ -13,9 +13,7 @@ import com.bescobar.notes.Friendship.application.port.in.AcceptFriendRequest;
 import com.bescobar.notes.Friendship.application.port.in.BlockFriendRequest;
 import com.bescobar.notes.Friendship.application.port.in.RejectFriendRequest;
 import com.bescobar.notes.Friendship.application.port.in.SendFriendRequest;
-import com.bescobar.notes.Friendship.application.port.in.command.AcceptFriendRequestCommand;
-import com.bescobar.notes.Friendship.application.port.in.command.BlockFriendRequestCommand;
-import com.bescobar.notes.Friendship.application.port.in.command.RejectFriendRequestCommand;
+import com.bescobar.notes.Friendship.application.port.in.command.FriendDecisionCommand;
 import com.bescobar.notes.Friendship.application.port.in.command.SendFriendRequestCommand;
 import com.bescobar.notes.Friendship.application.port.in.query.FriendshipDTO;
 import com.bescobar.notes.Friendship.infrastructure.web.dto.FriendResponseDTO;
@@ -42,10 +40,10 @@ public class FriendshipController {
     public ResponseEntity<FriendResponseDTO> acceptFriendRequest(
             @AuthenticatedUser User currentUser,
             @PathVariable Long id) {
-        AcceptFriendRequestCommand command = AcceptFriendRequestCommand.builder()
-                .friendshipId(id)
-                .addresseeId(currentUser.getId())
-                .build();
+            FriendDecisionCommand command = FriendDecisionCommand.builder()
+                    .friendshipId(id)
+                    .addresseeId(currentUser.getId())
+                    .build();
         FriendshipDTO result = acceptFriendRequestUseCase.accept(command);
         FriendResponseDTO response = friendshipWebMapper.toWebResponse(result);
         return ResponseEntity.ok(response);
@@ -56,7 +54,7 @@ public class FriendshipController {
             @AuthenticatedUser User currentUser,
             @PathVariable Long id
     ) {
-        BlockFriendRequestCommand command = BlockFriendRequestCommand.builder()
+        FriendDecisionCommand command = FriendDecisionCommand.builder()
                 .friendshipId(id)
                 .addresseeId(currentUser.getId())
                 .build();
@@ -69,10 +67,10 @@ public class FriendshipController {
     public ResponseEntity<FriendResponseDTO> rejectFriendRequest(
             @AuthenticatedUser User currentUser,
             @PathVariable Long id) {
-        RejectFriendRequestCommand command = RejectFriendRequestCommand.builder()
-                .friendshipId(id)
-                .addresseeId(currentUser.getId())
-                .build();
+            FriendDecisionCommand command = FriendDecisionCommand.builder()
+                    .friendshipId(id)
+                    .addresseeId(currentUser.getId())
+                    .build();
         FriendshipDTO result = rejectFriendRequestUseCase.reject(command);
         FriendResponseDTO response = friendshipWebMapper.toWebResponse(result);
         return ResponseEntity.ok(response);
@@ -82,11 +80,11 @@ public class FriendshipController {
     public ResponseEntity<FriendResponseDTO> sendFriendRequest(
             @AuthenticatedUser User currentUser,
             @Valid @RequestBody FriendRequestDTO body) {
-                
-        SendFriendRequestCommand command = SendFriendRequestCommand.builder()
-                .requesterId(currentUser.getId())
-                .addresseeId(body.getAddresseeId())
-                .build();
+
+            SendFriendRequestCommand command = SendFriendRequestCommand.builder()
+                    .requesterId(currentUser.getId())
+                    .addresseeId(body.getAddresseeId())
+                    .build();
         FriendshipDTO result = sendFriendRequestUseCase.send(command);
         FriendResponseDTO response = friendshipWebMapper.toWebResponse(result);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

@@ -4,5 +4,6 @@ import com.bescobar.notes.Friendship.application.port.in.command.SendFriendReque
 import com.bescobar.notes.Friendship.application.port.in.query.FriendshipDTO;
 
 public interface SendFriendRequest {
+
     FriendshipDTO send(SendFriendRequestCommand command);
 }

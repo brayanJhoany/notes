@@ -3,7 +3,7 @@ package com.bescobar.notes.Friendship.application.usecase;
 import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.Friendship.application.port.in.AcceptFriendRequest;
-import com.bescobar.notes.Friendship.application.port.in.command.AcceptFriendRequestCommand;
+import com.bescobar.notes.Friendship.application.port.in.command.FriendDecisionCommand;
 import com.bescobar.notes.Friendship.application.port.in.query.FriendshipDTO;
 import com.bescobar.notes.Friendship.application.port.out.FriendshipOutPort;
 import com.bescobar.notes.Friendship.domain.model.Friendship;
@@ -18,7 +18,7 @@ public class AcceptFriendRequestUseCase implements AcceptFriendRequest {
     private final FriendshipOutPort friendshipOutPort;
 
     @Override
-    public FriendshipDTO accept(AcceptFriendRequestCommand command) {
+    public FriendshipDTO accept(FriendDecisionCommand command) {
         command.validate();
 
         Friendship friendship = friendshipOutPort.findById(command.getFriendshipId())

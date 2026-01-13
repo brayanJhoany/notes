@@ -3,7 +3,7 @@ package com.bescobar.notes.Friendship.application.usecase;
 import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.Friendship.application.port.in.BlockFriendRequest;
-import com.bescobar.notes.Friendship.application.port.in.command.BlockFriendRequestCommand;
+import com.bescobar.notes.Friendship.application.port.in.command.FriendDecisionCommand;
 import com.bescobar.notes.Friendship.application.port.in.query.FriendshipDTO;
 import com.bescobar.notes.Friendship.application.port.out.FriendshipOutPort;
 import com.bescobar.notes.Friendship.domain.model.Friendship;
@@ -18,7 +18,7 @@ public class BlockFriendRequestUseCase implements BlockFriendRequest {
     private final FriendshipOutPort friendshipOutPort;
 
     @Override
-    public FriendshipDTO block(BlockFriendRequestCommand command) {
+    public FriendshipDTO block(FriendDecisionCommand command) {
         command.validate();
 
         Friendship friendship = friendshipOutPort.findById(command.getFriendshipId())
