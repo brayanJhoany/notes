@@ -10,6 +10,7 @@ import com.bescobar.notes.Friendship.domain.model.Friendship;
 import com.bescobar.notes.Friendship.domain.model.FriendshipStatus;
 
 import lombok.AllArgsConstructor;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +21,15 @@ public class SendFriendRequestUseCase implements SendFriendRequest {
     @Override
     public FriendshipDTO send(SendFriendRequestCommand command) {
         command.validate();
+
+        List<FriendshipStatus> blockedStatuses = List.of(FriendshipStatus.PENDING, FriendshipStatus.ACCEPTED);
+        boolean exists = friendshipOutPort.existsByStatusInBetweenUsers(
+                blockedStatuses,
+                command.getRequesterId(),
+                command.getAddresseeId());
+        if (exists) {
+            throw new IllegalArgumentException("Friend request already exists");
+        }
 
         Friendship friendship = new Friendship(
                 null,

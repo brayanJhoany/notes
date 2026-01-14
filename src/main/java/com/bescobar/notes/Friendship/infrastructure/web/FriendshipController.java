@@ -2,6 +2,10 @@ package com.bescobar.notes.Friendship.infrastructure.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,8 +20,12 @@ import com.bescobar.notes.Friendship.application.port.in.SendFriendRequest;
 import com.bescobar.notes.Friendship.application.port.in.command.FriendDecisionCommand;
 import com.bescobar.notes.Friendship.application.port.in.command.SendFriendRequestCommand;
 import com.bescobar.notes.Friendship.application.port.in.query.FriendshipDTO;
-import com.bescobar.notes.Friendship.infrastructure.web.dto.FriendResponseDTO;
+import com.bescobar.notes.Friendship.application.port.in.GetFriendRequestsByStatus;
+import com.bescobar.notes.Friendship.domain.model.FriendshipStatus;
 import com.bescobar.notes.Friendship.infrastructure.web.dto.FriendRequestDTO;
+import com.bescobar.notes.Friendship.infrastructure.web.dto.FriendResponseDTO;
+import com.bescobar.notes.Friendship.infrastructure.web.dto.PageResponse;
+import com.bescobar.notes.Friendship.infrastructure.web.dto.UserSummaryResponse;
 import com.bescobar.notes.Friendship.infrastructure.web.mapper.FriendshipWebMapper;
 import com.bescobar.notes.shared.security.AuthenticatedUser;
 import com.bescobar.notes.user.domain.model.User;
@@ -35,6 +43,7 @@ public class FriendshipController {
     private final RejectFriendRequest rejectFriendRequestUseCase;
     private final SendFriendRequest sendFriendRequestUseCase;
     private final FriendshipWebMapper friendshipWebMapper;
+    private final GetFriendRequestsByStatus getFriendRequestByStatusUseCase;
 
     @PutMapping("/{id}/accept")
     public ResponseEntity<FriendResponseDTO> acceptFriendRequest(
@@ -88,6 +97,18 @@ public class FriendshipController {
         FriendshipDTO result = sendFriendRequestUseCase.send(command);
         FriendResponseDTO response = friendshipWebMapper.toWebResponse(result);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<PageResponse<UserSummaryResponse>> getFriendships(
+         @AuthenticatedUser User currentUser,
+         @PathVariable FriendshipStatus status,
+         @PageableDefault(size = 10) Pageable pageable
+    ){
+        Page<UserSummaryResponse> page = getFriendRequestByStatusUseCase
+                .getFriendRequests(currentUser.getId(), status, pageable)
+                .map(friendshipWebMapper::toUserSummaryResponse);
+        return ResponseEntity.ok(PageResponse.from(page));
     }
 
 }
