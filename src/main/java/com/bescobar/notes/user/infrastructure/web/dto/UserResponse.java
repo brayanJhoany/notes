@@ -1,6 +1,7 @@
 package com.bescobar.notes.user.infrastructure.web.dto;
 
 import com.bescobar.notes.user.infrastructure.persistence.entity.RoleEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,9 @@ public class UserResponse {
     private String address;
     private RoleEntity role = RoleEntity.REGULAR;
     private Boolean active = true;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
 
     public static UserResponse copyOf(UserResponse source) {
