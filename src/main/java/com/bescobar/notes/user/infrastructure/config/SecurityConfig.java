@@ -24,6 +24,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.bescobar.notes.shared.security.CustomAccessDeniedHandler;
+import com.bescobar.notes.shared.security.CustomAuthenticationEntryPoint;
 import com.bescobar.notes.shared.security.SecurityEndpointsProvider;
 import com.bescobar.notes.user.infrastructure.adapter.security.JwtAuthenticationFilter;
 
@@ -57,16 +59,22 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final List<SecurityEndpointsProvider> endpointsProviders;
     private final String allowedOrigins;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     public SecurityConfig(
             JwtAuthenticationFilter jwtAuthFilter,
             UserDetailsService userDetailsService,
             List<SecurityEndpointsProvider> endpointsProviders,
-            @Value("${cors.allowed-origins}") String allowedOrigins) {
+            @Value("${cors.allowed-origins}") String allowedOrigins,
+            com.bescobar.notes.shared.security.CustomAuthenticationEntryPoint authenticationEntryPoint,
+            com.bescobar.notes.shared.security.CustomAccessDeniedHandler accessDeniedHandler) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.userDetailsService = userDetailsService;
         this.endpointsProviders = endpointsProviders;
         this.allowedOrigins = allowedOrigins;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
     @Bean
@@ -102,6 +110,10 @@ public class SecurityConfig {
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .exceptionHandling(exceptions -> exceptions
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
             )
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

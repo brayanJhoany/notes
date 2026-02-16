@@ -42,14 +42,10 @@ public class ProfileController {
      */
     @GetMapping
     public ResponseEntity<UserResponse> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
-        try {
-            String email = userDetails.getUsername(); // In our system, username is email
-            User user = getProfileUseCase.getProfileByEmail(email);
-            UserResponse response = UserDtoMapper.toResponse(user);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        String email = userDetails.getUsername();
+        User user = getProfileUseCase.getProfileByEmail(email);
+        UserResponse response = UserDtoMapper.toResponse(user);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -60,7 +56,6 @@ public class ProfileController {
     public ResponseEntity<UserResponse> updateMyProfile(
             @AuthenticationPrincipal UserDetails userDetails,
             @Valid @RequestBody UpdateUserRequest request) {
-        try {
             String email = userDetails.getUsername();
             User currentUser = getProfileUseCase.getProfileByEmail(email);
 
@@ -69,8 +64,5 @@ public class ProfileController {
 
             UserResponse response = UserDtoMapper.toResponse(updatedUser);
             return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
     }
 }
