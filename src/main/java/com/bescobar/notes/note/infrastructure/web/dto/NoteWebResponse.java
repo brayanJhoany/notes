@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * HTTP/REST specific response DTO for notes.
  * This is part of the infrastructure layer (web adapter).
@@ -20,6 +22,7 @@ public class NoteWebResponse {
     private Long id;
     private String title;
     private String content;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
     private Long userId;
 }
