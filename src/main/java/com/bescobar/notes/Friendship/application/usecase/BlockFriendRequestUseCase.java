@@ -24,7 +24,7 @@ public class BlockFriendRequestUseCase implements BlockFriendRequest {
         Friendship friendship = friendshipOutPort.findById(command.getFriendshipId())
                 .orElseThrow(() -> new IllegalArgumentException("Friend request not found"));
 
-        if (!friendship.getAddresseeId().equals(command.getAddresseeId())) {
+        if (!friendship.getAddresseeId().equals(command.getUserId())) {
             throw new IllegalArgumentException("User is not the addressee of this request");
         }
 

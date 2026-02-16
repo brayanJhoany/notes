@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.Friendship.application.port.in.GetFriendRequestsByStatus;
+import com.bescobar.notes.Friendship.application.port.in.query.FriendRequestDirection;
 import com.bescobar.notes.Friendship.application.port.in.query.UserSummaryDTO;
 import com.bescobar.notes.Friendship.application.port.out.FriendshipOutPort;
 import com.bescobar.notes.Friendship.domain.model.Friendship;
@@ -28,7 +29,8 @@ public class GetFriendRequestByStatusUseCase implements GetFriendRequestsByStatu
     }
 
     private UserSummaryDTO toUserSummary(Friendship friendship, Long userId) {
-        Long otherUserId = friendship.getRequesterId().equals(userId)
+        boolean isRequester = friendship.getRequesterId().equals(userId);
+        Long otherUserId = isRequester
                 ? friendship.getAddresseeId()
                 : friendship.getRequesterId();
 
@@ -38,10 +40,12 @@ public class GetFriendRequestByStatusUseCase implements GetFriendRequestsByStatu
         }
 
         return UserSummaryDTO.builder()
-                .id(user.getId())
+                .id(friendship.getId())
+                .userId(user.getId())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .status(friendship.getFriendshipStatus())
+                .direction(isRequester ? FriendRequestDirection.OUTGOING : FriendRequestDirection.INCOMING)
                 .build();
     }
     

@@ -15,8 +15,10 @@ import lombok.NoArgsConstructor;
 public class UserSummaryDTO {
 
     private Long id;
+    private Long userId;
     private String fullName;
     private String email;
     private FriendshipStatus status;
+    private FriendRequestDirection direction;
 
 }

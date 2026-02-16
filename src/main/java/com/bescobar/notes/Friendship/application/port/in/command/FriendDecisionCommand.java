@@ -8,14 +8,14 @@ import lombok.Getter;
 public class FriendDecisionCommand {
 
     private final Long friendshipId;
-    private final Long addresseeId;
+    private final Long userId;
 
     public void validate() {
         if (friendshipId == null) {
             throw new IllegalArgumentException("friendshipId must not be null");
         }
-        if (addresseeId == null) {
-            throw new IllegalArgumentException("addresseeId must not be null");
+        if (userId == null) {
+            throw new IllegalArgumentException("userId must not be null");
         }
     }
 }

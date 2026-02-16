@@ -33,9 +33,11 @@ public class FriendshipWebMapper {
 
         return UserSummaryResponse.builder()
                 .id(dto.getId())
+                .userId(dto.getUserId())
                 .fullName(dto.getFullName())
                 .email(dto.getEmail())
                 .status(dto.getStatus())
+                .direction(dto.getDirection())
                 .build();
     }
 }

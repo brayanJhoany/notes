@@ -48,10 +48,10 @@ public class FriendshipController {
     @PutMapping("/{id}/accept")
     public ResponseEntity<FriendResponseDTO> acceptFriendRequest(
             @AuthenticatedUser User currentUser,
-            @PathVariable Long id) {
+            @PathVariable("id") Long friendshipId) {
             FriendDecisionCommand command = FriendDecisionCommand.builder()
-                    .friendshipId(id)
-                    .addresseeId(currentUser.getId())
+                    .friendshipId(friendshipId)
+                    .userId(currentUser.getId())
                     .build();
         FriendshipDTO result = acceptFriendRequestUseCase.accept(command);
         FriendResponseDTO response = friendshipWebMapper.toWebResponse(result);
@@ -61,11 +61,11 @@ public class FriendshipController {
     @PutMapping("/{id}/block")
     public ResponseEntity<FriendResponseDTO> blockFriendRequest(
             @AuthenticatedUser User currentUser,
-            @PathVariable Long id
+            @PathVariable("id") Long friendshipId
     ) {
         FriendDecisionCommand command = FriendDecisionCommand.builder()
-                .friendshipId(id)
-                .addresseeId(currentUser.getId())
+                .friendshipId(friendshipId)
+                .userId(currentUser.getId())
                 .build();
         FriendshipDTO result = blockFriendRequestUseCase.block(command);
         FriendResponseDTO response = friendshipWebMapper.toWebResponse(result);
@@ -75,10 +75,10 @@ public class FriendshipController {
     @PutMapping("/{id}/reject")
     public ResponseEntity<FriendResponseDTO> rejectFriendRequest(
             @AuthenticatedUser User currentUser,
-            @PathVariable Long id) {
+            @PathVariable("id") Long friendshipId) {
             FriendDecisionCommand command = FriendDecisionCommand.builder()
-                    .friendshipId(id)
-                    .addresseeId(currentUser.getId())
+                    .friendshipId(friendshipId)
+                    .userId(currentUser.getId())
                     .build();
         FriendshipDTO result = rejectFriendRequestUseCase.reject(command);
         FriendResponseDTO response = friendshipWebMapper.toWebResponse(result);
