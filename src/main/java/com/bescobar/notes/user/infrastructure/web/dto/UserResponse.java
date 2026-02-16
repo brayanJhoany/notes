@@ -22,9 +22,9 @@ public class UserResponse {
     private String address;
     private RoleEntity role = RoleEntity.REGULAR;
     private Boolean active = true;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     public static UserResponse copyOf(UserResponse source) {
