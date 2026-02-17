@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bescobar.notes.user.application.port.in.ListUsersInputPort;
-import com.bescobar.notes.user.infrastructure.web.dto.PageResponse;
+import com.bescobar.notes.shared.infrastructure.web.dto.PageResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
 
