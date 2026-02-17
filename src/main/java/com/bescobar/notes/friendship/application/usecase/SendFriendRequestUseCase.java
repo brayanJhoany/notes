@@ -12,6 +12,13 @@ import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 import lombok.AllArgsConstructor;
 import java.util.List;
 
+/**
+ * Use case for sending a friend request.
+ *
+ * Business rules:
+ * - Cannot send a request if one already exists (PENDING or ACCEPTED status)
+ * - Creates a new friendship with PENDING status
+ */
 @Service
 @AllArgsConstructor
 public class SendFriendRequestUseCase implements SendFriendRequestInputPort {

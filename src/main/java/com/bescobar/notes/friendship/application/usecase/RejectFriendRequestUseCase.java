@@ -11,6 +11,14 @@ import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Use case for rejecting a friend request.
+ *
+ * Business rules:
+ * - Only the addressee can reject the request
+ * - Request must be in PENDING status
+ * - Changes status to REJECTED
+ */
 @Service
 @AllArgsConstructor
 public class RejectFriendRequestUseCase implements RejectFriendRequestInputPort {

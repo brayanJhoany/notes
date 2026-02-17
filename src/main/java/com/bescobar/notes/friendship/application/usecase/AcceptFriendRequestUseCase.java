@@ -11,6 +11,14 @@ import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Use case for accepting a friend request.
+ *
+ * Business rules:
+ * - Only the addressee can accept the request
+ * - Request must be in PENDING status
+ * - Changes status to ACCEPTED
+ */
 @Service
 @AllArgsConstructor
 public class AcceptFriendRequestUseCase implements AcceptFriendRequestInputPort {

@@ -20,11 +20,11 @@ import com.bescobar.notes.shared.exception.dto.ErrorResponse;
 import com.bescobar.notes.shared.exception.dto.ValidationErrorResponse;
 
 /**
- * Manejador global de excepciones para toda la aplicación.
- * Esta clase intercepta las excepciones lanzadas por los controladores REST
- * y las transforma en respuestas HTTP apropiadas con mensajes de error estandarizados.
- * Utiliza el patrón de jerarquía de excepciones con anotaciones {@link HttpStatusMapping}
- * para determinar automáticamente el código de estado HTTP apropiado.
+ * Global exception handler for the entire application.
+ * This class intercepts exceptions thrown by REST controllers
+ * and transforms them into appropriate HTTP responses with standardized error messages.
+ * Uses the exception hierarchy pattern with {@link HttpStatusMapping} annotations
+ * to automatically determine the appropriate HTTP status code.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,12 +32,12 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * Maneja todas las excepciones de dominio de la aplicación.
-     * Extrae el código de estado HTTP de la anotación {@link HttpStatusMapping}
-     * presente en la jerarquía de la excepción.
+     * Handles all domain exceptions of the application.
+     * Extracts the HTTP status code from the {@link HttpStatusMapping} annotation
+     * present in the exception hierarchy.
      *
-     * @param ex Excepción de dominio lanzada
-     * @return Respuesta HTTP con el error formateado
+     * @param ex Domain exception thrown
+     * @return HTTP response with formatted error
      */
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<ErrorResponse> handleDomainException(DomainException ex) {
@@ -51,12 +51,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones de datos inválidos.
-     * Se utiliza para validaciones personalizadas de datos de entrada
-     * que no cumplen con las reglas de negocio.
+     * Handles invalid data exceptions.
+     * Used for custom validations of input data
+     * that do not comply with business rules.
      *
-     * @param ex Excepción de datos inválidos lanzada
-     * @return Respuesta HTTP 400 (Bad Request) con el error formateado
+     * @param ex Invalid data exception thrown
+     * @return HTTP 400 (Bad Request) response with formatted error
      */
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<ErrorResponse> handleInvalidDataException(InvalidDataException ex) {
@@ -70,12 +70,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones de violación de reglas de negocio.
-     * Se utiliza cuando una operación no puede completarse debido a
-     * restricciones o políticas del dominio.
+     * Handles business rule violation exceptions.
+     * Used when an operation cannot be completed due to
+     * domain restrictions or policies.
      *
-     * @param ex Excepción de violación de regla de negocio lanzada
-     * @return Respuesta HTTP 422 (Unprocessable Entity) con el error formateado
+     * @param ex Business rule violation exception thrown
+     * @return HTTP 422 (Unprocessable Entity) response with formatted error
      */
     @ExceptionHandler(BusinessRuleViolationException.class)
     public ResponseEntity<ErrorResponse> handleBusinessRuleViolationException(BusinessRuleViolationException ex) {
@@ -89,12 +89,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones de autorización de Spring Security.
-     * Se lanza cuando un usuario autenticado no tiene los permisos necesarios
-     * para acceder a un recurso protegido.
+     * Handles Spring Security authorization exceptions.
+     * Thrown when an authenticated user does not have the necessary permissions
+     * to access a protected resource.
      *
-     * @param ex Excepción de autorización lanzada
-     * @return Respuesta HTTP 403 (Forbidden) con mensaje de error
+     * @param ex Authorization exception thrown
+     * @return HTTP 403 (Forbidden) response with error message
      */
     @ExceptionHandler({AuthorizationDeniedException.class, AccessDeniedException.class})
     public ResponseEntity<ErrorResponse> handleAuthorizationException(RuntimeException ex) {
@@ -107,12 +107,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones de acceso a datos (errores de base de datos).
-     * Este manejador intercepta errores SQL y de persistencia para evitar
-     * exponer detalles internos de la base de datos al cliente.
+     * Handles data access exceptions (database errors).
+     * This handler intercepts SQL and persistence errors to avoid
+     * exposing internal database details to the client.
      *
-     * @param ex Excepción de acceso a datos lanzada
-     * @return Respuesta HTTP 500 (Internal Server Error) con mensaje genérico
+     * @param ex Data access exception thrown
+     * @return HTTP 500 (Internal Server Error) response with generic message
      */
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ErrorResponse> handleDataAccessException(DataAccessException ex) {
@@ -126,12 +126,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones genéricas de tiempo de ejecución no capturadas.
-     * Este método actúa como un fallback para excepciones inesperadas
-     * que no tienen un manejador específico.
+     * Handles generic uncaught runtime exceptions.
+     * This method acts as a fallback for unexpected exceptions
+     * that do not have a specific handler.
      *
-     * @param ex Excepción de tiempo de ejecución lanzada
-     * @return Respuesta HTTP 500 (Internal Server Error) con mensaje genérico
+     * @param ex Runtime exception thrown
+     * @return HTTP 500 (Internal Server Error) response with generic message
      */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
@@ -145,11 +145,11 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones de argumentos ilegales.
-     * Se utiliza para validaciones básicas de argumentos de métodos.
+     * Handles illegal argument exceptions.
+     * Used for basic method argument validations.
      *
-     * @param ex Excepción de argumento ilegal lanzada
-     * @return Respuesta HTTP 400 (Bad Request) con el error formateado
+     * @param ex Illegal argument exception thrown
+     * @return HTTP 400 (Bad Request) response with formatted error
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -162,12 +162,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones de validación de argumentos de métodos.
-     * Se activa cuando las validaciones de Bean Validation (anotaciones @Valid)
-     * fallan en los DTOs de entrada.
+     * Handles method argument validation exceptions.
+     * Triggered when Bean Validation (@Valid annotations)
+     * fail on input DTOs.
      *
-     * @param ex Excepción de validación de método lanzada
-     * @return Respuesta HTTP 400 (Bad Request) con mapa detallado de errores por campo
+     * @param ex Method validation exception thrown
+     * @return HTTP 400 (Bad Request) response with detailed error map by field
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
@@ -188,12 +188,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Obtiene el código de estado HTTP de la anotación {@link HttpStatusMapping}.
-     * Recorre recursivamente la jerarquía de clases hasta encontrar la anotación
-     * o devuelve INTERNAL_SERVER_ERROR como valor por defecto.
+     * Gets the HTTP status code from the {@link HttpStatusMapping} annotation.
+     * Recursively traverses the class hierarchy until finding the annotation
+     * or returns INTERNAL_SERVER_ERROR as default value.
      *
-     * @param exceptionClass Clase de la excepción a examinar
-     * @return Código de estado HTTP asociado a la excepción
+     * @param exceptionClass Exception class to examine
+     * @return HTTP status code associated with the exception
      */
     private HttpStatus getHttpStatusFromAnnotation(Class<?> exceptionClass) {
         HttpStatusMapping annotation = exceptionClass.getAnnotation(HttpStatusMapping.class);

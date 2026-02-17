@@ -11,6 +11,14 @@ import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Use case for blocking a friend request.
+ *
+ * Business rules:
+ * - Only the addressee can block the request
+ * - Request must be in PENDING status
+ * - Changes status to BLOCKED
+ */
 @Service
 @AllArgsConstructor
 public class BlockFriendRequestUseCase implements BlockFriendRequestInputPort {

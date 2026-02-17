@@ -15,6 +15,12 @@ import com.bescobar.notes.user.domain.model.User;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Use case for retrieving friend requests by status.
+ *
+ * Returns a paginated list of users with friendship information,
+ * including the direction (INCOMING/OUTGOING) based on the current user.
+ */
 @Service
 @AllArgsConstructor
 public class GetFriendRequestByStatusUseCase implements GetFriendRequestsByStatusInputPort{

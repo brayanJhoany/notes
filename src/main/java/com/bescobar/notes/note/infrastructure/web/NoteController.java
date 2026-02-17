@@ -40,58 +40,39 @@ public class NoteController {
     private final FindNoteInputPort findNoteUseCase;
     private final UpdateNoteInputPort updateNoteUseCase;
     private final NoteWebMapper noteWebMapper;
-    private final DeleteNoteInputPort deleteNoteService;
+    private final DeleteNoteInputPort deleteNoteUseCase;
 
     @PostMapping
     public ResponseEntity<NoteWebResponse> store(
             @AuthenticatedUser User currentUser,
             @Valid @RequestBody NoteWebRequest webRequest) {
-        try {
-            CreateNoteCommand command = CreateNoteCommand.builder()
-                    .title(webRequest.getTitle())
-                    .content(webRequest.getContent())
-                    .userId(currentUser.getId())
-                    .build();
-            NoteDTO noteDTO = createNoteUseCase.create(command);
-            NoteWebResponse webResponse = noteWebMapper.toWebResponse(noteDTO);
+        CreateNoteCommand command = CreateNoteCommand.builder()
+                .title(webRequest.getTitle())
+                .content(webRequest.getContent())
+                .userId(currentUser.getId())
+                .build();
+        NoteDTO noteDTO = createNoteUseCase.create(command);
+        NoteWebResponse webResponse = noteWebMapper.toWebResponse(noteDTO);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(webResponse);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(webResponse);
     }
 
     @GetMapping
     public ResponseEntity<List<NoteWebResponse>> getNotes(@AuthenticatedUser User currentUser) {
-        try {
-            List<NoteDTO> noteDTOs = listUserNotesUseCase.findByUser(currentUser);
-            List<NoteWebResponse> webResponses = noteWebMapper.toWebResponseList(noteDTOs);
+        List<NoteDTO> noteDTOs = listUserNotesUseCase.findByUser(currentUser);
+        List<NoteWebResponse> webResponses = noteWebMapper.toWebResponseList(noteDTOs);
 
-            return ResponseEntity.ok(webResponses);
-
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return ResponseEntity.ok(webResponses);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<NoteWebResponse> getNote(
             @AuthenticatedUser User currentUser,
             @PathVariable Long id) {
-        try {
-            NoteDTO noteDTO = findNoteUseCase.findById(currentUser, id);
-            NoteWebResponse webResponse = noteWebMapper.toWebResponse(noteDTO);
+        NoteDTO noteDTO = findNoteUseCase.findById(currentUser, id);
+        NoteWebResponse webResponse = noteWebMapper.toWebResponse(noteDTO);
 
-            return ResponseEntity.ok(webResponse);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return ResponseEntity.ok(webResponse);
     }
 
     @PutMapping("/{id}")
@@ -99,23 +80,16 @@ public class NoteController {
             @AuthenticatedUser User currentUser,
             @PathVariable Long id,
             @Valid @RequestBody NoteWebRequest webRequest) {
-        try {
-            UpdateNoteCommand command = UpdateNoteCommand.builder()
-                    .title(webRequest.getTitle())
-                    .content(webRequest.getContent())
-                    .owner(currentUser)
-                    .build();
+        UpdateNoteCommand command = UpdateNoteCommand.builder()
+                .title(webRequest.getTitle())
+                .content(webRequest.getContent())
+                .owner(currentUser)
+                .build();
 
-            NoteDTO noteDTO = updateNoteUseCase.updateNote(command, id);
-            NoteWebResponse webResponse = noteWebMapper.toWebResponse(noteDTO);
+        NoteDTO noteDTO = updateNoteUseCase.updateNote(command, id);
+        NoteWebResponse webResponse = noteWebMapper.toWebResponse(noteDTO);
 
-            return ResponseEntity.ok(webResponse);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return ResponseEntity.ok(webResponse);
     }
 
     @DeleteMapping("/{id}")
@@ -123,7 +97,7 @@ public class NoteController {
         @AuthenticatedUser User currentUser,
         @PathVariable Long id
     ){
-        deleteNoteService.deleteNoteById(id, currentUser.getId());
+        deleteNoteUseCase.deleteNoteById(id, currentUser.getId());
         return ResponseEntity.noContent().build();
     }
 }
