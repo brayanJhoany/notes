@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.dto.AuthResponseDto;
-import com.bescobar.notes.user.application.dto.LoginCommand;
+import com.bescobar.notes.user.application.port.in.command.LoginCommand;
 import com.bescobar.notes.user.application.port.in.LoginUserInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;

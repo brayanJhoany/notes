@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bescobar.notes.shared.security.AuthenticatedUser;
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.in.command.UpdateProfileCommand;
 import com.bescobar.notes.user.application.port.in.UpdateProfileInputPort;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
-import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
+import com.bescobar.notes.user.infrastructure.web.mapper.UserDtoMapper;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

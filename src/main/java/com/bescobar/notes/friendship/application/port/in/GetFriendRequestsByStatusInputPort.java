@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import com.bescobar.notes.friendship.application.port.in.query.UserSummaryDTO;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 
-public interface GetFriendRequestsByStatus {
+public interface GetFriendRequestsByStatusInputPort {
 
     Page<UserSummaryDTO> getFriendRequests(Long userId, FriendshipStatus status, Pageable pageable);
 }

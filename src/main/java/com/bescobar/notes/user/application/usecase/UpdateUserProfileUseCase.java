@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.in.command.UpdateProfileCommand;
 import com.bescobar.notes.user.application.port.in.UpdateProfileInputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
 import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;

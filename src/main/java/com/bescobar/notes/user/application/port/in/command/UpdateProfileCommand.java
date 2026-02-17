@@ -1,4 +1,4 @@
-package com.bescobar.notes.user.application.dto;
+package com.bescobar.notes.user.application.port.in.command;
 
 import lombok.*;
 

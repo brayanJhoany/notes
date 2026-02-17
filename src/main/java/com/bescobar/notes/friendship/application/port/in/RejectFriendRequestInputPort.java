@@ -3,7 +3,7 @@ package com.bescobar.notes.friendship.application.port.in;
 import com.bescobar.notes.friendship.application.port.in.command.FriendDecisionCommand;
 import com.bescobar.notes.friendship.application.port.in.query.FriendshipDTO;
 
-public interface AcceptFriendRequest {
+public interface RejectFriendRequestInputPort {
 
-    FriendshipDTO accept(FriendDecisionCommand command);
+    FriendshipDTO reject(FriendDecisionCommand command);
 }

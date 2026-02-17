@@ -1,7 +1,7 @@
-package com.bescobar.notes.user.infrastructure.web.dto.mapper;
+package com.bescobar.notes.user.infrastructure.web.mapper;
 
-import com.bescobar.notes.user.application.dto.LoginCommand;
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.in.command.LoginCommand;
+import com.bescobar.notes.user.application.port.in.command.UpdateProfileCommand;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.entity.RoleEntity;

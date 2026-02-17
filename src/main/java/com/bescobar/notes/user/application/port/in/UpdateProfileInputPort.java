@@ -1,6 +1,6 @@
 package com.bescobar.notes.user.application.port.in;
 
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.in.command.UpdateProfileCommand;
 import com.bescobar.notes.user.domain.model.User;
 
 /**

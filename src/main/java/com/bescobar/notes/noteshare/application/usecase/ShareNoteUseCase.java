@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bescobar.notes.friendship.application.port.out.FriendshipOutPort;
+import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryPort;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 import com.bescobar.notes.noteshare.application.port.in.ShareNoteInputPort;
 import com.bescobar.notes.noteshare.application.port.in.command.ShareNoteCommand;
@@ -34,7 +34,7 @@ public class ShareNoteUseCase implements ShareNoteInputPort {
 
     private final NoteShareRepositoryPort noteShareRepository;
     private final NoteRepositoryPort noteRepository;
-    private final FriendshipOutPort friendshipRepository;
+    private final FriendshipRepositoryPort friendshipRepository;
 
     @Override
     @Transactional

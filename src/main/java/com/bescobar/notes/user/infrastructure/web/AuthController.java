@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bescobar.notes.user.application.dto.LoginCommand;
+import com.bescobar.notes.user.application.port.in.command.LoginCommand;
 import com.bescobar.notes.user.application.port.in.LoginUserInputPort;
 import com.bescobar.notes.user.application.port.in.LogoutUserInputPort;
 import com.bescobar.notes.user.application.port.in.RefreshTokenInputPort;
@@ -18,7 +18,7 @@ import com.bescobar.notes.user.infrastructure.web.dto.AuthResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.RefreshTokenRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
-import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
+import com.bescobar.notes.user.infrastructure.web.mapper.UserDtoMapper;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

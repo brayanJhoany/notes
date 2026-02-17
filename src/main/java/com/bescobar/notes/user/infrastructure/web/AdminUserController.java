@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bescobar.notes.user.application.dto.UpdateProfileCommand;
+import com.bescobar.notes.user.application.port.in.command.UpdateProfileCommand;
 import com.bescobar.notes.user.application.port.in.DeleteUserInputPort;
 import com.bescobar.notes.user.application.port.in.GetProfileInputPort;
 import com.bescobar.notes.user.application.port.in.ListUsersInputPort;
@@ -22,7 +22,7 @@ import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.shared.infrastructure.web.dto.PageResponse;
 import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
-import com.bescobar.notes.user.infrastructure.web.dto.mapper.UserDtoMapper;
+import com.bescobar.notes.user.infrastructure.web.mapper.UserDtoMapper;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

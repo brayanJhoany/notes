@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bescobar.notes.friendship.application.port.in.AcceptFriendRequest;
-import com.bescobar.notes.friendship.application.port.in.BlockFriendRequest;
-import com.bescobar.notes.friendship.application.port.in.RejectFriendRequest;
-import com.bescobar.notes.friendship.application.port.in.SendFriendRequest;
+import com.bescobar.notes.friendship.application.port.in.AcceptFriendRequestInputPort;
+import com.bescobar.notes.friendship.application.port.in.BlockFriendRequestInputPort;
+import com.bescobar.notes.friendship.application.port.in.RejectFriendRequestInputPort;
+import com.bescobar.notes.friendship.application.port.in.SendFriendRequestInputPort;
 import com.bescobar.notes.friendship.application.port.in.command.FriendDecisionCommand;
 import com.bescobar.notes.friendship.application.port.in.command.SendFriendRequestCommand;
 import com.bescobar.notes.friendship.application.port.in.query.FriendshipDTO;
-import com.bescobar.notes.friendship.application.port.in.GetFriendRequestsByStatus;
+import com.bescobar.notes.friendship.application.port.in.GetFriendRequestsByStatusInputPort;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 import com.bescobar.notes.friendship.infrastructure.web.dto.FriendRequestDTO;
 import com.bescobar.notes.friendship.infrastructure.web.dto.FriendResponseDTO;
@@ -38,12 +38,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FriendshipController {
 
-    private final AcceptFriendRequest acceptFriendRequestUseCase;
-    private final BlockFriendRequest blockFriendRequestUseCase;
-    private final RejectFriendRequest rejectFriendRequestUseCase;
-    private final SendFriendRequest sendFriendRequestUseCase;
+    private final AcceptFriendRequestInputPort acceptFriendRequestUseCase;
+    private final BlockFriendRequestInputPort blockFriendRequestUseCase;
+    private final RejectFriendRequestInputPort rejectFriendRequestUseCase;
+    private final SendFriendRequestInputPort sendFriendRequestUseCase;
     private final FriendshipWebMapper friendshipWebMapper;
-    private final GetFriendRequestsByStatus getFriendRequestByStatusUseCase;
+    private final GetFriendRequestsByStatusInputPort getFriendRequestByStatusUseCase;
 
     @PutMapping("/{id}/accept")
     public ResponseEntity<FriendResponseDTO> acceptFriendRequest(

@@ -2,10 +2,10 @@ package com.bescobar.notes.friendship.application.usecase;
 
 import org.springframework.stereotype.Service;
 
-import com.bescobar.notes.friendship.application.port.in.AcceptFriendRequest;
+import com.bescobar.notes.friendship.application.port.in.AcceptFriendRequestInputPort;
 import com.bescobar.notes.friendship.application.port.in.command.FriendDecisionCommand;
 import com.bescobar.notes.friendship.application.port.in.query.FriendshipDTO;
-import com.bescobar.notes.friendship.application.port.out.FriendshipOutPort;
+import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryPort;
 import com.bescobar.notes.friendship.domain.model.Friendship;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 
@@ -13,9 +13,9 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AcceptFriendRequestUseCase implements AcceptFriendRequest {
+public class AcceptFriendRequestUseCase implements AcceptFriendRequestInputPort {
 
-    private final FriendshipOutPort friendshipOutPort;
+    private final FriendshipRepositoryPort friendshipOutPort;
 
     @Override
     public FriendshipDTO accept(FriendDecisionCommand command) {
