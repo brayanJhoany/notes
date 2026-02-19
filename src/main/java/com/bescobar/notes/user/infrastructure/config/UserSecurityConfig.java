@@ -12,8 +12,7 @@ public class UserSecurityConfig implements SecurityEndpointsProvider {
         return new String[]{
             "/api/auth/register",
             "/api/auth/login",
-            "/api/auth/refresh-token",
-            "/api/auth/logout"
+            "/api/auth/refresh-token"
         };
     }
 }
