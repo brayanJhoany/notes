@@ -1,4 +1,4 @@
-package com.bescobar.notes.user.application.dto;
+package com.bescobar.notes.user.application.port.in.query;
 
 import com.bescobar.notes.user.domain.model.User;
 import lombok.Builder;

@@ -3,7 +3,7 @@ package com.bescobar.notes.user.application.usecase;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bescobar.notes.user.application.dto.AuthResponseDto;
+import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.RefreshTokenInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;

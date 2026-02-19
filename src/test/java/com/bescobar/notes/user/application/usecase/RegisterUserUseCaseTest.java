@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bescobar.notes.user.application.dto.AuthResponseDto;
+import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryPort;

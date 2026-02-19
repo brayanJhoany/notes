@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bescobar.notes.user.application.dto.AuthResponseDto;
+import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.RegisterUserInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
