@@ -88,7 +88,7 @@ class ProfileControllerIntegrationTest {
     void shouldFailWithoutAuthentication() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/profile"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -97,7 +97,7 @@ class ProfileControllerIntegrationTest {
         // When & Then
         mockMvc.perform(get("/api/profile")
                 .header("Authorization", "Bearer invalid.token.here"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -151,7 +151,7 @@ class ProfileControllerIntegrationTest {
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -187,7 +187,7 @@ class ProfileControllerIntegrationTest {
         mockMvc.perform(put("/api/profile")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

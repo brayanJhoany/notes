@@ -267,6 +267,7 @@ class AuthControllerIntegrationTest {
                 .andReturn();
 
         String registerResponse = registerResult.getResponse().getContentAsString();
+        String accessToken = objectMapper.readTree(registerResponse).get("accessToken").asText();
         String refreshToken = objectMapper.readTree(registerResponse).get("refreshToken").asText();
 
         RefreshTokenRequest logoutRequest = new RefreshTokenRequest();
@@ -274,6 +275,7 @@ class AuthControllerIntegrationTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/logout")
+                        .header("Authorization", "Bearer " + accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(logoutRequest)))
                 .andExpect(status().isOk());

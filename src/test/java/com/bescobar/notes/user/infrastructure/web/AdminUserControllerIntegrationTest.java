@@ -132,7 +132,7 @@ class AdminUserControllerIntegrationTest {
     void shouldFailWithoutAuthentication() throws Exception {
         // When & Then
         mockMvc.perform(get("/api/admin/users"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
