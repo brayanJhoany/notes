@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "refresh_tokens")
 @Data
 @NoArgsConstructor
+@SuppressWarnings("checkstyle:FinalClass")
 public class RefreshTokenEntity {
 
     @Id
@@ -40,7 +41,13 @@ public class RefreshTokenEntity {
     private LocalDateTime createdAt;
 
     @Builder
-    private RefreshTokenEntity(Long id, String token, UserEntity user, LocalDateTime expiresAt, LocalDateTime createdAt) {
+    private RefreshTokenEntity(
+            Long id,
+            String token,
+            UserEntity user,
+            LocalDateTime expiresAt,
+            LocalDateTime createdAt
+    ) {
         this.id = id;
         this.token = token;
         this.user = copyUser(user);

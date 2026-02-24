@@ -3,8 +3,8 @@ package com.bescobar.notes.user.application.usecase;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.RefreshTokenInputPort;
+import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
@@ -52,7 +52,7 @@ public class RefreshTokenUseCase implements RefreshTokenInputPort {
         refreshTokenRepositoryPort.deleteAllRefreshTokensByUserId(user.getId());
         String accessToken = jwtServicePort.generateAccessToken(user.getEmail());
         String newRefreshToken = refreshTokenRepositoryPort.createRefreshToken(user);
-        Long expiresIn = jwtServicePort.getAccessTokenExpiration() / 1000; // Convert ms to seconds
+        Long expiresIn = jwtServicePort.getAccessTokenExpiration() / 1000;
 
         return AuthResponseDto.builder()
                 .accessToken(accessToken)

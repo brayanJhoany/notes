@@ -9,6 +9,6 @@ import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 @Repository
 public interface UserJpaRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
     boolean existsByEmail(String email);
+
     UserEntity findByEmail(String email);
 }
-

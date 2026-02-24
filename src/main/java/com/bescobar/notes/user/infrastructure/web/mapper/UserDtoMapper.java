@@ -46,7 +46,7 @@ public class UserDtoMapper {
                 .build();
     }
 
-    public static UpdateProfileCommand toUpdateProfileCommand(UpdateUserRequest request){
+    public static UpdateProfileCommand toUpdateProfileCommand(UpdateUserRequest request) {
         if (request == null) {
             return null;
         }
@@ -59,7 +59,7 @@ public class UserDtoMapper {
         return response;
     }
 
-    public static LoginCommand toLoginCommand(AuthRequest request){
+    public static LoginCommand toLoginCommand(AuthRequest request) {
         if (request == null) {
             return null;
         }
@@ -69,6 +69,7 @@ public class UserDtoMapper {
         );
         return loginCommand;
     }
+
     private static Role mapToDomainRole(RoleEntity roleEntity) {
         if (roleEntity == null) {
             return Role.REGULAR;
@@ -90,7 +91,4 @@ public class UserDtoMapper {
             case REGULAR -> RoleEntity.REGULAR;
         };
     }
-
-
-
 }

@@ -1,5 +1,7 @@
 package com.bescobar.notes.user.infrastructure.persistence;
 
+import java.time.LocalDateTime;
+
 import com.bescobar.notes.user.application.port.out.JwtServicePort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
 import com.bescobar.notes.user.domain.model.User;
@@ -8,6 +10,7 @@ import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import com.bescobar.notes.user.infrastructure.persistence.mapper.UserMapper;
 import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
 import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
@@ -32,12 +35,11 @@ public class RefreshTokenRepositoryAdapter implements RefreshTokenRepositoryPort
         UserEntity userEntity = userRepository.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-
         // Store in database for validation
         RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.builder()
                 .token(refreshToken)
                 .user(userEntity)
-                .expiresAt(java.time.LocalDateTime.now().plusSeconds(jwtService.getRefreshTokenExpiration() / 1000))
+                .expiresAt(LocalDateTime.now().plusSeconds(jwtService.getRefreshTokenExpiration() / 1000))
                 .build();
 
         refreshTokenRepository.save(refreshTokenEntity);
