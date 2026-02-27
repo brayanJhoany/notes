@@ -4,10 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.port.in.DeleteUserInputPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
-import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 public class DeleteUserUseCase implements DeleteUserInputPort {
 
     private final UserRepositoryOutputPort userRepositoryOutputPort;
-    private final RefreshTokenJpaRepository refreshTokenRepository;
+    private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryOutputPort;
 
     @Override
     @Transactional
@@ -30,7 +30,7 @@ public class DeleteUserUseCase implements DeleteUserInputPort {
         if (user == null) {
             throw new UserNotFoundException(id);
         }
-        refreshTokenRepository.deleteByUserId(id);
+        refreshTokenRepositoryOutputPort.deleteAllRefreshTokensByUserId(id);
         userRepositoryOutputPort.deleteById(id);
     }
 }

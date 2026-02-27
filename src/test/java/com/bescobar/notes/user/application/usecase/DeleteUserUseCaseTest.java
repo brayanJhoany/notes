@@ -9,24 +9,24 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+	import org.mockito.InjectMocks;
+	import org.mockito.Mock;
+	import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
-import com.bescobar.notes.user.domain.exception.UserNotFoundException;
-import com.bescobar.notes.user.domain.model.User;
-import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
+	import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
+	import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
+	import com.bescobar.notes.user.domain.exception.UserNotFoundException;
+	import com.bescobar.notes.user.domain.model.User;
 
-@ExtendWith(MockitoExtension.class)
-@DisplayName("DeleteUserUseCase Unit Tests")
-class DeleteUserUseCaseTest {
-
-    @Mock
-    private UserRepositoryOutputPort userRepositoryPort;
+	@ExtendWith(MockitoExtension.class)
+	@DisplayName("DeleteUserUseCase Unit Tests")
+	class DeleteUserUseCaseTest {
 
     @Mock
-    private RefreshTokenJpaRepository refreshTokenRepository;
+	    private UserRepositoryOutputPort userRepositoryPort;
+
+	    @Mock
+	    private RefreshTokenRepositoryOutputPort refreshTokenRepositoryOutputPort;
 
     @InjectMocks
     private DeleteUserUseCase deleteUserUseCase;
@@ -38,24 +38,23 @@ class DeleteUserUseCaseTest {
         user.setId(1L);
         when(userRepositoryPort.findById(1L)).thenReturn(user);
 
-        deleteUserUseCase.deleteUser(1L);
+	        deleteUserUseCase.deleteUser(1L);
 
-        var inOrder = inOrder(refreshTokenRepository, userRepositoryPort);
-        inOrder.verify(refreshTokenRepository).deleteByUserId(1L);
-        inOrder.verify(userRepositoryPort).deleteById(1L);
-        verify(userRepositoryPort).findById(1L);
-    }
+	        var inOrder = inOrder(refreshTokenRepositoryOutputPort, userRepositoryPort);
+	        inOrder.verify(refreshTokenRepositoryOutputPort).deleteAllRefreshTokensByUserId(1L);
+	        inOrder.verify(userRepositoryPort).deleteById(1L);
+	        verify(userRepositoryPort).findById(1L);
+	    }
 
     @Test
     @DisplayName("Should throw exception when user does not exist")
     void shouldThrowWhenUserDoesNotExist() {
         when(userRepositoryPort.findById(99L)).thenReturn(null);
 
-        assertThrows(UserNotFoundException.class, () -> deleteUserUseCase.deleteUser(99L));
+	        assertThrows(UserNotFoundException.class, () -> deleteUserUseCase.deleteUser(99L));
 
-        verify(userRepositoryPort).findById(99L);
-        verify(refreshTokenRepository, never()).deleteByUserId(99L);
-        verify(userRepositoryPort, never()).deleteById(99L);
-    }
-}
-
+	        verify(userRepositoryPort).findById(99L);
+	        verify(refreshTokenRepositoryOutputPort, never()).deleteAllRefreshTokensByUserId(99L);
+	        verify(userRepositoryPort, never()).deleteById(99L);
+	    }
+	}
