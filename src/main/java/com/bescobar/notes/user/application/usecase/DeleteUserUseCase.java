@@ -20,17 +20,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DeleteUserUseCase implements DeleteUserInputPort {
 
-    private final UserRepositoryOutputPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryOutputPort;
     private final RefreshTokenJpaRepository refreshTokenRepository;
 
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        User user = userRepositoryPort.findById(id);
+        User user = userRepositoryOutputPort.findById(id);
         if (user == null) {
             throw new UserNotFoundException(id);
         }
         refreshTokenRepository.deleteByUserId(id);
-        userRepositoryPort.deleteById(id);
+        userRepositoryOutputPort.deleteById(id);
     }
 }
