@@ -17,11 +17,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GetUserProfileUseCase implements GetProfileInputPort {
 
-    private final UserRepositoryOutputPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryOutputPort;
 
     @Override
     public User getProfileById(Long id) {
-        User existingUser = userRepositoryPort.findById(id);
+        User existingUser = userRepositoryOutputPort.findById(id);
         if (existingUser == null) {
             throw new UserNotFoundException(id);
         }
@@ -30,7 +30,7 @@ public class GetUserProfileUseCase implements GetProfileInputPort {
 
     @Override
     public User getProfileByEmail(String email) {
-        User existingUser = userRepositoryPort.findByEmail(email);
+        User existingUser = userRepositoryOutputPort.findByEmail(email);
         if (existingUser == null) {
             throw new UserNotFoundException(email);
         }

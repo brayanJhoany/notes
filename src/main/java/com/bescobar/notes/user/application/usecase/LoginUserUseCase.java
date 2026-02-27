@@ -4,9 +4,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
-import com.bescobar.notes.user.application.port.in.command.LoginCommand;
 import com.bescobar.notes.user.application.port.in.LoginUserInputPort;
+import com.bescobar.notes.user.application.port.in.command.LoginCommand;
+import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
@@ -25,15 +25,15 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LoginUserUseCase implements LoginUserInputPort {
 
-    private final UserRepositoryOutputPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryOutputPort;
     private final PasswordEncoder passwordEncoder;
-    private final JwtServiceOutputPort jwtServicePort;
-    private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryPort;
+    private final JwtServiceOutputPort jwtServiceOutputPort;
+    private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryOutputPort;
 
     @Override
     @Transactional
     public AuthResponseDto login(LoginCommand loginCommand) {
-        User user = userRepositoryPort.findByEmail(loginCommand.getEmail());
+        User user = userRepositoryOutputPort.findByEmail(loginCommand.getEmail());
         if (user == null) {
             throw new UserNotFoundException(loginCommand.getEmail());
         }
@@ -46,9 +46,9 @@ public class LoginUserUseCase implements LoginUserInputPort {
             throw new UserAuthenticationException("Invalid email or password");
         }
 
-        String accessToken = jwtServicePort.generateAccessToken(user.getEmail());
-        String refreshToken = refreshTokenRepositoryPort.createRefreshToken(user);
-        Long expiresIn = jwtServicePort.getAccessTokenExpiration() / 1000; // Convert ms to seconds
+        String accessToken = jwtServiceOutputPort.generateAccessToken(user.getEmail());
+        String refreshToken = refreshTokenRepositoryOutputPort.createRefreshToken(user);
+        Long expiresIn = jwtServiceOutputPort.getAccessTokenExpiration() / 1000; // Convert ms to seconds
 
         return AuthResponseDto.builder()
                 .accessToken(accessToken)
