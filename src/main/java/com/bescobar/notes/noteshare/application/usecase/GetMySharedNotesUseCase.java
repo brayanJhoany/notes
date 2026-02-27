@@ -2,11 +2,11 @@ package com.bescobar.notes.noteshare.application.usecase;
 
 import com.bescobar.notes.noteshare.application.port.in.GetMySharedNotesInputPort;
 import com.bescobar.notes.noteshare.application.port.in.query.SharedNoteDTO;
-import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryPort;
+import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryOutputPort;
 import com.bescobar.notes.noteshare.domain.model.SharedNote;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class GetMySharedNotesUseCase implements GetMySharedNotesInputPort {
 
-    private final NoteShareRepositoryPort noteShareRepository;
-    private final NoteRepositoryPort noteRepository;
-    private final UserRepositoryPort userRepository;
+    private final NoteShareRepositoryOutputPort noteShareRepository;
+    private final NoteRepositoryOutputPort noteRepository;
+    private final UserRepositoryOutputPort userRepository;
 
     @Override
     public List<SharedNoteDTO> getNotesSharedByMe(Long currentUserId) {

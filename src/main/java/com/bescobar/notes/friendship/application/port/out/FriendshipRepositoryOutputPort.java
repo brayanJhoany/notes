@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.bescobar.notes.friendship.domain.model.Friendship;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 
-public interface FriendshipRepositoryPort {
+public interface FriendshipRepositoryOutputPort {
     Friendship save(Friendship friendship);
     Optional<Friendship> findById(Long id);
     boolean existsByStatusInBetweenUsers(List<FriendshipStatus> statuses, Long requesterId, Long addresseeId);

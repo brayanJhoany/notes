@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.noteshare.application.port.in.UnshareNoteInputPort;
-import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryPort;
+import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryOutputPort;
 import com.bescobar.notes.noteshare.domain.exception.NoteShareBusinessRuleException;
 import com.bescobar.notes.noteshare.domain.exception.SharedNoteNotFoundException;
 import com.bescobar.notes.noteshare.domain.model.SharedNote;
@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UnshareNoteUseCase implements UnshareNoteInputPort {
 
-    private final NoteShareRepositoryPort noteShareRepository;
+    private final NoteShareRepositoryOutputPort noteShareRepository;
 
     @Override
     @Transactional

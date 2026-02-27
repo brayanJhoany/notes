@@ -3,7 +3,7 @@ package com.bescobar.notes.note.application.usecase;
 import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.note.application.port.in.DeleteNoteInputPort;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 
 import lombok.AllArgsConstructor;
 
@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DeleteNoteUseCase implements DeleteNoteInputPort {
 
-    private final NoteRepositoryPort noteRepositoryPort;
+    private final NoteRepositoryOutputPort noteRepositoryPort;
 
     @Override
     public void deleteNoteById(Long id, Long ownerId) {

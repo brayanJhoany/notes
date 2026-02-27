@@ -3,9 +3,9 @@ package com.bescobar.notes.note.application.usecase;
 import com.bescobar.notes.note.application.port.in.CreateNoteInputPort;
 import com.bescobar.notes.note.application.port.in.command.CreateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CreateNoteUseCase implements CreateNoteInputPort {
 
-    private final NoteRepositoryPort noteRepositoryPort;
-    private final UserRepositoryPort userRepositoryPort;
+    private final NoteRepositoryOutputPort noteRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryPort;
 
     @Override
     public NoteDTO create(CreateNoteCommand command) {

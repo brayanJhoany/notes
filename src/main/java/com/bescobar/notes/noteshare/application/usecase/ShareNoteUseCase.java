@@ -6,15 +6,15 @@ import java.util.Arrays;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryPort;
+import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryOutputPort;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 import com.bescobar.notes.noteshare.application.port.in.ShareNoteInputPort;
 import com.bescobar.notes.noteshare.application.port.in.command.ShareNoteCommand;
-import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryPort;
+import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryOutputPort;
 import com.bescobar.notes.noteshare.domain.exception.NoteNotFoundException;
 import com.bescobar.notes.noteshare.domain.exception.NoteShareBusinessRuleException;
 import com.bescobar.notes.noteshare.domain.model.SharedNote;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
 
 import lombok.AllArgsConstructor;
@@ -32,9 +32,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ShareNoteUseCase implements ShareNoteInputPort {
 
-    private final NoteShareRepositoryPort noteShareRepository;
-    private final NoteRepositoryPort noteRepository;
-    private final FriendshipRepositoryPort friendshipRepository;
+    private final NoteShareRepositoryOutputPort noteShareRepository;
+    private final NoteRepositoryOutputPort noteRepository;
+    private final FriendshipRepositoryOutputPort friendshipRepository;
 
     @Override
     @Transactional

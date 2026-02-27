@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.port.in.RefreshTokenInputPort;
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
 import com.bescobar.notes.user.domain.model.User;
 
@@ -20,8 +20,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RefreshTokenUseCase implements RefreshTokenInputPort {
 
-    private final JwtServicePort jwtServicePort;
-    private final RefreshTokenRepositoryPort refreshTokenRepositoryPort;
+    private final JwtServiceOutputPort jwtServicePort;
+    private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryPort;
 
     @Override
     @Transactional

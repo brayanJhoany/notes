@@ -19,9 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.command.LoginCommand;
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAccountDisabledException;
 import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
@@ -33,16 +33,16 @@ import com.bescobar.notes.user.domain.model.User;
 class LoginUserUseCaseTest {
 
     @Mock
-    private UserRepositoryPort userRepository;
+    private UserRepositoryOutputPort userRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private JwtServicePort jwtService;
+    private JwtServiceOutputPort jwtService;
 
     @Mock
-    private RefreshTokenRepositoryPort refreshTokenRepository;
+    private RefreshTokenRepositoryOutputPort refreshTokenRepository;
 
     @InjectMocks
     private LoginUserUseCase loginUserService;

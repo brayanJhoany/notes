@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.bescobar.notes.friendship.application.port.in.SendFriendRequestInputPort;
 import com.bescobar.notes.friendship.application.port.in.command.SendFriendRequestCommand;
 import com.bescobar.notes.friendship.application.port.in.query.FriendshipDTO;
-import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryPort;
+import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryOutputPort;
 import com.bescobar.notes.friendship.domain.model.Friendship;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 
@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SendFriendRequestUseCase implements SendFriendRequestInputPort {
 
-    private final FriendshipRepositoryPort friendshipOutPort;
+    private final FriendshipRepositoryOutputPort friendshipOutPort;
 
     @Override
     public FriendshipDTO send(SendFriendRequestCommand command) {

@@ -6,7 +6,7 @@ import com.bescobar.notes.user.domain.model.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface NoteRepositoryPort {
+public interface NoteRepositoryOutputPort {
     Note save(Note note);
     List<Note> findByUser(User user);
     Optional<Note> findById(Long id);

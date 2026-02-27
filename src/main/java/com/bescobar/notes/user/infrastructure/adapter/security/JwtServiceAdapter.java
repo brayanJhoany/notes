@@ -1,6 +1,6 @@
 package com.bescobar.notes.user.infrastructure.adapter.security;
 
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class JwtServiceAdapter implements JwtServicePort {
+public class JwtServiceAdapter implements JwtServiceOutputPort {
 
     @Value("${jwt.secret}")
     private String secret;

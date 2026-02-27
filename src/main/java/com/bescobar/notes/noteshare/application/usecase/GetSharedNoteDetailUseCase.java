@@ -4,13 +4,13 @@ import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.noteshare.application.port.in.GetSharedNoteDetailInputPort;
 import com.bescobar.notes.noteshare.application.port.in.query.SharedNoteDTO;
-import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryPort;
+import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryOutputPort;
 import com.bescobar.notes.noteshare.domain.exception.NoteShareBusinessRuleException;
 import com.bescobar.notes.noteshare.domain.exception.SharedNoteNotFoundException;
 import com.bescobar.notes.noteshare.domain.model.SharedNote;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 
 import lombok.AllArgsConstructor;
@@ -22,9 +22,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GetSharedNoteDetailUseCase implements GetSharedNoteDetailInputPort {
 
-    private final NoteShareRepositoryPort noteShareRepository;
-    private final NoteRepositoryPort noteRepository;
-    private final UserRepositoryPort userRepository;
+    private final NoteShareRepositoryOutputPort noteShareRepository;
+    private final NoteRepositoryOutputPort noteRepository;
+    private final UserRepositoryOutputPort userRepository;
 
     @Override
     public SharedNoteDTO getSharedNoteDetail(Long currentUserId, Long sharedNoteId) {

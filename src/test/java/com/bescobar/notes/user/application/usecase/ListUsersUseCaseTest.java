@@ -17,7 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,7 +25,7 @@ import com.bescobar.notes.user.domain.model.User;
 class ListUsersUseCaseTest {
 
     @Mock
-    private UserRepositoryPort userRepositoryPort;
+    private UserRepositoryOutputPort userRepositoryPort;
 
     @InjectMocks
     private ListUsersUseCase listUsersUseCase;

@@ -2,7 +2,7 @@ package com.bescobar.notes.user.application.port.out;
 
 import com.bescobar.notes.user.domain.model.User;
 
-public interface RefreshTokenRepositoryPort {
+public interface RefreshTokenRepositoryOutputPort {
     String createRefreshToken(User user);
 
     User findUserByEmail(String email);

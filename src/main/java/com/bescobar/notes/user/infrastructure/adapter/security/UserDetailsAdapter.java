@@ -1,6 +1,6 @@
 package com.bescobar.notes.user.infrastructure.adapter.security;
 
-import com.bescobar.notes.user.application.port.out.UserDetailsPort;
+import com.bescobar.notes.user.application.port.out.UserDetailsOutputPort;
 import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
 import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import lombok.AllArgsConstructor;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 
 /**
- * Adapter that implements both our custom UserDetailsPort and Spring Security's UserDetailsService.
+ * Adapter that implements both our custom UserDetailsOutputPort and Spring Security's UserDetailsService.
  * This allows us to have a clean hexagonal architecture while still being compatible with Spring Security.
  */
 @Component
 @AllArgsConstructor
-public class UserDetailsAdapter implements UserDetailsPort, UserDetailsService {
+public class UserDetailsAdapter implements UserDetailsOutputPort, UserDetailsService {
 
     private final UserJpaRepository userRepository;
 

@@ -1,6 +1,6 @@
 package com.bescobar.notes.noteshare.infrastructure.persistence;
 
-import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryPort;
+import com.bescobar.notes.noteshare.application.port.out.NoteShareRepositoryOutputPort;
 import com.bescobar.notes.noteshare.domain.model.SharedNote;
 import com.bescobar.notes.noteshare.infrastructure.persistence.entity.SharedNoteEntity;
 import com.bescobar.notes.noteshare.infrastructure.persistence.mapper.SharedNoteMapper;
@@ -16,11 +16,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Adapter implementing NoteShareRepositoryPort using JPA.
+ * Adapter implementing NoteShareRepositoryOutputPort using JPA.
  */
 @Repository
 @AllArgsConstructor
-public class NoteShareRepositoryAdapter implements NoteShareRepositoryPort {
+public class NoteShareRepositoryAdapter implements NoteShareRepositoryOutputPort {
 
     private final SharedNoteJpaRepository sharedNoteJpaRepository;
     private final NoteJpaRepository noteJpaRepository;

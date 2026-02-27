@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import com.bescobar.notes.friendship.application.port.in.GetFriendRequestsByStatusInputPort;
 import com.bescobar.notes.friendship.application.port.in.query.FriendRequestDirection;
 import com.bescobar.notes.friendship.application.port.in.query.UserSummaryDTO;
-import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryPort;
+import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryOutputPort;
 import com.bescobar.notes.friendship.domain.model.Friendship;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 
 import lombok.AllArgsConstructor;
@@ -25,8 +25,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GetFriendRequestByStatusUseCase implements GetFriendRequestsByStatusInputPort{
 
-    private final FriendshipRepositoryPort friendshipOutPort;
-    private final UserRepositoryPort userRepositoryPort;
+    private final FriendshipRepositoryOutputPort friendshipOutPort;
+    private final UserRepositoryOutputPort userRepositoryPort;
 
     @Override
     public Page<UserSummaryDTO> getFriendRequests(Long userId, FriendshipStatus status, Pageable pageable) {

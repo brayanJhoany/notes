@@ -9,14 +9,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("LogoutUserUseCase Unit Tests")
 class LogoutUserUseCaseTest {
 
     @Mock
-    private RefreshTokenRepositoryPort refreshTokenRepositoryPort;
+    private RefreshTokenRepositoryOutputPort refreshTokenRepositoryPort;
 
     @InjectMocks
     private LogoutUserUseCase logoutUserUseCase;

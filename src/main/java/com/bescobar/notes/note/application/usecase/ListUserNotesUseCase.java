@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.note.application.port.in.ListUserNotesInputPort;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.domain.model.User;
 
@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ListUserNotesUseCase implements ListUserNotesInputPort {
 
-    private final NoteRepositoryPort noteRepositoryPort;
+    private final NoteRepositoryOutputPort noteRepositoryPort;
 
     @Override
     public List<NoteDTO> findByUser(User owner) {

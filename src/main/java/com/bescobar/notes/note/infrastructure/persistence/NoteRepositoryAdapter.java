@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.note.infrastructure.persistence.entity.NoteEntity;
 import com.bescobar.notes.note.infrastructure.persistence.mapper.NoteMapper;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 
 @Repository
 @AllArgsConstructor
-public class NoteRepositoryAdapter implements NoteRepositoryPort {
+public class NoteRepositoryAdapter implements NoteRepositoryOutputPort {
 
     private final NoteJpaRepository noteJpaRepository;
     private final NoteMapper noteMapper;

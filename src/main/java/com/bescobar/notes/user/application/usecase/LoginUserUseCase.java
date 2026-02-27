@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.command.LoginCommand;
 import com.bescobar.notes.user.application.port.in.LoginUserInputPort;
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAccountDisabledException;
 import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
@@ -25,10 +25,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LoginUserUseCase implements LoginUserInputPort {
 
-    private final UserRepositoryPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryPort;
     private final PasswordEncoder passwordEncoder;
-    private final JwtServicePort jwtServicePort;
-    private final RefreshTokenRepositoryPort refreshTokenRepositoryPort;
+    private final JwtServiceOutputPort jwtServicePort;
+    private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryPort;
 
     @Override
     @Transactional

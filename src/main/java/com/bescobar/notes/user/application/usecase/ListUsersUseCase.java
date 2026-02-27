@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.user.application.port.in.ListUsersInputPort;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class ListUsersUseCase implements ListUsersInputPort {
-    private final UserRepositoryPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryPort;
 
     @Override
     public Page<User> getAllUsers(Pageable pageable, String email, String fullname) {

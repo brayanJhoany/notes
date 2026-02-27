@@ -12,7 +12,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class DeleteNoteUseCaseTest {
 
     @Mock
-    private NoteRepositoryPort noteRepositoryPort;
+    private NoteRepositoryOutputPort noteRepositoryPort;
 
     @InjectMocks
     private DeleteNoteUseCase deleteNoteService;

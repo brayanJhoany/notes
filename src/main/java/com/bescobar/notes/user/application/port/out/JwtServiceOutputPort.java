@@ -1,6 +1,6 @@
 package com.bescobar.notes.user.application.port.out;
 
-public interface JwtServicePort {
+public interface JwtServiceOutputPort {
     String generateAccessToken(String email);
 
     String generateRefreshToken(String email, Long userId);

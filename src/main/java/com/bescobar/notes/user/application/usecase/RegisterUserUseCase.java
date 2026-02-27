@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.RegisterUserInputPort;
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
@@ -25,10 +25,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RegisterUserUseCase implements RegisterUserInputPort {
 
-    private final UserRepositoryPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryPort;
     private final PasswordEncoder passwordEncoder;
-    private final JwtServicePort jwtServicePort;
-    private final RefreshTokenRepositoryPort refreshTokenRepositoryPort;
+    private final JwtServiceOutputPort jwtServicePort;
+    private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryPort;
 
     @Override
     @Transactional

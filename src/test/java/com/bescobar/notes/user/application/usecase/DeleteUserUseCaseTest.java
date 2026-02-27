@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshTokenJpaRepository;
@@ -23,7 +23,7 @@ import com.bescobar.notes.user.infrastructure.persistence.repository.RefreshToke
 class DeleteUserUseCaseTest {
 
     @Mock
-    private UserRepositoryPort userRepositoryPort;
+    private UserRepositoryOutputPort userRepositoryPort;
 
     @Mock
     private RefreshTokenJpaRepository refreshTokenRepository;

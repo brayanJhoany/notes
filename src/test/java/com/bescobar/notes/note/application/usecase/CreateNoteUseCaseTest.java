@@ -2,9 +2,9 @@ package com.bescobar.notes.note.application.usecase;
 
 import com.bescobar.notes.note.application.port.in.command.CreateNoteCommand;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +26,10 @@ import static org.mockito.Mockito.*;
 public class CreateNoteUseCaseTest {
 
     @Mock
-    private NoteRepositoryPort noteRepositoryPort;
+    private NoteRepositoryOutputPort noteRepositoryPort;
 
     @Mock
-    private UserRepositoryPort userRepositoryPort;
+    private UserRepositoryOutputPort userRepositoryPort;
 
     @InjectMocks
     private CreateNoteUseCase createNoteService;

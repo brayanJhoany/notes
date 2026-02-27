@@ -18,8 +18,8 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
 import com.bescobar.notes.user.domain.model.Role;
 import com.bescobar.notes.user.domain.model.User;
@@ -29,10 +29,10 @@ import com.bescobar.notes.user.domain.model.User;
 class RefreshTokenUseCaseTest {
 
     @Mock
-    private JwtServicePort jwtService;
+    private JwtServiceOutputPort jwtService;
 
     @Mock
-    private RefreshTokenRepositoryPort refreshTokenRepository;
+    private RefreshTokenRepositoryOutputPort refreshTokenRepository;
 
     @InjectMocks
     private RefreshTokenUseCase refreshTokenService;

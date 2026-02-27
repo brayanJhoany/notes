@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * This abstraction allows the application layer to load user details
  * without depending directly on Spring Security's UserDetailsService.
  */
-public interface UserDetailsPort {
+public interface UserDetailsOutputPort {
 
     /**
      * Loads user details by email address.

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import com.bescobar.notes.user.infrastructure.persistence.mapper.UserMapper;
@@ -17,7 +17,7 @@ import static com.bescobar.notes.user.infrastructure.persistence.repository.spec
 
 @Repository
 @AllArgsConstructor
-public class UserRepositoryAdapter implements UserRepositoryPort {
+public class UserRepositoryAdapter implements UserRepositoryOutputPort {
 
     private final UserJpaRepository userJpaRepository;
     private final UserMapper userMapper;

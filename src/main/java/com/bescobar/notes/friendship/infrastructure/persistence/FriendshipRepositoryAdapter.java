@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryPort;
+import com.bescobar.notes.friendship.application.port.out.FriendshipRepositoryOutputPort;
 import com.bescobar.notes.friendship.domain.model.Friendship;
 import com.bescobar.notes.friendship.domain.model.FriendshipStatus;
 import com.bescobar.notes.friendship.infrastructure.persistence.entity.FriendshipEntity;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 
 @Repository
 @AllArgsConstructor
-public class FriendshipRepositoryAdapter implements FriendshipRepositoryPort {
+public class FriendshipRepositoryAdapter implements FriendshipRepositoryOutputPort {
 
     private final FriendshipJpaRepository friendshipJpaRepository;
     private final FriendshipMapper friendshipMapper;

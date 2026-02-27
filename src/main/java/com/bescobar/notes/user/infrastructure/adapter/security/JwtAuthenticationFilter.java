@@ -1,7 +1,7 @@
 package com.bescobar.notes.user.infrastructure.adapter.security;
 
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.UserDetailsPort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.UserDetailsOutputPort;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,8 +21,8 @@ import java.io.IOException;
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtServicePort jwtService;
-    private final UserDetailsPort userDetailsPort;
+    private final JwtServiceOutputPort jwtService;
+    private final UserDetailsOutputPort userDetailsPort;
 
     @Override
     protected void doFilterInternal(

@@ -3,7 +3,7 @@ package com.bescobar.notes.user.application.usecase;
 import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.user.application.port.in.GetProfileInputPort;
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
 
@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GetUserProfileUseCase implements GetProfileInputPort {
 
-    private final UserRepositoryPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryPort;
 
     @Override
     public User getProfileById(Long id) {

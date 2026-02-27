@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.bescobar.notes.note.application.port.in.FindNoteInputPort;
 import com.bescobar.notes.note.application.port.in.query.NoteDTO;
-import com.bescobar.notes.note.application.port.out.NoteRepositoryPort;
+import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.domain.model.User;
 
@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FindNoteUseCase implements FindNoteInputPort {
 
-    private final NoteRepositoryPort noteRepositoryPort;
+    private final NoteRepositoryOutputPort noteRepositoryPort;
 
     @Override
     public NoteDTO findById(User owner, Long id) {

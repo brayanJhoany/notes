@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bescobar.notes.user.domain.model.User;
 
-public interface UserRepositoryPort {
+public interface UserRepositoryOutputPort {
     User save(User user);
 
     User findByEmail(String email);

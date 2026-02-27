@@ -2,8 +2,8 @@ package com.bescobar.notes.user.infrastructure.persistence;
 
 import java.time.LocalDateTime;
 
-import com.bescobar.notes.user.application.port.out.JwtServicePort;
-import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryPort;
+import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.entity.RefreshTokenEntity;
 import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
@@ -19,12 +19,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 @AllArgsConstructor
 @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
-public class RefreshTokenRepositoryAdapter implements RefreshTokenRepositoryPort {
+public class RefreshTokenRepositoryAdapter implements RefreshTokenRepositoryOutputPort {
 
     private final RefreshTokenJpaRepository refreshTokenRepository;
     private final UserJpaRepository userRepository;
     private final UserMapper userMapper;
-    private final JwtServicePort jwtService;
+    private final JwtServiceOutputPort jwtService;
     private final EntityManager entityManager;
 
     @Override

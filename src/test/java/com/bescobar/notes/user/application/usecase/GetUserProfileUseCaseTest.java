@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bescobar.notes.user.application.port.out.UserRepositoryPort;
+import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
 
@@ -22,7 +22,7 @@ import com.bescobar.notes.user.domain.model.User;
 class GetUserProfileUseCaseTest {
 
     @Mock
-    private UserRepositoryPort userRepositoryPort;
+    private UserRepositoryOutputPort userRepositoryPort;
 
     @InjectMocks
     private GetUserProfileUseCase getUserProfileUseCase;

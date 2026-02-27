@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Repository port for SharedNote persistence operations.
  */
-public interface NoteShareRepositoryPort {
+public interface NoteShareRepositoryOutputPort {
 
     /**
      * Saves a new shared note.
