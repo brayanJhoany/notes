@@ -2,8 +2,10 @@ package com.bescobar.notes.shared.infrastructure.web.dto;
 
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.data.domain.Page;
 
+@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Intentional list exposure in page response DTO")
 public class PageResponse<T> {
 
     private final List<T> content;

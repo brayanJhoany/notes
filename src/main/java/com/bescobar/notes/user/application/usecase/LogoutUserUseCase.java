@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bescobar.notes.user.application.port.in.LogoutUserInputPort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 
 /**
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
 public class LogoutUserUseCase implements LogoutUserInputPort {
 
     private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryPort;

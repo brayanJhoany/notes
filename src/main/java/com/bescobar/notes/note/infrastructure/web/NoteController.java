@@ -27,12 +27,14 @@ import com.bescobar.notes.note.infrastructure.web.mapper.NoteWebMapper;
 import com.bescobar.notes.shared.security.AuthenticatedUser;
 import com.bescobar.notes.user.domain.model.User;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/notes")
 @AllArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
 public class NoteController {
 
     private final CreateNoteInputPort createNoteUseCase;

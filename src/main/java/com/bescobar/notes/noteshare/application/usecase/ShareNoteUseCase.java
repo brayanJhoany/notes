@@ -17,6 +17,7 @@ import com.bescobar.notes.noteshare.domain.model.SharedNote;
 import com.bescobar.notes.note.application.port.out.NoteRepositoryOutputPort;
 import com.bescobar.notes.note.domain.model.Note;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 
 /**
@@ -30,6 +31,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
 public class ShareNoteUseCase implements ShareNoteInputPort {
 
     private final NoteShareRepositoryOutputPort noteShareRepository;

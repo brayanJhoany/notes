@@ -1,9 +1,11 @@
 package com.bescobar.notes.note.domain.model;
 
 import com.bescobar.notes.user.domain.model.User;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.time.LocalDateTime;
 
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"}, justification = "Intentional mutable object sharing in domain model")
 public class Note {
 
     private final Long id;

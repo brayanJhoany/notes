@@ -3,11 +3,14 @@ package com.bescobar.notes.shared.exception.dto;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Representa la respuesta de error para validaciones de datos.
  * Extiende {@link ErrorResponse} añadiendo un mapa de errores
  * por campo, útil para validaciones de formularios y DTOs.
  */
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"}, justification = "Intentional mutable object sharing in error response DTO")
 public class ValidationErrorResponse extends ErrorResponse {
 
     private Map<String, String> fieldErrors;

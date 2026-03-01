@@ -13,6 +13,7 @@ import com.bescobar.notes.note.domain.model.Note;
 import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.model.User;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 
 /**
@@ -20,6 +21,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
 public class GetSharedNoteDetailUseCase implements GetSharedNoteDetailInputPort {
 
     private final NoteShareRepositoryOutputPort noteShareRepository;

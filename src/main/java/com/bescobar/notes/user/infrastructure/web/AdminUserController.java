@@ -24,6 +24,7 @@ import com.bescobar.notes.user.infrastructure.web.dto.UpdateUserRequest;
 import com.bescobar.notes.user.infrastructure.web.dto.UserResponse;
 import com.bescobar.notes.user.infrastructure.web.mapper.UserDtoMapper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -37,6 +38,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/admin/users")
 @PreAuthorize("hasRole('ADMIN')")
 @AllArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
 public class AdminUserController {
 
     private final ListUsersInputPort listUsersUseCase;

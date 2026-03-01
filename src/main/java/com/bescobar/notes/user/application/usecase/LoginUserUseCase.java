@@ -15,6 +15,7 @@ import com.bescobar.notes.user.domain.exception.UserAuthenticationException;
 import com.bescobar.notes.user.domain.exception.UserNotFoundException;
 import com.bescobar.notes.user.domain.model.User;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 
 /**
@@ -23,6 +24,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring-managed dependency injection")
 public class LoginUserUseCase implements LoginUserInputPort {
 
     private final UserRepositoryOutputPort userRepositoryOutputPort;
