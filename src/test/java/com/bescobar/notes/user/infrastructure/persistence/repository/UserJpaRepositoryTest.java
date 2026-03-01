@@ -53,7 +53,7 @@ class UserJpaRepositoryTest {
         userRepository.save(testUser);
 
         // When
-        UserEntity foundUser = userRepository.findByEmail("test@example.com");
+        UserEntity foundUser = userRepository.findByEmailAndActiveTrue("test@example.com");
 
         // Then
         assertNotNull(foundUser);
@@ -64,7 +64,7 @@ class UserJpaRepositoryTest {
     @DisplayName("Should return null when email not found")
     void shouldReturnNullWhenEmailNotFound() {
         // When
-        UserEntity foundUser = userRepository.findByEmail("nonexistent@example.com");
+        UserEntity foundUser = userRepository.findByEmailAndActiveTrue("nonexistent@example.com");
 
         // Then
         assertNull(foundUser);
@@ -77,8 +77,8 @@ class UserJpaRepositoryTest {
         userRepository.save(testUser);
 
         // When & Then
-        assertTrue(userRepository.existsByEmail("test@example.com"));
-        assertFalse(userRepository.existsByEmail("nonexistent@example.com"));
+        assertTrue(userRepository.existsByEmailAndActiveTrue("test@example.com"));
+        assertFalse(userRepository.existsByEmailAndActiveTrue("nonexistent@example.com"));
     }
 
     @Test

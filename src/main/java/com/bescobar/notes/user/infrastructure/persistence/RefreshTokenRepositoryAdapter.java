@@ -48,7 +48,7 @@ public class RefreshTokenRepositoryAdapter implements RefreshTokenRepositoryOutp
 
     @Override
     public User findUserByEmail(String email) {
-        var userEntity = userRepository.findByEmail(email);
+        var userEntity = userRepository.findByEmailAndActiveTrue(email);
         return userMapper.toDomain(userEntity);
     }
 

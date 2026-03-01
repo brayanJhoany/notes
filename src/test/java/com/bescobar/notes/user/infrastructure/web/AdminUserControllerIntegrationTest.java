@@ -78,7 +78,7 @@ class AdminUserControllerIntegrationTest {
         adminAccessToken = objectMapper.readTree(adminResponse).get("accessToken").asText();
 
         // Manually set admin role (since register always creates REGULAR users)
-        UserEntity adminUser = userRepository.findByEmail("admin@example.com");
+        UserEntity adminUser = userRepository.findByEmailAndActiveTrue("admin@example.com");
         adminUser.setRole(RoleEntity.ADMIN);
         userRepository.saveAndFlush(adminUser);
 
@@ -99,7 +99,7 @@ class AdminUserControllerIntegrationTest {
         String regularResponse = regularResult.getResponse().getContentAsString();
         regularUserAccessToken = objectMapper.readTree(regularResponse).get("accessToken").asText();
 
-        regularUser = userRepository.findByEmail("regular@example.com");
+        regularUser = userRepository.findByEmailAndActiveTrue("regular@example.com");
     }
 
     @Test

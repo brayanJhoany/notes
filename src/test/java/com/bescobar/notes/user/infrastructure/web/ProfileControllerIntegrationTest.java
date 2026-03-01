@@ -64,7 +64,7 @@ class ProfileControllerIntegrationTest {
         String response = result.getResponse().getContentAsString();
         accessToken = objectMapper.readTree(response).get("accessToken").asText();
 
-        testUser = userRepository.findByEmail("test@example.com");
+        testUser = userRepository.findByEmailAndActiveTrue("test@example.com");
     }
 
     @Test
@@ -123,7 +123,7 @@ class ProfileControllerIntegrationTest {
                 .andExpect(jsonPath("$.password").doesNotExist());
 
         // Verify in database
-        UserEntity updatedUser = userRepository.findByEmail("updated@example.com");
+        UserEntity updatedUser = userRepository.findByEmailAndActiveTrue("updated@example.com");
         assert updatedUser != null;
     }
 

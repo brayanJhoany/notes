@@ -24,7 +24,7 @@ public class UserDetailsAdapter implements UserDetailsOutputPort, UserDetailsSer
 
     @Override
     public UserDetails loadUserByEmail(String email) {
-        UserEntity user = userRepository.findByEmail(email);
+        UserEntity user = userRepository.findByEmailAndActiveTrue(email);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
