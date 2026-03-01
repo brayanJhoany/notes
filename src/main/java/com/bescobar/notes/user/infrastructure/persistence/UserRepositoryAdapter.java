@@ -48,10 +48,9 @@ public class UserRepositoryAdapter implements UserRepositoryOutputPort {
 
     @Override
     public Page<User> findAll(Pageable pageable, String email, String fullname) {
-        Specification<UserEntity> spec = Specification.where(emailContains(email))
-                .and(fullnameContains(fullname));
+        Specification<UserEntity> spec = emailContains(email).and(fullnameContains(fullname));
 
-        Page<UserEntity> userPage = userJpaRepository.findAll(spec, pageable);
+        Page<UserEntity> userPage = userJpaRepository.findBy(spec, q -> q.page(pageable));
 
         return userPage.map(userMapper::toDomain);
     }
