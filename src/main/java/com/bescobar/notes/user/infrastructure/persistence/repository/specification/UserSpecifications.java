@@ -22,4 +22,8 @@ public final class UserSpecifications {
                 ? null
                 : cb.like(cb.lower(root.get("fullName")), "%" + fullname.toLowerCase() + "%");
     }
+
+    public static Specification<UserEntity> isActive() {
+        return (root, query, cb) -> cb.isTrue(root.get("active"));
+    }
 }

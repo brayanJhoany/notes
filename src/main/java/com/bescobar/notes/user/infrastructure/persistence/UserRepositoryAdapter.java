@@ -10,10 +10,11 @@ import com.bescobar.notes.user.domain.model.User;
 import com.bescobar.notes.user.infrastructure.persistence.entity.UserEntity;
 import com.bescobar.notes.user.infrastructure.persistence.mapper.UserMapper;
 import com.bescobar.notes.user.infrastructure.persistence.repository.UserJpaRepository;
-
-import lombok.AllArgsConstructor;
 import static com.bescobar.notes.user.infrastructure.persistence.repository.specification.UserSpecifications.emailContains;
 import static com.bescobar.notes.user.infrastructure.persistence.repository.specification.UserSpecifications.fullnameContains;
+import static com.bescobar.notes.user.infrastructure.persistence.repository.specification.UserSpecifications.isActive;
+
+import lombok.AllArgsConstructor;
 
 @Repository
 @AllArgsConstructor
@@ -31,24 +32,24 @@ public class UserRepositoryAdapter implements UserRepositoryOutputPort {
 
     @Override
     public User findByEmail(String email) {
-        UserEntity userEntity = userJpaRepository.findByEmail(email);
+        UserEntity userEntity = userJpaRepository.findByEmailAndActiveTrue(email);
         return userMapper.toDomain(userEntity);
     }
 
     @Override
     public boolean existsByEmail(String email) {
-        return userJpaRepository.existsByEmail(email);
+        return userJpaRepository.existsByEmailAndActiveTrue(email);
     }
 
     @Override
     public User findById(Long id) {
-        UserEntity userEntity = userJpaRepository.findById(id).orElse(null);
+        UserEntity userEntity = userJpaRepository.findByIdAndActiveTrue(id);
         return userMapper.toDomain(userEntity);
     }
 
     @Override
     public Page<User> findAll(Pageable pageable, String email, String fullname) {
-        Specification<UserEntity> spec = emailContains(email).and(fullnameContains(fullname));
+        Specification<UserEntity> spec = isActive().and(emailContains(email)).and(fullnameContains(fullname));
 
         Page<UserEntity> userPage = userJpaRepository.findBy(spec, q -> q.page(pageable));
 
@@ -57,8 +58,9 @@ public class UserRepositoryAdapter implements UserRepositoryOutputPort {
 
     @Override
     public void deleteById(Long id) {
-        // Load the entity first to ensure cascade operations work correctly
-        // This allows JPA to delete associated entities (e.g., refresh tokens)
-        userJpaRepository.findById(id).ifPresent(userJpaRepository::delete);
+        userJpaRepository.findById(id).ifPresent(userEntity -> {
+            userEntity.setActive(false);
+            userJpaRepository.save(userEntity);
+        });
     }
 }
