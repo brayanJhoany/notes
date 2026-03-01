@@ -2,13 +2,13 @@ package com.bescobar.notes.user.application.usecase;
 
 import java.time.LocalDateTime;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.RegisterUserInputPort;
 import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.PasswordHashingOutputPort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;
@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 public class RegisterUserUseCase implements RegisterUserInputPort {
 
     private final UserRepositoryOutputPort userRepositoryPort;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordHashingOutputPort passwordHashingOutputPort;
     private final JwtServiceOutputPort jwtServicePort;
     private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryPort;
 
@@ -37,7 +37,7 @@ public class RegisterUserUseCase implements RegisterUserInputPort {
             throw new UserAlreadyExistsException(user.getEmail());
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordHashingOutputPort.encode(user.getPassword()));
         user.setRole(user.getRole() != null ? user.getRole() : Role.REGULAR);
         user.setActive(true);
         user.setCreatedAt(LocalDateTime.now());

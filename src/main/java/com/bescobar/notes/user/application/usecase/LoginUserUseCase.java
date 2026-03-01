@@ -1,6 +1,5 @@
 package com.bescobar.notes.user.application.usecase;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +7,7 @@ import com.bescobar.notes.user.application.port.in.LoginUserInputPort;
 import com.bescobar.notes.user.application.port.in.command.LoginCommand;
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.PasswordHashingOutputPort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAccountDisabledException;
@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 public class LoginUserUseCase implements LoginUserInputPort {
 
     private final UserRepositoryOutputPort userRepositoryOutputPort;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordHashingOutputPort passwordHashingOutputPort;
     private final JwtServiceOutputPort jwtServiceOutputPort;
     private final RefreshTokenRepositoryOutputPort refreshTokenRepositoryOutputPort;
 
@@ -42,7 +42,7 @@ public class LoginUserUseCase implements LoginUserInputPort {
             throw new UserAccountDisabledException(loginCommand.getEmail());
         }
 
-        if (!passwordEncoder.matches(loginCommand.getPassword(), user.getPassword())) {
+        if (!passwordHashingOutputPort.matches(loginCommand.getPassword(), user.getPassword())) {
             throw new UserAuthenticationException("Invalid email or password");
         }
 

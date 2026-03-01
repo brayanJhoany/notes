@@ -17,10 +17,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.PasswordHashingOutputPort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAlreadyExistsException;
@@ -35,7 +35,7 @@ class RegisterUserUseCaseTest {
     private UserRepositoryOutputPort userRepository;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordHashingOutputPort passwordHashingOutputPort;
 
     @Mock
     private JwtServiceOutputPort jwtService;
@@ -63,7 +63,7 @@ class RegisterUserUseCaseTest {
     void shouldRegisterNewUser() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordHashingOutputPort.encode(anyString())).thenReturn("encodedPassword");
 
         User savedUser = new User();
         savedUser.setId(1L);
@@ -89,7 +89,7 @@ class RegisterUserUseCaseTest {
 
         // Verify interactions
         verify(userRepository).existsByEmail(testUser.getEmail());
-        verify(passwordEncoder).encode("password123");
+        verify(passwordHashingOutputPort).encode("password123");
         verify(userRepository).save(any(User.class));
         verify(jwtService).generateAccessToken(testUser.getEmail());
         verify(refreshTokenRepository).createRefreshToken(savedUser);
@@ -100,7 +100,7 @@ class RegisterUserUseCaseTest {
     void shouldEncodePassword() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordHashingOutputPort.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
         when(refreshTokenRepository.createRefreshToken(any(User.class))).thenReturn("refresh-token");
@@ -120,7 +120,7 @@ class RegisterUserUseCaseTest {
     void shouldSetDefaultRole() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordHashingOutputPort.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
         when(refreshTokenRepository.createRefreshToken(any(User.class))).thenReturn("refresh-token");
@@ -140,7 +140,7 @@ class RegisterUserUseCaseTest {
     void shouldSetActiveStatus() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordHashingOutputPort.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
         when(refreshTokenRepository.createRefreshToken(any(User.class))).thenReturn("refresh-token");
@@ -160,7 +160,7 @@ class RegisterUserUseCaseTest {
     void shouldSetTimestamps() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordHashingOutputPort.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
         when(refreshTokenRepository.createRefreshToken(any(User.class))).thenReturn("refresh-token");
@@ -196,7 +196,7 @@ class RegisterUserUseCaseTest {
     void shouldGenerateTokens() {
         // Given
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordHashingOutputPort.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
         when(refreshTokenRepository.createRefreshToken(any(User.class))).thenReturn("refresh-token");

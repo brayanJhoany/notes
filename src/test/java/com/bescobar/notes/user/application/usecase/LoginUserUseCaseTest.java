@@ -15,11 +15,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bescobar.notes.user.application.port.in.query.AuthResponseDto;
 import com.bescobar.notes.user.application.port.in.command.LoginCommand;
 import com.bescobar.notes.user.application.port.out.JwtServiceOutputPort;
+import com.bescobar.notes.user.application.port.out.PasswordHashingOutputPort;
 import com.bescobar.notes.user.application.port.out.RefreshTokenRepositoryOutputPort;
 import com.bescobar.notes.user.application.port.out.UserRepositoryOutputPort;
 import com.bescobar.notes.user.domain.exception.UserAccountDisabledException;
@@ -36,7 +36,7 @@ class LoginUserUseCaseTest {
     private UserRepositoryOutputPort userRepository;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordHashingOutputPort passwordHashingOutputPort;
 
     @Mock
     private JwtServiceOutputPort jwtService;
@@ -67,7 +67,7 @@ class LoginUserUseCaseTest {
     void shouldLoginWithValidCredentials() {
         // Given
         when(userRepository.findByEmail(loginCommand.getEmail())).thenReturn(testUser);
-        when(passwordEncoder.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(true);
+        when(passwordHashingOutputPort.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(true);
         when(jwtService.generateAccessToken(testUser.getEmail())).thenReturn("access-token");
         when(refreshTokenRepository.createRefreshToken(testUser)).thenReturn("refresh-token");
 
@@ -81,7 +81,7 @@ class LoginUserUseCaseTest {
         assertEquals(testUser, response.getUser());
 
         verify(userRepository).findByEmail(loginCommand.getEmail());
-        verify(passwordEncoder).matches(loginCommand.getPassword(), testUser.getPassword());
+        verify(passwordHashingOutputPort).matches(loginCommand.getPassword(), testUser.getPassword());
         verify(jwtService).generateAccessToken(testUser.getEmail());
         verify(refreshTokenRepository).createRefreshToken(testUser);
     }
@@ -98,7 +98,7 @@ class LoginUserUseCaseTest {
         });
 
         verify(userRepository).findByEmail(loginCommand.getEmail());
-        verify(passwordEncoder, never()).matches(anyString(), anyString());
+        verify(passwordHashingOutputPort, never()).matches(anyString(), anyString());
         verify(jwtService, never()).generateAccessToken(anyString());
     }
 
@@ -115,7 +115,7 @@ class LoginUserUseCaseTest {
         });
 
         verify(userRepository).findByEmail(loginCommand.getEmail());
-        verify(passwordEncoder, never()).matches(anyString(), anyString());
+        verify(passwordHashingOutputPort, never()).matches(anyString(), anyString());
     }
 
     @Test
@@ -123,7 +123,7 @@ class LoginUserUseCaseTest {
     void shouldThrowExceptionWhenPasswordIncorrect() {
         // Given
         when(userRepository.findByEmail(loginCommand.getEmail())).thenReturn(testUser);
-        when(passwordEncoder.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(false);
+        when(passwordHashingOutputPort.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(false);
 
         // When & Then
         assertThrows(UserAuthenticationException.class, () -> {
@@ -131,7 +131,7 @@ class LoginUserUseCaseTest {
         });
 
         verify(userRepository).findByEmail(loginCommand.getEmail());
-        verify(passwordEncoder).matches(loginCommand.getPassword(), testUser.getPassword());
+        verify(passwordHashingOutputPort).matches(loginCommand.getPassword(), testUser.getPassword());
         verify(jwtService, never()).generateAccessToken(anyString());
     }
 
@@ -140,7 +140,7 @@ class LoginUserUseCaseTest {
     void shouldGenerateNewTokens() {
         // Given
         when(userRepository.findByEmail(loginCommand.getEmail())).thenReturn(testUser);
-        when(passwordEncoder.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(true);
+        when(passwordHashingOutputPort.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(true);
         when(jwtService.generateAccessToken(testUser.getEmail())).thenReturn("new-access-token");
         when(refreshTokenRepository.createRefreshToken(testUser)).thenReturn("new-refresh-token");
 
@@ -157,7 +157,7 @@ class LoginUserUseCaseTest {
     void shouldReturnUserInformation() {
         // Given
         when(userRepository.findByEmail(loginCommand.getEmail())).thenReturn(testUser);
-        when(passwordEncoder.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(true);
+        when(passwordHashingOutputPort.matches(loginCommand.getPassword(), testUser.getPassword())).thenReturn(true);
         when(jwtService.generateAccessToken(anyString())).thenReturn("access-token");
         when(refreshTokenRepository.createRefreshToken(any(User.class))).thenReturn("refresh-token");
 

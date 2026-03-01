@@ -17,10 +17,10 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class ListUsersUseCase implements ListUsersInputPort {
-    private final UserRepositoryOutputPort userRepositoryPort;
+    private final UserRepositoryOutputPort userRepositoryOutputPort;
 
     @Override
     public Page<User> getAllUsers(Pageable pageable, String email, String fullname) {
-        return userRepositoryPort.findAll(pageable, email, fullname);
+        return userRepositoryOutputPort.findAll(pageable, email, fullname);
     }
 }
