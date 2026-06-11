@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(mkdir:*)",
+      "Bash(find:*)",
+      "WebSearch",
+      "WebFetch(domain:herbertograca.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(./mvnw:*)",
+      "Bash(docker build:*)",
+      "Bash(cat:*)",
+      "Bash(docker exec -i notes-mysql mysql -ujava -pjava java -e \"DESCRIBE users;\")",
+      "Bash(docker exec:*)",
+      "Bash(git mv:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
